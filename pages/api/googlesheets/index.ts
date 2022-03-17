@@ -14,7 +14,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 res.status(500).json({message: error.message})
             }
         break;
-    
+        case 'POST':
+            try{
+                const importedData = await importData("Test1");
+                if (importedData != undefined) {
+                    exportData(importedData);
+                }
+                res.send(importedData);
+                // Data[][4] -> locul capturarii / zona de interes
+                
+            } catch(error: any) {
+                res.status(500).json({message: error.message})
+            }
+        break;
     }
 }
 
