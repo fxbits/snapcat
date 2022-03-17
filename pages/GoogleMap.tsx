@@ -4,31 +4,30 @@ import { eventNames } from 'process';
 
 
 interface IMarker{
-  address:string;
-  latitude:number;
-  longitude:number;
+    address:string;
+    latitude:number;
+    longitude:number;
 }
 const containerStyle = {
-  width: '1550px',
-  height: '500px'
+    width: '1550px',
+    height: '500px'
 };
 
 const center = {
-  lat: 46.7554536,
-  lng: 23.5671444
+    lat: 46.7554536,
+    lng: 23.5671444
 };
 
 const marker1 ={
-  lat: 46.7554536,
-  lng: 23.5671444
+    lat: 46.7554536,
+    lng: 23.5671444
 }
 
 const marker2 ={
-  lat: 46.7546919, 
-  lng: 23.5604183
+    lat: 46.7546919, 
+    lng: 23.5604183
   
 }
-
 
 
 // const marker3 = new google.maps.LatLng(46.7545548,23.558355);
@@ -55,22 +54,35 @@ function MyComponent() {
   //   return setMap(null);
   // }, [])
 
-  const initEventListener=():void =>{
+  const initEventListener = () : void =>{
     if(map){
       google.maps.event.addListener(map, 'click', function(e:any){
-        coordonateToAddress(e.LatLng);
         console.log(e);
+        coordinateToAddress(e.latLng);
+        
       })
     }
   };
   useEffect(initEventListener,[map]);
 
-  const coordonateToAddress =async (coordinate:GoogleLatLng) =>{
-    const geocoder = new google.maps.Geocoder();
-    await geocoder.geocode({address: "Cluj"}, function(results,status){
-      
-    })
-  }
+
+const coordinateToAddress = async (coordinate:GoogleLatLng) =>{
+  const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({location:coordinate}, function(results,status){
+        if( status === 'OK'){
+          console.log()
+          if(results){
+            console.log(results[0].formatted_address);
+            setMarker({
+              address:results[0].formatted_address,
+              latitude: coordinate.lat(),
+              longitude:coordinate.lng()
+            })
+          }
+      }
+      })
+}
+
   
   return isLoaded ? (
     <div>
