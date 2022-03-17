@@ -27,7 +27,36 @@ const MainApp = () => {
 
   return(
     <Link href="/api/auth/login">Login</Link>
-  )
+//   )
 };
 
 export default MainApp;
+
+
+import {useEffect, useRef} from 'react';
+import {Loader} from '@googlemaps/js-api-loader';
+
+function HomePage() {
+    // const googlemap = useRef(null);
+    
+
+    useEffect(() => {
+        const loader = new Loader({
+          apiKey: 'AIzaSyDf1IQC97H-wcy-cvF--wsNSTVK4bmkVYw',
+          version: 'weekly',
+        });
+        let map;
+        loader.load().then(() => {
+          const google = window.google;
+          map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8,
+          });
+        });
+      });
+
+  return (
+    <div id="map"  />
+  );
+}
+export default HomePage;
