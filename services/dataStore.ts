@@ -1,8 +1,8 @@
 import ZoneSchema from '../data/zone.schema';
+import { convertAddressToLocation } from '../utils/location.utils';
 import { dbConnection } from './data.service';
 
 const databaseConnection = dbConnection;
-
 
 export const exportData = async (rawData: any[]) => {
     rawData.splice(0, 1); // remove column headers
@@ -24,16 +24,19 @@ export const exportData = async (rawData: any[]) => {
         const observations = row[10] ?? "";
         const media = row[11];
 
+        // do not abuse this line, more expensive than you might expect
+        const coordinates = await convertAddressToLocation(zoneName + ', Cluj-Napoca Romania');
+
         try{
             // search crit can be defined by lat&lng to point to the same areas
-            let zone = await ZoneSchema.findOne({"address.name": zoneName}).exec();
+            let zone = await ZoneSchema.findOne({"address.lng": coordinates.lng, "address.lat": coordinates.lat}).exec();
             
             if (!zone) {
                 zone = new ZoneSchema({
                     address: {
                         name: zoneName,
-                        lat: 0,
-                        lng: 0,
+                        lat: coordinates.lat,
+                        lng: coordinates.lng,
                     },
                     contactPerson: {
                         name: responsible
