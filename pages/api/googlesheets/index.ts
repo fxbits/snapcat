@@ -2,7 +2,6 @@ import { importData } from '../../../services/dataImport';
 
 import googleapis, { google } from 'googleapis';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { exportData } from '../../../services/dataStore';
 
 
 const auth = new google.auth.GoogleAuth({
