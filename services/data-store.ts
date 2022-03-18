@@ -7,11 +7,6 @@ const databaseConnection = dbConnection;
 export const exportData = async (rawData: any[]) => {
     rawData.splice(0, 1); // remove column headers
 
-    // call functions here to modify the data
-    // e.g. add lat&lng after use of api
-    // e.g. optional: parse zones to point to
-    // the same area: C.Brancusi, Brancusi => Brancusi
-
     for(let row of rawData){
         if (!row.length) continue;
 
@@ -28,7 +23,6 @@ export const exportData = async (rawData: any[]) => {
         const coordinates = await convertAddressToLocation(zoneName + ', Cluj-Napoca Romania');
 
         try{
-            // search crit can be defined by lat&lng to point to the same areas
             let zone = await ZoneSchema.findOne({"address.lng": coordinates.lng, "address.lat": coordinates.lat}).exec();
             
             if (!zone) {
@@ -43,7 +37,6 @@ export const exportData = async (rawData: any[]) => {
                     }
                 });
             } 
-            
             zone.sterilizedCats.push({
                 sex: sex,
                 mediaLinks: media,
