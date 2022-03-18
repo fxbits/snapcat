@@ -1,7 +1,8 @@
 import { useUser } from '@auth0/nextjs-auth0';
+import Link from 'next/link';
 import Welcome from './components/Welcome';
 
-export default () => {
+const MainApp = () => {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -13,7 +14,7 @@ export default () => {
       <div>
         Welcome {user.name}! 
         <br></br>
-        <a href="/api/auth/logout">Logout</a>
+        <Link href="/api/auth/logout">Logout</Link>
         <br></br>
         <Welcome user={user}/>
       </div>
@@ -21,6 +22,8 @@ export default () => {
   }
 
   return(
-    <a href="/api/auth/login">Login</a>
+    <Link href="/api/auth/login">Login</Link>
   )
 };
+
+export default MainApp;
