@@ -1,24 +1,27 @@
 import { SterilizedCat, UnsterilizedCat } from './cat.model'
 
-enum Status {
-    todo = 'To Do',
-    done = 'Done',
-    inprogress = 'In Progress'
+export enum Status {
+    TODO = 'To Do',
+    DONE = 'Done',
+    INPROGRESS = 'In Progress'
+}
+
+interface Address {
+    name: string,
+    lat: number,
+    lng: number
+}
+
+interface Person {
+    name: string,
+    phone: string
 }
 
 export interface InterestZone {
     id: string,
-    address: {
-        name: string,
-        lat: number,
-        lng: number
-    },
-    noUnsterilizedCats?: number,
+    address: Address,
     status: Status,
-    contactPerson?: {
-        name: string,
-        phone: string
-    },
+    contactPerson?: Person,
     volunteerID?: string, // could also be the name
     observations: string,
     unsterilizedCats: UnsterilizedCat[],

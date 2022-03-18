@@ -1,23 +1,14 @@
-import mongoose from 'mongoose';
-import { Schema } from 'mongoose';
+import { Status } from '../models/zone.model';
 
-enum Status {
-    todo = 'To Do',
-    done = 'Done',
-    inprogress = 'In Progress'
-}
+import mongoose, { Schema }  from 'mongoose';
 
 const zoneSchema = new Schema (
     {
         address: Object,
-        noUnsterilizedCats: {
-            type: Number,
-            default: 0
-        },
         status: {
             type: String,
             enum: Status,
-            default: Status.todo
+            default: Status.TODO
         },
         contactPerson: Object,
         volunteerID: String, 
