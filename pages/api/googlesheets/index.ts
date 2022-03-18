@@ -1,14 +1,6 @@
-import { importData } from '../../../services/dataImport';
+import { importData } from '../../../services/data-import';
 
-import googleapis, { google } from 'googleapis';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-
-const auth = new google.auth.GoogleAuth({
-    keyFile: 'keys.json',
-    scopes: 'https://www.googleapis.com/auth/spreadsheets'
-})
-
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     switch (req.method) {

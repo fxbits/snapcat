@@ -1,12 +1,8 @@
-import googleapis, {google} from 'googleapis';
+import auth from './googlesheets.auth';
 
+import {google} from 'googleapis';
 
-const auth = new google.auth.GoogleAuth({
-    keyFile: 'keys.json',
-    scopes: 'https://www.googleapis.com/auth/spreadsheets'
-})
-
-export const importData = async (sheetName: string) => {
+export const importData = async (sheetName: string): Promise<any> => {
     try{
         const authClientObject = await auth.getClient();
         const googleSheetsInstance = google.sheets({ version: "v4", auth: authClientObject });
