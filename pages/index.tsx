@@ -1,8 +1,5 @@
-import type { NextPage } from 'next'
 import { useUser } from '@auth0/nextjs-auth0';
 import Welcome from './components/Welcome';
-
-
 
 export default () => {
   const { user, error, isLoading } = useUser();
