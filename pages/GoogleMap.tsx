@@ -29,7 +29,6 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
   type GoogleLatLng = google.maps.LatLng;
   type GoogleMarker = google.maps.Marker;
 
-
   function MyComponent() {   
     const { isLoaded } = useJsApiLoader({
       id: 'google-map-script',
@@ -62,37 +61,34 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
           if (status === 'OK') {
             if (results) {
               setMarker({
-                address:results[0].formatted_address,
+                address: results[0].formatted_address,
                 latitude: coordinate.lat(),
-                longitude:coordinate.lng()
+                longitude: coordinate.lng()
               })
             }
-        }
-        })
+          }
+       })
   }
+  
+  useEffect(()=>{
+    const addMarker = (location: GoogleLatLng): void => {
+      const marker: GoogleMarker = new google.maps.Marker({
+        position: location,
+        map: map as any,
+        icon: {
+          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+          fillColor: '#0000000',
+          fillOpacity: 1,
+          strokeWeight: 0,
+          scale:7
+        },   
+      });
+    };
 
-  const addSingleMarker = ():void=>{
     if(marker) {
-      addMarker(new google.maps.LatLng(marker.latitude,marker.longitude));
-    }    
-  };
-  useEffect(addSingleMarker,[marker]);
-
-  const image="https://www.dreamstime.com/cat-icon-vector-cat-icon-vector-logo-design-illustrator-image144752392";
-
-  const addMarker = (location:GoogleLatLng): void =>{
-    const marker:GoogleMarker = new google.maps.Marker({
-      position: location,
-      map: map as any,
-      icon: {
-        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        fillColor: '#0000000',
-        fillOpacity: 1,
-        strokeWeight: 0,
-        scale:7
-      },   
-    });
-  };
+      addMarker(new google.maps.LatLng(marker.latitude, marker.longitude));
+    } 
+  },[marker,map]);
 
   return isLoaded ? (
     <div>
