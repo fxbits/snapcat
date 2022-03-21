@@ -1,4 +1,5 @@
 import { importData } from '../../../services/data-import';
+import { exportData } from '../../../services/data-store';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -6,15 +7,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     switch (req.method) {
         case 'GET':
             try{
-                const importedData = await importData("Test1");
+                const importedData = await importData(req.body.sheetName);
                 res.send(importedData);
-                // Data[][4] -> locul capturarii / zona de interes
-                
             } catch(error: any) {
                 res.status(500).json({message: error.message})
             }
         break;
-    
+        // endpoint to add in db from googlesheet
+        case 'POST': 
+            try{
+                const importedData = await importData(req.body.sheetName);
+                exportData(importedData);
+                res.send(importedData);
+            } catch(error: any) {
+                res.status(500).json({message: error.message})
+            }
+        break;
     }
 }
 
