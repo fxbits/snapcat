@@ -5,7 +5,8 @@ import { dbConnection } from './data.service';
 const databaseConnection = dbConnection;
 
 export const exportData = async (rawData: any[]) => {
-    rawData.splice(0, 1); // remove column headers
+    // remove column headers
+    rawData.splice(0, 1); 
 
     for(let row of rawData){
         if (!row.length) continue;
@@ -20,10 +21,10 @@ export const exportData = async (rawData: any[]) => {
         const media = row[11];
 
         // do not abuse this line, more expensive than you might expect
-        const coordinates = await convertAddressToLocation(zoneName + ', Cluj-Napoca Romania');
+        const coordinates = await convertAddressToLocation(`${zoneName}, ${process.env.CITY_LOCATION}`);
 
         try{
-            let zone = await ZoneSchema.findOne({"address.lng": coordinates.lng, "address.lat": coordinates.lat}).exec();
+            let zone = await ZoneSchema.findOne({'address.lng': coordinates.lng, 'address.lat': coordinates.lat}).exec();
             
             if (!zone) {
                 zone = new ZoneSchema({
@@ -42,7 +43,7 @@ export const exportData = async (rawData: any[]) => {
                 mediaLinks: media,
                 hospitalizationDate: inDate,
                 releaseDate: outDate,
-                observations: observations + '-' + details + '-Importata din Excel'
+                observations: `Importata din Excel: ${observations}-${details}`
             });
             await zone.save();
         } catch (error: any){

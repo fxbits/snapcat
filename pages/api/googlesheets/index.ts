@@ -13,7 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 res.status(500).json({message: error.message})
             }
         break;
-        case 'POST': // endpoint to add in db from googlesheet
+        // endpoint to add in db from googlesheet
+        case 'POST': 
             try{
                 const importedData = await importData(req.body.sheetName);
                 exportData(importedData);
