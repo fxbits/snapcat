@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 
-  interface IMarker{
-      address:string;
-      latitude:number;
-      longitude:number;
+  interface IMarker {
+      address: string;
+      latitude: number;
+      longitude: number;
   }
   const containerStyle = {
       width: '1550px',
@@ -16,23 +16,21 @@ import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-map
       lng: 23.5671444
   };
 
-  const marker1 ={
+  const marker1 = {
       lat: 46.7554536,
       lng: 23.5671444
   }
 
-  const marker2 ={
+  const marker2 = {
       lat: 46.7546919, 
-      lng: 23.5604183
-    
+      lng: 23.5604183 
   }
 
   type GoogleLatLng = google.maps.LatLng;
   type GoogleMarker = google.maps.Marker;
 
 
-  function MyComponent() {
-    
+  function MyComponent() {   
     const { isLoaded } = useJsApiLoader({
       id: 'google-map-script',
       googleMapsApiKey: process.env.NEXT_PUBLIC_APP_GOOGLE_MAPS_API_KEY as any,
@@ -58,13 +56,11 @@ import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-map
     useEffect(initEventListener,[map]);
 
 
-  const coordinateToAddress = async (coordinate:GoogleLatLng) =>{
+  const coordinateToAddress = async (coordinate: GoogleLatLng) =>{
     const geocoder = new google.maps.Geocoder();
-          geocoder.geocode({location:coordinate}, function(results,status){
-          if( status === 'OK'){
-            console.log()
-            if(results){
-              console.log(results[0].formatted_address);
+          geocoder.geocode({location: coordinate}, function(results, status){
+          if (status === 'OK') {
+            if (results) {
               setMarker({
                 address:results[0].formatted_address,
                 latitude: coordinate.lat(),
@@ -76,11 +72,9 @@ import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-map
   }
 
   const addSingleMarker = ():void=>{
-    if(marker){
+    if(marker) {
       addMarker(new google.maps.LatLng(marker.latitude,marker.longitude));
-    }
-    console.log("S-a a daugat markerul la coordonatele", marker?.latitude,marker?.longitude);
-    
+    }    
   };
   useEffect(addSingleMarker,[marker]);
 
@@ -89,41 +83,37 @@ import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-map
   const addMarker = (location:GoogleLatLng): void =>{
     const marker:GoogleMarker = new google.maps.Marker({
       position: location,
-      map:map as any,
+      map: map as any,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
         fillColor: '#0000000',
         fillOpacity: 1,
         strokeWeight: 0,
         scale:7
-      },
-    
+      },   
     });
-    console.log("S-a intrat in adaugarea markerului");
   };
 
   return isLoaded ? (
     <div>
       <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={new google.maps.LatLng(center.lat, center.lng)}
-        zoom={16}
-        onLoad={onLoad}
+        mapContainerStyle = {containerStyle}
+        center = {new google.maps.LatLng(center.lat, center.lng)}
+        zoom = {16}
+        onLoad = {onLoad}
       >
-        
         <Marker 
-          position={marker1}
-          title="Primul marker"
+          position = {marker1}
+          title = "Primul marker"
         ></Marker>
         <Marker 
-          position={marker2}
-          title="Al doilea marker"
+          position = {marker2}
+          title = "Al doilea marker"
         ></Marker>
 
         <></>
       </GoogleMap>
-    </div>
-      
+    </div>     
   ) : <></>
 }
 
