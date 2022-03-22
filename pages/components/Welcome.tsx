@@ -7,14 +7,16 @@ const fetcher = async (uri: RequestInfo) => {
   return response.json();
 };
 
-export default withPageAuthRequired(function Welcome() {
+export default withPageAuthRequired( () => {
   const { data, error } = useSWR('/api/secure-hello', fetcher);
   
-  if (error) 
+  if (error) {
     return <div>oops... {error.message}</div>;
+  }
 
-  if (data === undefined) 
+  if (data === undefined) {
     return <div>Loading...</div>;
+  }
 
   return <div>{data.protected} {data.nickname}</div>;
 });

@@ -5,9 +5,13 @@ import Welcome from './components/Welcome';
 const MainApp = () => {
   const { user, error, isLoading } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   
-  if (error) return <div>{error.message}</div>;
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   if (user) {
     return (
