@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
-interface IMarker {
-  address: string;
-  latitude: number;
-  longitude: number;
-}
 const containerStyle = {
   width: "1550px",
   height: "500px",
@@ -35,8 +30,6 @@ function MyComponent() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_APP_GOOGLE_MAPS_API_KEY as any,
   });
 
-  const [marker, setMarker] = useState<IMarker>();
-
   const [map, setMap] = useState<GoogleMap>();
 
   const onLoad = React.useCallback(function callback(map) {
@@ -44,30 +37,6 @@ function MyComponent() {
     map.fitBounds(bounds);
     setMap(map);
   }, []);
-
-  const initEventListener = (): void => {
-    if (map) {
-      google.maps.event.addListener(map, "click", function (e: any) {
-        coordinateToAddress(e.latLng);
-      });
-    }
-  };
-  useEffect(initEventListener, [map]);
-
-  const coordinateToAddress = async (coordinate: GoogleLatLng) => {
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: coordinate }, function (results, status) {
-      if (status === "OK") {
-        if (results) {
-          setMarker({
-            address: results[0].formatted_address,
-            latitude: coordinate.lat(),
-            longitude: coordinate.lng(),
-          });
-        }
-      }
-    });
-  };
 
   useEffect(() => {
     const addMarker = (location: GoogleLatLng): void => {
@@ -83,11 +52,24 @@ function MyComponent() {
         },
       });
     };
-
-    if (marker) {
-      addMarker(new google.maps.LatLng(marker.latitude, marker.longitude));
+    if (map) {
+      google.maps.event.addListener(map, "click", (e: any) => {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+          { location: e.latLng as GoogleLatLng },
+          function (results, status) {
+            if (status === "OK") {
+              if (results) {
+                addMarker(
+                  new google.maps.LatLng(e.latLng.lat(), e.latLng.lng())
+                );
+              }
+            }
+          }
+        );
+      });
     }
-  }, [marker, map]);
+  }, [map]);
 
   return isLoaded ? (
     <div>
