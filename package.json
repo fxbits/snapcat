@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.7.0",
-    "auth0": "^2.40.0",
     "@googlemaps/google-maps-services-js": "^3.3.11",
     "googleapis": "^97.0.0",
     "mongoose": "^6.2.6",
