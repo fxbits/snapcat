@@ -30,4 +30,4 @@ const zoneSchema = new Schema (
     },
 );
 
-export default mongoose.model('ZoneSchema', zoneSchema);
+export default mongoose.models.zoneSchema || mongoose.model('zoneSchema', zoneSchema);

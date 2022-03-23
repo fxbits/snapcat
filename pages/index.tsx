@@ -1,18 +1,19 @@
-import { useUser } from '@auth0/nextjs-auth0';
-import Link from 'next/link';
-import DetailsModal from '../components/DetailsModal';
+import DetailsModal from '../components/SinglePointView/DetailsModal';
 import Welcome from './components/Welcome';
-
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { InterestZone } from '../models/zone.model';
 
+import { useUser } from '@auth0/nextjs-auth0';
+import Link from 'next/link';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
 
 const MainApp = () => {
   const { user, error, isLoading } = useUser();
-  const [zone, setZone] = useState<any>();
+  const [zone, setZone] = useState<InterestZone>();
+  const [openModal, setOpenModal] = useState(false);
   const baseURL = "http://localhost:3000/api/interest-zones/";
-  const idTest = "623aff0e6a541cfe8c68308d";
+  const idTest = "6239d2bfb2e9c1fe796d848a";
 
   useEffect(
     () => {
@@ -24,12 +25,20 @@ const MainApp = () => {
 
     try {
       const foundZone = await axios.get(baseURL + idTest);
-      console.log(foundZone.data);
-      setZone(foundZone.data);
+      console.log('zone', foundZone.data);
+      const oneZone: InterestZone = {
+        ...foundZone.data,
+        id: foundZone.data._id
+      }
+      setZone(oneZone as InterestZone);
     }
     catch(error: any) {
       console.log(error);
     }
+  }
+
+  const displayModal = () => {
+    setOpenModal(true);
   }
 
   if (isLoading) {
@@ -48,7 +57,8 @@ const MainApp = () => {
         <Link href="/api/auth/logout">Logout</Link>
         <br></br>
         <Welcome user={user}/>
-        <DetailsModal zone={zone}/>
+        <Button variant="contained" onClick={displayModal}>Open zone</Button>
+        <DetailsModal onClose={() => setOpenModal(false)} isVisible={openModal} zone={zone!}/>
       </div>
     );
   }
