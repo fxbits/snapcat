@@ -39,33 +39,28 @@ function GoogleMaps() {
   }, []);
 
   useEffect(() => {
-    const addMarker = (location: GoogleLatLng): void => {
-      const marker: GoogleMarker = new google.maps.Marker({
-        position: location,
-        map: map as any,
-        icon: {
-          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-          fillColor: "#0000000",
-          fillOpacity: 1,
-          strokeWeight: 0,
-          scale: 7,
-        },
-      });
-    };
     if (map) {
       google.maps.event.addListener(map, "click", (e: any) => {
         const geocoder = new google.maps.Geocoder();
-        geocoder.geocode(
-          { location: e.latLng as GoogleLatLng },
-          function (results, status) {
-            if (status === "OK") {
-              if (results) {
-                addMarker(
-                  new google.maps.LatLng(e.latLng.lat(), e.latLng.lng())
-                );
+        const location= e.latLng as GoogleLatLng;
+
+        geocoder.geocode({ location }, (results, status) => {
+            if (status === "OK" && results) {
+              const position = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+
+                new google.maps.Marker({
+                  position,
+                  map: map as any,
+                  icon: {
+                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                    fillColor: "#0000000",
+                    fillOpacity: 1,
+                    strokeWeight: 0,
+                    scale: 7,
+                  },
+                });
               }
             }
-          }
         );
       });
     }
