@@ -24,7 +24,7 @@ const marker2 = {
 type GoogleLatLng = google.maps.LatLng;
 type GoogleMarker = google.maps.Marker;
 
-function MyComponent() {
+function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_APP_GOOGLE_MAPS_API_KEY as any,
@@ -90,4 +90,4 @@ function MyComponent() {
   );
 }
 
-export default React.memo(MyComponent);
+export default React.memo(GoogleMaps);
