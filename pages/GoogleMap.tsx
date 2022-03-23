@@ -67,7 +67,7 @@ function GoogleMaps() {
   }, [map]);
 
   return isLoaded ? (
-    <div>
+    <div className="hartaGoogle">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={new google.maps.LatLng(center.lat, center.lng)}

@@ -16,19 +16,10 @@ a {
   box-sizing: border-box;
 }
 
-#map{
+.hartaGoogle{
   height: 100%;
   width: 100%;
   display:flex;
   align-content: center;
-  justify-content: center;
-}
-
-#__next {
-  height: 100%;
-}
-
-.title{
-  display:flex;
   justify-content: center;
 }
