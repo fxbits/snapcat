@@ -48,9 +48,10 @@ class ZoneService {
         zone.sterilizedCats.push({
             sex: sheetEntry.sex,
             mediaLinks: sheetEntry.media,
+            observations: `Importata din Excel: ${sheetEntry.observations}-${sheetEntry.details}`,
             hospitalizationDate: sheetEntry.inDate,
             releaseDate: sheetEntry.outDate,
-            observations: `Importata din Excel: ${sheetEntry.observations}-${sheetEntry.details}`
+            volunteerName: sheetEntry.responsible
         });
         await zone.save();
     }

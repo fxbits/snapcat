@@ -10,7 +10,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShieldCat} from '@fortawesome/free-solid-svg-icons'
+import { faShieldCat} from '@fortawesome/free-solid-svg-icons';
+import List from '@mui/material/List';
+import { ListItem } from '@mui/material';
 
 interface Props{
     onClose: () => void,
@@ -20,6 +22,11 @@ interface Props{
 
 const DetailsModal = (props: Props) => {
     const [isEditable, setIsEditable] = useState(false);
+    const [expanded, setExpanded] = useState<string | false>(false);
+
+    const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
     
     useEffect(() => {
         setIsEditable(false);  
@@ -37,6 +44,58 @@ const DetailsModal = (props: Props) => {
     const handleClose = useCallback(() => {
         props.onClose();
     },[])
+
+    const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, cnt) => 
+        <ListItem key={cnt}>
+            <Accordion>
+                <AccordionSummary expandIcon={<FontAwesomeIcon icon={faShieldCat}/>}>
+                    <Typography>
+                        Pisica nr.{cnt + 1}
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        <form className={styles.catListItem}>
+                            <label>Data internare</label>
+                            <input type="text" defaultValue={cat.hospitalizationDate} readOnly={!isEditable}></input>
+                            <label>Data externare</label>
+                            <input type="text" defaultValue={cat.releaseDate} readOnly={!isEditable}></input>
+                            <label>Sex</label>
+                            <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
+                            <label>Voluntar</label>
+                            <input type="text" defaultValue={cat.volunteerName} readOnly={!isEditable}></input>
+                            <label>Media</label>
+                            <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
+                            <label>Observatii</label>
+                            <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
+                        </form>
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+        </ListItem>    
+        );
+
+    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) => 
+    <ListItem key={cnt}>
+        <Accordion>
+            <AccordionSummary expandIcon={<FontAwesomeIcon icon={faShieldCat}/>}>
+                <Typography>
+                    Pisica nr.{cnt + 1}
+                </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            <Typography>
+                <label>Sex</label>
+                <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
+                <label>Voluntar</label>
+                <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
+                <label>Observatii</label>
+                <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
+            </Typography>
+            </AccordionDetails>
+        </Accordion>
+    </ListItem>    
+    );
 
     return (
         <Modal
@@ -60,51 +119,42 @@ const DetailsModal = (props: Props) => {
                         <input type="text" defaultValue={props.zone?.contactPerson?.name} readOnly={!isEditable}></input>
                         <label>Observatii</label>
                         <input type="text" defaultValue={props.zone?.observations} readOnly={!isEditable}></input>
-
-
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<FontAwesomeIcon icon={faShieldCat} />}
-                            >
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            <Typography>
-                                <label>Test</label>
-                                <input type="text" defaultValue="test" readOnly={!isEditable}></input>
-                            </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-
-                        {props.zone?.sterilizedCats.map((cat) => {
-                        console.log(cat.sex);
-                            
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<FontAwesomeIcon icon={faShieldCat} />}
-                            >
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            <Typography>
-                                <label>Data internare</label>
-                                <input type="text" defaultValue={cat.hospitalizationDate} readOnly={!isEditable}></input>
-                                <label>Data externare</label>
-                                <input type="text" defaultValue={cat.releaseDate} readOnly={!isEditable}></input>
-                                <label>Sex</label>
-                                <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
-                                <label>Voluntar</label>
-                                <input type="text" defaultValue={cat.volunteerID} readOnly={!isEditable}></input>
-                                <label>Media</label>
-                                <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
-                                <label>Observatii</label>
-                                <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
-                            </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                        })}
                     </form>
-                    {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit}>Edit</Button>}
-                    {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave}>Save</Button>}
-                    <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
+                    <div className={styles.catsDisplayDiv}>
+                        <Accordion className={styles.catTypeContent}  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                            <AccordionSummary>
+                                <Typography>
+                                    Pisici sterilizate
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className={styles.catListContent}>
+                                <div className={styles.catsDiv}>
+                                    <List className={styles.catsList}>
+                                        {sterilizedCatsList}
+                                    </List>
+                                </div>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion className={styles.catTypeContent}  expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                            <AccordionSummary>
+                                <Typography>
+                                    Pisici nesterilizate
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className={styles.catListContent}>
+                                <div className={styles.catsDiv}>
+                                    <List className={styles.catsList}>
+                                        {unsterilizedCatsList}
+                                    </List>
+                                </div>
+                            </AccordionDetails>
+                        </Accordion>
+                    </div>
+                    <div className={styles.buttonsContainer}>
+                        {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit}>Edit</Button>}
+                        {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave}>Save</Button>}
+                        <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
+                    </div>
                 </Box>
             </div>
         </Modal>

@@ -1,5 +1,5 @@
 import DetailsModal from '../components/SinglePointView/DetailsModal';
-import Welcome from './components/Welcome';
+import Welcome from '../components/Welcome/Welcome';
 import { InterestZone } from '../models/zone.model';
 
 import { useUser } from '@auth0/nextjs-auth0';
@@ -13,7 +13,7 @@ const MainApp = () => {
   const [zone, setZone] = useState<InterestZone>();
   const [openModal, setOpenModal] = useState(false);
   const baseURL = "http://localhost:3000/api/interest-zones/";
-  const idTest = "6239d2bfb2e9c1fe796d848a";
+  const idTest = "6239d2c0b2e9c1fe796d8496";
 
   useEffect(
     () => {

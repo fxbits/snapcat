@@ -10,5 +10,5 @@ export interface SterilizedCat {
     observations: string,
     hospitalizationDate: string,
     releaseDate: string,
-    volunteerID: string // or volunteer name
+    volunteerName: string 
 }
