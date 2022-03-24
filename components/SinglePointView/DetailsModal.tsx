@@ -5,6 +5,12 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShieldCat} from '@fortawesome/free-solid-svg-icons'
 
 interface Props{
     onClose: () => void,
@@ -54,6 +60,47 @@ const DetailsModal = (props: Props) => {
                         <input type="text" defaultValue={props.zone?.contactPerson?.name} readOnly={!isEditable}></input>
                         <label>Observatii</label>
                         <input type="text" defaultValue={props.zone?.observations} readOnly={!isEditable}></input>
+
+
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<FontAwesomeIcon icon={faShieldCat} />}
+                            >
+                            </AccordionSummary>
+                            <AccordionDetails>
+                            <Typography>
+                                <label>Test</label>
+                                <input type="text" defaultValue="test" readOnly={!isEditable}></input>
+                            </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+
+                        {props.zone?.sterilizedCats.map((cat) => {
+                        console.log(cat.sex);
+                            
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<FontAwesomeIcon icon={faShieldCat} />}
+                            >
+                            </AccordionSummary>
+                            <AccordionDetails>
+                            <Typography>
+                                <label>Data internare</label>
+                                <input type="text" defaultValue={cat.hospitalizationDate} readOnly={!isEditable}></input>
+                                <label>Data externare</label>
+                                <input type="text" defaultValue={cat.releaseDate} readOnly={!isEditable}></input>
+                                <label>Sex</label>
+                                <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
+                                <label>Voluntar</label>
+                                <input type="text" defaultValue={cat.volunteerID} readOnly={!isEditable}></input>
+                                <label>Media</label>
+                                <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
+                                <label>Observatii</label>
+                                <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
+                            </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                        })}
                     </form>
                     {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit}>Edit</Button>}
                     {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave}>Save</Button>}
