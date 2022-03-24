@@ -13,7 +13,7 @@ const MainApp = () => {
   const [zone, setZone] = useState<InterestZone>();
   const [openModal, setOpenModal] = useState(false);
   const baseURL = "http://localhost:3000/api/interest-zones/";
-  const idTest = "6239d2c0b2e9c1fe796d8496";
+  const idTest = "623aff0e6a541cfe8c68308d"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
 
   useEffect(
     () => {

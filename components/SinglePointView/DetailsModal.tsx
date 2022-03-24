@@ -47,7 +47,7 @@ const DetailsModal = (props: Props) => {
 
     const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, cnt) => 
         <ListItem key={cnt}>
-            <Accordion>
+            <Accordion style={{width: "100%"}}>
                 <AccordionSummary expandIcon={<FontAwesomeIcon icon={faShieldCat}/>}>
                     <Typography>
                         Pisica nr.{cnt + 1}
@@ -77,21 +77,21 @@ const DetailsModal = (props: Props) => {
 
     const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) => 
     <ListItem key={cnt}>
-        <Accordion>
+        <Accordion style={{width: "100%"}}>
             <AccordionSummary expandIcon={<FontAwesomeIcon icon={faShieldCat}/>}>
                 <Typography>
                     Pisica nr.{cnt + 1}
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-            <Typography>
-                <label>Sex</label>
-                <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
-                <label>Voluntar</label>
-                <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
-                <label>Observatii</label>
-                <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
-            </Typography>
+                <Typography>
+                    <label>Sex</label>
+                    <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
+                    <label>Voluntar</label>
+                    <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
+                    <label>Observatii</label>
+                    <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
+                </Typography>
             </AccordionDetails>
         </Accordion>
     </ListItem>    
@@ -109,6 +109,10 @@ const DetailsModal = (props: Props) => {
                     <form className={styles.form}>
                         <label>Adresa</label>
                         <input type="text" defaultValue={props.zone?.address.name} readOnly={!isEditable}></input>
+                        <label>Latitudine</label>
+                        <input type="text" defaultValue={props.zone?.address.lat} readOnly={!isEditable}></input>
+                        <label>Longitudine</label>
+                        <input type="text" defaultValue={props.zone?.address.lng} readOnly={!isEditable}></input>
                         <label>Numar pisici nesterilizate</label>
                         <input type="text" defaultValue={props.zone?.unsterilizedCats.length} readOnly={!isEditable} ></input>
                         <label>Numar pisici sterilizate</label>
@@ -117,6 +121,8 @@ const DetailsModal = (props: Props) => {
                         <input type="text" defaultValue={props.zone?.status} readOnly={!isEditable}></input>
                         <label>Nume persoana de contact</label>
                         <input type="text" defaultValue={props.zone?.contactPerson?.name} readOnly={!isEditable}></input>
+                        <label>Numar de telefon</label>
+                        <input type="text" defaultValue={props.zone?.contactPerson?.phone} readOnly={!isEditable}></input>
                         <label>Observatii</label>
                         <input type="text" defaultValue={props.zone?.observations} readOnly={!isEditable}></input>
                     </form>
@@ -151,7 +157,7 @@ const DetailsModal = (props: Props) => {
                         </Accordion>
                     </div>
                     <div className={styles.buttonsContainer}>
-                        {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit}>Edit</Button>}
+                        {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit} style={{margin: "10px"}} >Edit</Button>}
                         {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave}>Save</Button>}
                         <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
                     </div>
