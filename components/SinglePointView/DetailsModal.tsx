@@ -13,12 +13,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShieldCat} from '@fortawesome/free-solid-svg-icons';
 import List from '@mui/material/List';
 import { ListItem } from '@mui/material';
+import DetailsForm from './DetailsForm';
+import SterilizedCatsList from './SterilizedCatsList';
+import UnsterilizedCatsList from './UnsterilizedCatsList';
 
 interface Props{
     onClose: () => void,
     isVisible: boolean,
     zone: InterestZone
-}
+}   
 
 const DetailsModal = (props: Props) => {
     const [isEditable, setIsEditable] = useState(false);
@@ -55,20 +58,7 @@ const DetailsModal = (props: Props) => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        <form className={styles.catListItem}>
-                            <label>Data internare</label>
-                            <input type="text" defaultValue={cat.hospitalizationDate} readOnly={!isEditable}></input>
-                            <label>Data externare</label>
-                            <input type="text" defaultValue={cat.releaseDate} readOnly={!isEditable}></input>
-                            <label>Sex</label>
-                            <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
-                            <label>Voluntar</label>
-                            <input type="text" defaultValue={cat.volunteerName} readOnly={!isEditable}></input>
-                            <label>Media</label>
-                            <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
-                            <label>Observatii</label>
-                            <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
-                        </form>
+                        <SterilizedCatsList cat={cat} isEditable={isEditable}/>
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -85,12 +75,7 @@ const DetailsModal = (props: Props) => {
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
-                    <label>Sex</label>
-                    <input type="text" defaultValue={cat.sex} readOnly={!isEditable}></input>
-                    <label>Voluntar</label>
-                    <input type="text" defaultValue={cat.mediaLinks} readOnly={!isEditable}></input>
-                    <label>Observatii</label>
-                    <input type="text" defaultValue={cat.observations} readOnly={!isEditable}></input>
+                    <UnsterilizedCatsList cat={cat} isEditable={isEditable}/>
                 </Typography>
             </AccordionDetails>
         </Accordion>
@@ -106,26 +91,7 @@ const DetailsModal = (props: Props) => {
         >
             <div className={styles.container}>
                 <Box className={styles.box}>
-                    <form className={styles.form}>
-                        <label>Adresa</label>
-                        <input type="text" defaultValue={props.zone?.address.name} readOnly={!isEditable}></input>
-                        <label>Latitudine</label>
-                        <input type="text" defaultValue={props.zone?.address.lat} readOnly={!isEditable}></input>
-                        <label>Longitudine</label>
-                        <input type="text" defaultValue={props.zone?.address.lng} readOnly={!isEditable}></input>
-                        <label>Numar pisici nesterilizate</label>
-                        <input type="text" defaultValue={props.zone?.unsterilizedCats.length} readOnly={!isEditable} ></input>
-                        <label>Numar pisici sterilizate</label>
-                        <input type="text" defaultValue={props.zone?.sterilizedCats.length} readOnly={!isEditable}></input>
-                        <label>Status</label>
-                        <input type="text" defaultValue={props.zone?.status} readOnly={!isEditable}></input>
-                        <label>Nume persoana de contact</label>
-                        <input type="text" defaultValue={props.zone?.contactPerson?.name} readOnly={!isEditable}></input>
-                        <label>Numar de telefon</label>
-                        <input type="text" defaultValue={props.zone?.contactPerson?.phone} readOnly={!isEditable}></input>
-                        <label>Observatii</label>
-                        <input type="text" defaultValue={props.zone?.observations} readOnly={!isEditable}></input>
-                    </form>
+                    <DetailsForm zone={props.zone} isEditable={isEditable}/>
                     <div className={styles.catsDisplayDiv}>
                         <Accordion className={styles.catTypeContent}  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                             <AccordionSummary>
