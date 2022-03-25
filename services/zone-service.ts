@@ -1,4 +1,4 @@
-import ZoneSchema from '../data/zone.schema';
+import zoneSchema from '../data/zone.schema';
 import { InterestZone } from '../models/zone.model';
 import { SheetEntry } from '../models/sheet-entry.model';
 import { convertAddressToLocation } from '../utils/location.utils';
@@ -11,7 +11,7 @@ class ZoneService {
     }
 
     async findById (id: string | string[]): Promise<InterestZone> {
-        const interestZone = await ZoneSchema.findById(id).exec();
+        const interestZone = await zoneSchema.findById(id).exec();
         
         if (!interestZone) {
             throw new Error(`Zone with id ${id} not found`);
@@ -21,11 +21,11 @@ class ZoneService {
     } 
 
     async findAll (): Promise<InterestZone[]> {
-        return await ZoneSchema.find();
+        return await zoneSchema.find();
     }
 
     async findByCoordinates (coordinates: any): Promise<any> {
-        return await ZoneSchema.findOne({'address.lng': coordinates.lng, 'address.lat': coordinates.lat}).exec();
+        return await zoneSchema.findOne({'address.lng': coordinates.lng, 'address.lat': coordinates.lat}).exec();
     }
 
     async importZone(sheetEntry: SheetEntry): Promise<void> {
@@ -34,23 +34,25 @@ class ZoneService {
         let zone = await this.findByCoordinates(coordinates);
             
         if (!zone) {
-            zone = new ZoneSchema({
+            zone = new zoneSchema({
                 address: {
                     name: sheetEntry.zoneName,
                     lat: coordinates.lat,
                     lng: coordinates.lng,
                 },
                 contactPerson: {
-                    name: sheetEntry.responsible
+                    name: sheetEntry.responsible,
+                    phone: ''
                 }
             });
         } 
         zone.sterilizedCats.push({
             sex: sheetEntry.sex,
             mediaLinks: sheetEntry.media,
+            observations: `Importata din Excel: ${sheetEntry.observations}-${sheetEntry.details}`,
             hospitalizationDate: sheetEntry.inDate,
             releaseDate: sheetEntry.outDate,
-            observations: `Importata din Excel: ${sheetEntry.observations}-${sheetEntry.details}`
+            volunteerName: sheetEntry.responsible
         });
         await zone.save();
     }
