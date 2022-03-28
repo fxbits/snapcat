@@ -50,13 +50,12 @@ const MainApp = () => {
       </div>
     );
   }
-
+  
   return(
     <Link href="/api/auth/login">Login</Link>
   )};
-
+ 
 
 export default MainApp;
          
-
 
