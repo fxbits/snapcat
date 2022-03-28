@@ -11,10 +11,13 @@ const zoneSchema = new Schema (
             default: Status.TODO
         },
         contactPerson: Object,
-        volunteerID: String, 
+        volunteerName: {
+            type: String,
+            default: ''
+        }, 
         observations: {
             type: String,
-            default: ""
+            default: ''
         },
         unsterilizedCats: {
             type: [Object],

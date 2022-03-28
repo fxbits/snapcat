@@ -41,7 +41,8 @@ class ZoneService {
                     lng: coordinates.lng,
                 },
                 contactPerson: {
-                    name: sheetEntry.responsible
+                    name: sheetEntry.responsible,
+                    phone: ''
                 }
             });
         } 

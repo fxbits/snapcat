@@ -1,4 +1,4 @@
-import DetailsModal from '../components/SinglePointView/DetailsModal';
+import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
 import Welcome from '../components/Welcome/Welcome';
 import { InterestZone } from '../models/zone.model';
 
@@ -48,6 +48,7 @@ const MainApp = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
+ 
 
   if (user) {
     return (
@@ -58,14 +59,17 @@ const MainApp = () => {
         <br></br>
         <Welcome user={user}/>
         <Button variant="contained" onClick={displayModal}>Open zone</Button>
-        <DetailsModal onClose={() => setOpenModal(false)} isVisible={openModal} zone={zone!}/>
+        <InteresZoneView onClose={() => setOpenModal(false)} isVisible={openModal} zone={zone!}/>
       </div>
     );
   }
 
   return(
     <Link href="/api/auth/login">Login</Link>
-  )
-};
+  )};
+
 
 export default MainApp;
+         
+
+
