@@ -22,7 +22,7 @@ export interface InterestZone {
     address: Address,
     status: Status,
     contactPerson?: Person,
-    volunteerID?: string, // could also be the name
+    volunteerName: string,
     observations: string,
     unsterilizedCats: UnsterilizedCat[],
     sterilizedCats: SterilizedCat[]
