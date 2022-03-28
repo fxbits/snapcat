@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { InterestZone } from '../models/zone.model';
-import { zoneService } from '../services/zone-service';
 
 class ZoneService {
 
@@ -19,7 +18,6 @@ class ZoneService {
             throw new Error(error);
           }
     } 
-
 }
 
 export const zoneServiceUi = new ZoneService(); 
