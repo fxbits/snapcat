@@ -5,7 +5,6 @@ import { zoneServiceUi } from '../ui/ZoneService';
 
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
-import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 

@@ -1,7 +1,7 @@
 import { InterestZone } from '../../models/zone.model';
-import DetailsForm from './InterestZoneDetailsView';
-import SterilizedCatsList from './SterilizedCatDisplay';
-import UnsterilizedCatsList from './UnsterilizedCatDisplay';
+import DetailsForm from './DetailsForm';
+import SterilizedCatsList from './SterilizedCatList';
+import UnsterilizedCatsList from './UnsterilizedCatList';
 import styles from './InterestZoneView.module.css';
 
 import Box from '@mui/material/Box';
@@ -23,7 +23,7 @@ interface Props{
     zone: InterestZone
 }   
 
-const DetailsModal = (props: Props) => {
+const InterestZoneView = (props: Props) => {
     const [isEditable, setIsEditable] = useState(false);
     const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -77,7 +77,7 @@ const DetailsModal = (props: Props) => {
         </ListItem>    
         );
 
-    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) => 
+    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) =>
     <ListItem key={cnt}>
         <Accordion style={{width: "100%"}}>
             <AccordionSummary expandIcon={<FontAwesomeIcon icon={faShieldCat}/>}>
@@ -145,4 +145,4 @@ const DetailsModal = (props: Props) => {
     );
 }
 
-export default DetailsModal;
+export default InterestZoneView;
