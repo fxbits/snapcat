@@ -1,11 +1,12 @@
 import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
 import Welcome from '../components/Welcome/Welcome';
 import { InterestZone } from '../models/zone.model';
+import { zoneServiceUi } from '../ui/ZoneService';
 
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 
 const MainApp = () => {
@@ -17,29 +18,16 @@ const MainApp = () => {
 
   useEffect(
     () => {
-      getZone();
-    }, 
-  [])
+      zoneServiceUi.findById(baseURL + idTest).then(item => setZone(item));
+    }, []);
 
-  const getZone = async () => {
-
-    try {
-      const foundZone = await axios.get(baseURL + idTest);
-      console.log('zone', foundZone.data);
-      const oneZone: InterestZone = {
-        ...foundZone.data,
-        id: foundZone.data._id
-      }
-      setZone(oneZone as InterestZone);
-    }
-    catch(error: any) {
-      console.log(error);
-    }
-  }
-
-  const displayModal = () => {
+  const displayModal = useCallback(() => {
     setOpenModal(true);
-  }
+  }, [openModal]);
+
+  const closeModal = useCallback(() => {
+    setOpenModal(false);
+  }, [openModal]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,7 +47,7 @@ const MainApp = () => {
         <br></br>
         <Welcome user={user}/>
         <Button variant="contained" onClick={displayModal}>Open zone</Button>
-        <InteresZoneView onClose={() => setOpenModal(false)} isVisible={openModal} zone={zone!}/>
+        <InteresZoneView onClose={closeModal} isVisible={openModal} zone={zone!}/>
       </div>
     );
   }
