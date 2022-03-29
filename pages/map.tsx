@@ -5,7 +5,7 @@ import { InterestZone, Status } from "../models/zone.model";
 
 const containerStyle = {
   width: "100vw",
-  height: "80vh",
+  height: "100vh",
 };
 
 const center = {
