@@ -2,8 +2,8 @@ import zoneSchema from '../data/zone.schema';
 import { InterestZone, Status } from '../models/zone.model';
 import { SheetEntry } from '../models/sheet-entry.model';
 import { convertAddressToLocation } from '../utils/location.utils';
-import unsterilizedcatSchema from '../data/unsterilizedcat.schema';
-import sterilizedcatSchema from '../data/sterilizedcat.schema';
+import unsterilizedCatSchema from '../data/unsterilizedcat.schema';
+import sterilizedCatSchema from '../data/sterilizedcat.schema';
 import { Gender, SterilizedCat, UnsterilizedCat } from '../models/cat.model';
 
 import { connect } from 'mongoose';
@@ -35,8 +35,8 @@ class ZoneService {
         const coordinates = await convertAddressToLocation(`${sheetEntry.zoneName}, ${process.env.CITY_LOCATION}`);
     
         let zone = await this.findByCoordinates(coordinates);
-        const newCatSchema = new sterilizedcatSchema({
-            sex: sheetEntry.gender === 'm' ? Gender.MALE : Gender.FEMALE,
+        const newCatSchema = new sterilizedCatSchema({
+            gender: sheetEntry.gender === 'm' ? Gender.MALE : Gender.FEMALE,
             mediaLinls: [sheetEntry.media],
             observations: sheetEntry.observations,
             hospitalizationDate: sheetEntry.inDate,
@@ -73,13 +73,13 @@ class ZoneService {
         
         for(const unsterilizedCat of interestZone.unsterilizedCats) {
             await this.validateUnsterilizedCat(unsterilizedCat);
-            const catSchema = new unsterilizedcatSchema(unsterilizedCat);
+            const catSchema = new unsterilizedCatSchema(unsterilizedCat);
             newZoneSchema.unsterilizedCats.push(catSchema);
         }
 
         for(const sterilizedCat of interestZone.sterilizedCats) {
             await this.validateSterilizedCat(sterilizedCat);
-            const catSchema = new sterilizedcatSchema(sterilizedCat);
+            const catSchema = new sterilizedCatSchema(sterilizedCat);
             newZoneSchema.sterilizedCats.push(catSchema);
         }
 
