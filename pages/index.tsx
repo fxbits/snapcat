@@ -1,7 +1,7 @@
 import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
 import Welcome from '../components/Welcome/Welcome';
 import { InterestZone } from '../models/zone.model';
-import { zoneServiceUi } from '../ui/ZoneService';
+import { zoneServiceUi } from '../ui/ZoneServices';
 import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
 
 import { useUser } from '@auth0/nextjs-auth0';
@@ -15,12 +15,11 @@ const MainApp = () => {
   const [zone, setZone] = useState<InterestZone>();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const baseURL = "http://localhost:3000/api/interest-zones/";
-  const idTest = "623aff0e6a541cfe8c68308d"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
+  const idTest = "6241c99f49363d6ba9a734dd"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
 
   useEffect(
     () => {
-      zoneServiceUi.findById(baseURL + idTest).then(item => setZone(item));
+      zoneServiceUi.findById(idTest).then(item => setZone(item));
     }, []);
 
   const openEditModal = useCallback(() => {

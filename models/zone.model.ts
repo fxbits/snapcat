@@ -20,6 +20,7 @@ interface Person {
 export interface InterestZone {
     _id: string,
     address: Address,
+    noUnsterilizedCats: number,
     status: Status,
     contactPerson?: Person,
     volunteerName: string,

@@ -18,8 +18,8 @@ const SterilizedCatsList = (props: Props) => {
             <input id="sterilized-cat-indate-input" type="text" defaultValue={props.cat?.hospitalizationDate} readOnly={!props.isEditable}></input>
             <label>Data externare</label>
             <input id="sterilized-cat-outdate-input" type="text" defaultValue={props.cat?.releaseDate} readOnly={!props.isEditable}></input>
-            <label>Sex</label>
-            <input id="sterilized-cat-sex-input" type="text" defaultValue={props.cat?.sex} readOnly={!props.isEditable}></input>
+            <label>Gender</label>
+            <input id="sterilized-cat-gender-input" type="text" defaultValue={props.cat?.gender} readOnly={!props.isEditable}></input>
             <label>Voluntar</label>
             <input id="sterilized-cat-volunteer-input" type="text" defaultValue={props.cat?.volunteerName} readOnly={!props.isEditable}></input>
             <label>Media</label>

@@ -1,32 +1,37 @@
 import { Status } from '../models/zone.model';
+import {unsterilizedCatSchema} from './unsterilizedcat.schema';
+import {sterilizedCatSchema} from './sterilizedcat.schema';
 
 import mongoose, { Schema }  from 'mongoose';
 
 const zoneSchema = new Schema (
     {
-        address: Object,
+        address: {
+            type: Object,
+            required: true
+        },
+        noUnsterilizedCats : {
+            type: Number,
+            default: 0,
+            required: true
+        },
         status: {
             type: String,
             enum: Status,
-            default: Status.TODO
+            default: Status.TODO,
+            required: true
         },
-        contactPerson: Object,
-        volunteerName: {
-            type: String,
-            default: ''
-        }, 
+        contactPerson: {
+            type: Object,
+            required: true
+        },
+        volunteerName: String, 
         observations: {
             type: String,
             default: ''
         },
-        unsterilizedCats: {
-            type: [Object],
-            default: []
-        },
-        sterilizedCats: {
-            type: [Object],
-            default: []
-        }
+        unsterilizedCats: [unsterilizedCatSchema],
+        sterilizedCats: [sterilizedCatSchema]
     },
     {
         timestamps: true

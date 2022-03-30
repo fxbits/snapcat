@@ -14,8 +14,8 @@ const UnsterilizedCatsList = (props: Props) => {
 
     return (
         <form className={styles.catListItem}>
-            <label>Sex</label>
-            <input id="unsterilized-cat-sex-input"  type="text" defaultValue={props.cat?.sex} readOnly={!props.isEditable}></input>
+            <label>Gender</label>
+            <input id="unsterilized-cat-gender-input"  type="text" defaultValue={props.cat?.gender} readOnly={!props.isEditable}></input>
             <label>Voluntar</label>
             <input id="unsterilized-cat-volunteer-input" type="text" defaultValue={props.cat?.mediaLinks} readOnly={!props.isEditable}></input>
             <label>Observatii</label>
