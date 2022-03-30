@@ -53,6 +53,7 @@ function Map() {
   if (!isLoaded) {
     return <></>;
   }
+  
   return  (
     <div className="map-container">
       <GoogleMap
