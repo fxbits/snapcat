@@ -9,7 +9,7 @@ class ZoneService {
             console.log('zone', foundZone.data);
             const oneZone: InterestZone = {
               ...foundZone.data,
-              id: foundZone.data._id
+              _id: foundZone.data._id
             }
             return oneZone as InterestZone;
           }
