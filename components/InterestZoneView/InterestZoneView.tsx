@@ -136,7 +136,7 @@ const InterestZoneView = (props: Props) => {
                     </div>
                     <div className={styles.buttonsContainer}>
                         {!isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleEdit} style={{margin: "10px"}} >Edit</Button>}
-                        {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave}>Save</Button>}
+                        {isEditable && <Button variant="contained" color="success" className={styles.button} onClick={handleSave} style={{margin: "10px"}}>Save</Button>}
                         <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
                     </div>
                 </Box>
