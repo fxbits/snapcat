@@ -21,6 +21,7 @@
 .button{
     width: 40%;
     margin: 1vh;
+    margin: 10px !important;
 }
 
 .catsDiv{

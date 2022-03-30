@@ -1,79 +1,79 @@
-export const addressValidation = (e: any, setErrorState: (msg: string) => void) => {
+export const addressValidation = (e: any, setError: (msg: string) => void) => {
     const value = e.target.value;
 
     if (value === 'acasa') {
-        setErrorState("Adresa nu poate fi casa ta!");
+        setError("Adresa nu poate fi casa ta!");
         return;
     }
 
     if (value === '') {
-        setErrorState("Adresa nu poate fi vida!");
+        setError("Adresa nu poate fi vida!");
         return;
     }
 
-    setErrorState("");  
+    setError("");  
     return;
 }
 
-export const nonSterilizedCatsValidation = (e: any, setErrorState: (msg: string) => void) => {
+export const nonSterilizedCatsValidation = (e: any, setError: (msg: string) => void) => {
     const value = e.target.value;
 
     if (value < 0) {
-        setErrorState("Numarul de pisici nu poate sa fie mai mic decat 0!");
+        setError("Numarul de pisici nu poate sa fie mai mic decat 0!");
         return;
     }
 
     if(value > 100) {
-        setErrorState("Numarul de pisici nu poate sa fie mai mare decat 100!");
+        setError("Numarul de pisici nu poate sa fie mai mare decat 100!");
         return;
     }
 
     if (value === '') {
-        setErrorState("Numarul de pisici nu poate sa fie vid");
+        setError("Numarul de pisici nu poate sa fie vid");
         return;
     }
 
-    setErrorState("");
+    setError("");
     return;  
 }
 
-export const sterilizedCatsValidation = (e: any, setErrorState: (msg: string) => void) => {
+export const sterilizedCatsValidation = (e: any, setError: (msg: string) => void) => {
     const value = e.target.value;
 
     if (value < 0) {
-        setErrorState("Numarul de pisici nu poate sa fie mai mic decat 0!");
+        setError("Numarul de pisici nu poate sa fie mai mic decat 0!");
         return;
     }
 
     if(value > 100) {
-        setErrorState("Numarul de pisici nu poate sa fie mai mare decat 100!");
+        setError("Numarul de pisici nu poate sa fie mai mare decat 100!");
         return;
     }
 
     if (value === '') {
-        setErrorState("Numarul de pisici nu poate sa fie vid");
+        setError("Numarul de pisici nu poate sa fie vid");
         return;
     }
 
-    setErrorState("");
+    setError("");
     return;  
 }
 
-export const nameValidation = (e: any, setErrorState: (msg: string) => void) => {
+export const nameValidation = (e: any, setError: (msg: string) => void) => {
     const value = e.target.value;
 
     const nameVerif = new RegExp('^[A-Z][a-z ,.-]+$');
 
     if (value === '') {
-        setErrorState("Numele nu poate fi vid!");
+        setError("Numele nu poate fi vid!");
         return;
     }
 
     if (!nameVerif.test(value)) {
-        setErrorState("Nume invalid!");
+        setError("Nume invalid!");
         return;
     }
 
-    setErrorState("");  
+    setError("");  
     return;
 }

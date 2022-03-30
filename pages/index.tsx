@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 const MainApp = () => {
   const { user, error, isLoading } = useUser();
   const [zone, setZone] = useState<InterestZone>();
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [openAddModal, setOpenAddModal] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const baseURL = "http://localhost:3000/api/interest-zones/";
   const idTest = "623aff0e6a541cfe8c68308d"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
 
@@ -22,21 +22,21 @@ const MainApp = () => {
       zoneServiceUi.findById(baseURL + idTest).then(item => setZone(item));
     }, []);
 
-  const displayEditModal = useCallback(() => {
-    setOpenEditModal(true);
-  }, [openEditModal]);
+  const openEditModal = useCallback(() => {
+    setEditModalVisible(true);
+  }, [editModalVisible]);
 
   const closeEditModal = useCallback(() => {
-    setOpenEditModal(false);
-  }, [openEditModal]);
+    setEditModalVisible(false);
+  }, [editModalVisible]);
 
   const displayAddModal = useCallback(() => {
-    setOpenAddModal(true);
-  }, [openAddModal]);
+    setAddModalVisible(true);
+  }, [addModalVisible]);
 
   const closeAddModal = useCallback(() => {
-    setOpenAddModal(false);
-  }, [openAddModal]);
+    setAddModalVisible(false);
+  }, [addModalVisible]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -55,10 +55,10 @@ const MainApp = () => {
         <Link href="/api/auth/logout">Logout</Link>
         <br></br>
         <Welcome user={user}/>
-        <Button variant="contained" onClick={displayEditModal}>Open zone</Button>
-        <InteresZoneView onClose={closeEditModal} isVisible={openEditModal} zone={zone!}/>
+        <Button variant="contained" onClick={openEditModal}>Open zone</Button>
+        <InteresZoneView onClose={closeEditModal} isVisible={editModalVisible} zone={zone!}/>
         <Button variant="contained" onClick={displayAddModal}>Add zone</Button>
-        <InterestZoneAdd onClose={closeAddModal} isVisible={openAddModal}/>
+        <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible}/>
         
       </div>
     );

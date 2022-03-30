@@ -29,8 +29,6 @@ const InterestZoneAdd = (props: Props) => {
         <Modal
           open={props.isVisible}
           onClose={handleClose}
-          aria-labelledby="modal-modal-details"
-          aria-describedby="modal-modal-zone-details"
         >
             <div className={styles.container}>
                 <Box className={styles.box}>
