@@ -18,7 +18,7 @@ const center = {
 type GoogleLatLng = google.maps.LatLng;
 
 const libraries:("places")[] = ["places"];
-function map() {
+function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_APP_GOOGLE_MAPS_API_KEY as any,
@@ -77,6 +77,6 @@ function map() {
   )
   }
 
-export default withPageAuthRequired(map);
+export default withPageAuthRequired(Map);
 
 
