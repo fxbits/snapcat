@@ -5,11 +5,11 @@ class ZoneService {
 
     get baseURL(){
         let baseURL = `${location.protocol}//${location.hostname}:${location.port}`;
-        return baseURL + "/api/interest-zones";
+        return baseURL + "/api/interest-zones/";
     }
 
     async findById (id: string): Promise<InterestZone> {      
-        const response = await axios.get(id);
+        const response = await axios.get(this.baseURL + id);
         return response.data;
     } 
 

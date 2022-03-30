@@ -13,7 +13,7 @@ export const exportData = async (rawData: any[]) => {
         const newSheetEntry: SheetEntry = {
             inDate: row[1], 
             details: row[2],
-            sex: row[3],
+            gender: row[3],
             zoneName: row[4],
             responsible: row[5],
             outDate: row[9],

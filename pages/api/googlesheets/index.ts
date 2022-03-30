@@ -2,8 +2,9 @@ import { importData } from '../../../services/data-import';
 import { exportData } from '../../../services/data-store';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+export default withApiAuthRequired(async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     switch (req.method) {
         case 'GET':
             try{
@@ -24,5 +25,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             }
         break;
     }
-}
+});
 
