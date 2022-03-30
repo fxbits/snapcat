@@ -4,8 +4,7 @@ import { InterestZone } from '../models/zone.model';
 class ZoneService {
 
     get baseURL(){
-        let baseURL = `${location.protocol}//${location.hostname}:${location.port}`;
-        return baseURL + "/api/interest-zones/";
+        return `${process.env.NEXT_PUBLIC_REST_API_BASE_URL}/api/interest-zones/`;
     }
 
     async findById (id: string): Promise<InterestZone> {      
