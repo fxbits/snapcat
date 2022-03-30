@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { zoneServiceUi } from "../ui/ZoneServices"
 import { InterestZone, Status } from "../models/zone.model";
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 const containerStyle = {
   width: "100vw",
@@ -109,6 +110,6 @@ function GoogleMaps() {
   );
   }
 
-export default React.memo(GoogleMaps);
+export default withPageAuthRequired(GoogleMaps);
 
 
