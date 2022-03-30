@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 
+
 const MainApp = () => {
   const { user, error, isLoading } = useUser();
   const [zone, setZone] = useState<InterestZone>();
@@ -47,6 +48,7 @@ const MainApp = () => {
   }
  
 
+
   if (user) {
     return (
       <div>
@@ -63,13 +65,12 @@ const MainApp = () => {
       </div>
     );
   }
-
+  
   return(
     <Link href="/api/auth/login">Login</Link>
   )};
-
+ 
 
 export default MainApp;
          
-
 

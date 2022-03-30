@@ -18,7 +18,7 @@ interface Person {
 }
 
 export interface InterestZone {
-    id: string,
+    _id: string,
     address: Address,
     status: Status,
     contactPerson?: Person,
