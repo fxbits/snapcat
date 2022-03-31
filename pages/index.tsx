@@ -15,7 +15,7 @@ const MainApp = () => {
   const [zone, setZone] = useState<InterestZone>();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const idTest = "6241c99f49363d6ba9a734dd"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
+  const idTest = "623aff0e6a541cfe8c683090"; /// 623aff0e6a541cfe8c68308d    /// 6239d2c0b2e9c1fe796d8496
 
   useEffect(
     () => {

@@ -1,20 +1,18 @@
-import axios from 'axios';
 import { InterestZone } from '../models/zone.model';
+
+import axios from 'axios';
 
 class ZoneService {
 
-    get baseURL(){
-        let baseURL = `${location.protocol}//${location.hostname}:${location.port}`;
-        return baseURL + "/api/interest-zones/";
-    }
+    private readonly URL = '/api/interest-zones/';
 
     async findById (id: string): Promise<InterestZone> {      
-        const response = await axios.get(this.baseURL + id);
+        const response = await axios.get(this.URL + id);
         return response.data;
     } 
 
     async findAll():Promise<InterestZone[]>{
-        const response = await axios.get(this.baseURL);
+        const response = await axios.get(this.URL);
         return response.data;
     } 
 }
