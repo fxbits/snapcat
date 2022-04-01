@@ -46,7 +46,7 @@ function Map() {
     })   
   },[map])
 
-  const addZone = (e:google.maps.MapMouseEvent) =>{
+  const addZone = useCallback((e:google.maps.MapMouseEvent) =>{
     const geocoder = new google.maps.Geocoder();
     const location = {
       lat: e.latLng!.lat(),
@@ -71,13 +71,7 @@ function Map() {
         }  
     });
     setAddModalVisible(true);
-  }
-
-  const findZoneByCoordinates = (coordinates: any): InterestZone | undefined => {
-    return interestZones.find((zone: InterestZone) => {
-      return zone.address.lat === coordinates.lat && zone.address.lng === coordinates.lng;
-    });
-  }
+  }, [map]);
 
   const closeEditModal = useCallback(() => {
     setEditModalVisible(false);
@@ -87,15 +81,17 @@ function Map() {
     setEditModalVisible(true);
   }, [editModalVisible]);
 
-  const displayZoneMarker = (e: google.maps.MapMouseEvent): void => {
+  const displayZoneMarker = useCallback((e: google.maps.MapMouseEvent): void => {
       const lat = e.latLng!.lat();
       const lng = e.latLng!.lng();
 
-      const interestZone = findZoneByCoordinates({lat: lat, lng: lng});
+      const interestZone = interestZones.find((zone: InterestZone) => {
+        return zone.address.lat === lat && zone.address.lng === lng;
+      });;
 
       setZoneView(interestZone!);
       setEditModalVisible(true);
-  }
+  }, [interestZones]);
 
   const displayAddModal = useCallback(() => {
     setAddModalVisible(true);

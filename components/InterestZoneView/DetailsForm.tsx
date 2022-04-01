@@ -44,7 +44,6 @@ const DetailsForm = (props: Props) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStatus(event.target.value);
     };
-    console.log(props.zone);
 
     return(
         <form className={styles.form}>
