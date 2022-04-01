@@ -11,9 +11,7 @@ const zoneSchema = new Schema (
             required: true
         },
         noUnsterilizedCats : {
-            type: Number,
-            default: 0,
-            required: true
+            type: Number
         },
         status: {
             type: String,
@@ -22,10 +20,12 @@ const zoneSchema = new Schema (
             required: true
         },
         contactPerson: {
-            type: Object,
-            required: true
+            type: Object
         },
-        volunteerName: String, 
+        volunteerName: {
+            type: String,
+            default: ''
+        }, 
         observations: {
             type: String,
             default: ''

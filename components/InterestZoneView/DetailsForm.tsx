@@ -8,12 +8,10 @@ import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import InputMask from 'react-input-mask'; 
 
-
-
 interface Props{
     isEditable: boolean,
-    zone?: InterestZone,
-    onChange: () => void
+    zone?: Partial<InterestZone>,
+    onChange: () => void,
 }
 
 const options = [
@@ -46,6 +44,7 @@ const DetailsForm = (props: Props) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStatus(event.target.value);
     };
+    console.log(props.zone);
 
     return(
         <form className={styles.form}>
@@ -54,12 +53,9 @@ const DetailsForm = (props: Props) => {
                 error = {!!addressError}
                 helperText = {addressError} 
                 id = "interest-zone-address-input" 
-                defaultValue = {props.zone?.address.name} 
+                defaultValue = {props.zone?.address?.name!} 
                 label = 'Adresa'
                 onChange={e => addressValidation(e, setAddressError)} 
-                InputProps = {{
-                    readOnly: !props.isEditable,
-                }}
             />
                 
             <TextField
@@ -82,18 +78,18 @@ const DetailsForm = (props: Props) => {
 
 
             <TextField  
-                defaultValue = {props.zone?.address.lat} 
+                value = {props.zone?.address?.lat!} 
                 label = 'Latitudine'  
                 InputProps = {{
-                    disabled: true,
+                    readOnly: true
                 }}
             />
 
             <TextField  
-                defaultValue = {props.zone?.address.lng} 
+                value = {props.zone?.address?.lng!} 
                 label = 'Longitudine'  
                 InputProps = {{
-                    disabled: true,
+                    readOnly: true
                 }}
             />
 
@@ -101,7 +97,7 @@ const DetailsForm = (props: Props) => {
                 error = {nonSterilizedCatsError !== ""}
                 helperText = {nonSterilizedCatsError}   
                 id = "interest-zone-unsterilized-input"
-                defaultValue = {props.zone?.unsterilizedCats.length} 
+                defaultValue = {props.zone?.unsterilizedCats?.length} 
                 label = 'Numar pisici nesterilizate'
                 type = 'number'
                 onChange={e => nonSterilizedCatsValidation(e, setNonSterilizedCatsError)} 
@@ -114,7 +110,7 @@ const DetailsForm = (props: Props) => {
                 error = {sterilizedCatsError !== ""}
                 helperText = {sterilizedCatsError}   
                 id="interest-zone-sterilized-input"
-                defaultValue={props.zone?.sterilizedCats.length} 
+                defaultValue={props.zone?.sterilizedCats?.length} 
                 label='Numar pisici sterilizate'
                 type = 'number'
                 onChange={e => sterilizedCatsValidation(e, setSterilizedCatsError)}   
@@ -151,6 +147,15 @@ const DetailsForm = (props: Props) => {
                     readOnly: !props.isEditable,
                 }}
             />
+
+            <TextField  
+                id = "interest-zone-volunteerName-input" 
+                defaultValue = {props.zone?.volunteerName} 
+                label = 'Voluntarul responsabil'  
+                InputProps = {{
+                    readOnly: !props.isEditable,
+                }}
+            />  
         </form>
     );
 }
