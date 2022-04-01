@@ -16,22 +16,22 @@ class ZoneService {
         return response.data;
     } 
 
-    async addZone(zone: InterestZone): Promise<InterestZone> {
+    async addZone(zone: any): Promise<InterestZone> {
         const response = await axios.post(this.URL, 
             {
                 "address": {
-                    "name": zone.address.name,
-                    "lat": zone.address.lat,
-                    "lng": zone.address.lng
+                    "name": zone?.address,
+                    "lat": 4325, /// zone.lat
+                    "lng": 5432 /// zone.lng
                 },
-                "noUnsterilizedCats": zone.noUnsterilizedCats,
+                "noUnsterilizedCats": zone.unsterilizedCats,
                 "status": zone.status,
                 "contactPerson": {
-                    "phone": zone.contactPerson?.phone,
-                    "name": zone.contactPerson?.name
+                    "phone": zone.phoneNumber.replace(/ /g,''),
+                    "name": zone.contactName
                 },
                 "volunteerName": zone.volunteerName,
-                "observations": zone.observations,
+                "observations": "",
                 "unsterilizedCats": [],
                 "sterilizedCats": []
             }

@@ -1,11 +1,11 @@
 import DetailsForm from '../InterestZoneView/DetailsForm';
 import styles from '../InterestZoneView/InterestZoneView.module.css';
+import { zoneServiceUi } from '../../ui/ZoneServices';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
-import { InterestZone } from '../../models/zone.model';
 
 interface Props{
     onClose: () => void,
@@ -15,10 +15,11 @@ interface Props{
 const InterestZoneAdd = (props: Props) => {
 
     const [newZone, setNewZone] = useState<any>();
-    const [zone, setZone] = useState<InterestZone>();
+    // const [zone, setZone] = useState<InterestZone>();
 
     const handleSave = () => {
         console.log(newZone);
+        zoneServiceUi.addZone(newZone);
     };
 
     const handleClose = useCallback(() => {
