@@ -5,11 +5,12 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
+import { InterestZone } from '../../models/zone.model';
 
 interface Props{
     onClose: () => void,
     isVisible: boolean,
-    /// must have long and lat
+    zone: Partial<InterestZone>
 }   
 
 const InterestZoneAdd = (props: Props) => {
@@ -32,7 +33,7 @@ const InterestZoneAdd = (props: Props) => {
         >
             <div className={styles.container}>
                 <Box className={styles.box}>
-                    <DetailsForm onChange={handleZoneInputChange} isEditable={true}/>
+                    <DetailsForm onChange={handleZoneInputChange} isEditable={true} zone={props.zone}/>
                     <div className={styles.buttonsContainer}>
                         <Button variant="contained" color="success" className={styles.button} onClick={handleSave} style={{margin: "10px"}}>Save</Button>
                         <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>

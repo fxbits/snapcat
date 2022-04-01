@@ -4,7 +4,7 @@ import mongoose, {Schema} from 'mongoose';
 
 export const unsterilizedCatSchema = new Schema(
     {
-        sex: {
+        gender: {
             type: String,
             enum: Gender,
             default: Gender.UNKNOWN
