@@ -10,7 +10,7 @@ import { connect } from 'mongoose';
 
 class ZoneService {
     constructor() {
-        connect(process.env.DATABASE_CONN_STRING!).then().catch();
+        connect(process.env.MONGODB_URI!).then().catch();
     }
     
     async findById (id: string | string[]): Promise<InterestZone> {
