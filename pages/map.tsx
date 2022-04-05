@@ -16,7 +16,6 @@ const center = {
   lng: 23.5763875,
 };
 
-
 const libraries:("places")[] = ["places"];
 function Map() {
   const { isLoaded } = useJsApiLoader({

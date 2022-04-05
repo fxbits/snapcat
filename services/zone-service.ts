@@ -13,7 +13,7 @@ class ZoneService {
         connect(process.env.MONGODB_URI!).then().catch();
     }
     
-    async findById (id: string | string[]): Promise<InterestZone> {
+    async findById (id: string | string[]): Promise<any> {
         const interestZone = await zoneSchema.findById(id).exec();
         
         if (!interestZone) {
@@ -87,6 +87,37 @@ class ZoneService {
         return await newZoneSchema.save();        
     }
 
+    async addCatToZone(zoneID: string | string[], cat: any) {
+        try{
+            const interestZone = await this.findById(zoneID);
+            const sterilizedStatus: boolean = await this.validateCat(cat);
+    
+            if (sterilizedStatus) {
+                const catSchema = new sterilizedCatSchema(cat);
+                interestZone.sterilizedCats.push(catSchema);
+            } else {
+                const catSchema = new unsterilizedCatSchema(cat);
+                interestZone.unsterilizedCats.push(catSchema);
+            }
+
+            return await interestZone.save(); 
+        } catch(error: any) {
+            throw error;
+        }
+    }
+
+    private async validateCat(cat: any): Promise<boolean> {
+        if (cat?.sterilizedStatus !== false && cat?.sterilizedStatus !== true) throw new ZoneValidationError(400, ZoneError.CAT_TYPE);
+
+        if (cat.sterilizedStatus) {
+            await this.validateSterilizedCat(cat);
+        } else {
+            await this.validateUnsterilizedCat(cat);
+        }
+
+        return cat.sterilizedStatus;
+    }
+
     private async validateZone(body: InterestZone): Promise<void> {
         if (!body) throw new ZoneValidationError(400, ZoneError.ZONE);
         if (!(body?.address?.lat > 0 && body?.address?.lng > 0)) throw new ZoneValidationError(400, ZoneError.COORDINATES);
@@ -119,7 +150,7 @@ class ZoneService {
     }
 }
 
-export class ZoneValidationError{
+export class ZoneValidationError {
     private status: number;
     private errCode: ZoneError;
     
@@ -138,6 +169,7 @@ export class ZoneValidationError{
     }
 }
 
+
 export enum ZoneError {
     ZONE = 'MISSING.ZONE',
     COORDINATES = 'MISSING.COORDINATES',
@@ -151,7 +183,8 @@ export enum ZoneError {
     REALEASE_DATE = 'INCORRECT.RELEASEDATE',
     GENDER = 'INCORRECT.GENDER',
     CAT_VOLUNTEER = 'MISSING.VOLUNTEER',
-    OBSERVATIONS = 'MISSING.OBSERVATIONS'
+    OBSERVATIONS = 'MISSING.OBSERVATIONS',
+    CAT_TYPE = 'INCORRECT.CAT_TYPE'
 }
 
 export const zoneService = new ZoneService();
