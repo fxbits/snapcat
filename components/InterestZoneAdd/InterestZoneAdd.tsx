@@ -19,7 +19,6 @@ const InterestZoneAdd = (props: Props) => {
     const [newZone, setNewZone] = useState<any>();
 
     const handleSave = () => {
-        console.log(newZone);
         zoneServiceUi.addZone(newZone);
     };
 
