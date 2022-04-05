@@ -1,4 +1,4 @@
-import { zoneService } from '../../../services/zone-service';
+import { zoneService, ZoneValidationError } from '../../../services/zone-service';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
@@ -13,6 +13,18 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
                 res.status(404).json({message: error.message});
             }
         break;
+        case 'POST':
+            try{
+                const newZone = await zoneService.addCatToZone(req.query.id, req.body);
+                res.json(newZone);
+            } catch (error: any) {
+                if (error instanceof ZoneValidationError) {
+                    res.status(error.getStatus()).json({message: error.getErrorCode()});
+                }
+                else {
+                    res.status(404).json({message: error.message});
+                }
+            }
     }
 });
 

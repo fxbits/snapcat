@@ -1,8 +1,5 @@
 import Welcome from '../components/Welcome/Welcome';
-import { InterestZone } from '../models/zone.model';
-import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
 import styles from '../styles/index.module.css';
-import Map from './map';
 
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
@@ -12,7 +9,6 @@ import Button from '@mui/material/Button';
 
 const MainApp = () => {
   const { user, error, isLoading } = useUser();
-  const [zone, setZone] = useState<InterestZone>();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
 
