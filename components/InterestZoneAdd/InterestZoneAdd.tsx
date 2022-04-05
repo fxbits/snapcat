@@ -17,7 +17,6 @@ interface Props{
 const InterestZoneAdd = (props: Props) => {
 
     const [newZone, setNewZone] = useState<any>();
-    // const [zone, setZone] = useState<InterestZone>();
 
     const handleSave = () => {
         console.log(newZone);
