@@ -10,7 +10,7 @@ import { connect } from 'mongoose';
 
 class ZoneService {
     constructor() {
-        connect(process.env.DATABASE_CONN_STRING!).then().catch();
+        connect(process.env.MONGODB_URI!).then().catch();
     }
     
     async findById (id: string | string[]): Promise<InterestZone> {
@@ -37,11 +37,11 @@ class ZoneService {
         let zone = await this.findByCoordinates(coordinates);
         const newCatSchema = new sterilizedCatSchema({
             gender: sheetEntry.gender === 'm' ? Gender.MALE : Gender.FEMALE,
-            mediaLinls: [sheetEntry.media],
-            observations: sheetEntry.observations,
+            mediaLinks: sheetEntry.media ? [sheetEntry.media] : [],
+            observations: `Importata din excel\n${sheetEntry.details}\n${sheetEntry.observations}`,
             hospitalizationDate: sheetEntry.inDate,
             releaseDate: sheetEntry.outDate,
-            volunteerID: sheetEntry.responsible
+            volunteerName: sheetEntry.responsible
         });
         
         if (!zone) {
@@ -52,7 +52,8 @@ class ZoneService {
                     lng: coordinates.lng,
                 },
                 contactPerson: {
-                    name: sheetEntry.responsible
+                    name: '',
+                    phone: ''
                 },
                 unsterilizedCats: [],
                 sterilizedCats: []

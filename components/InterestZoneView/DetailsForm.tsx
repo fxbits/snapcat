@@ -8,11 +8,10 @@ import TextField from '@mui/material/TextField';
 import { MenuItem } from '@mui/material';
 import InputMask from 'react-input-mask'; 
 
-
 interface Props{
     isEditable: boolean,
-    zone?: InterestZone,
-    onChange: (data: any) => void
+    zone?: Partial<InterestZone>,
+    onChange: (data: any) => void,
 }
 
 const options = [
@@ -63,7 +62,7 @@ const DetailsForm = (props: Props) => {
                 name = "address" 
                 error = {!!addressError}
                 helperText = {addressError} 
-                defaultValue = {props.zone?.address.name} 
+                defaultValue = {props.zone?.address?.name} 
                 label = 'Adresa'
                 onChange={e => {
                     addressValidation(e, setAddressError)
@@ -97,17 +96,17 @@ const DetailsForm = (props: Props) => {
 
             <TextField  
                 name = "lat"
-                defaultValue = {props.zone?.address.lat} 
+                defaultValue = {props.zone?.address?.lat} 
                 label = 'Latitudine'
                 onChange = {e => onInputChange(e)}  
                 InputProps = {{
-                    disabled: true,
+                    readOnly: true
                 }}
             />
 
             <TextField
                 name = "lng"  
-                defaultValue = {props.zone?.address.lng} 
+                defaultValue = {props.zone?.address?.lng} 
                 label = 'Longitudine'
                 onChange = {e => onInputChange(e)}  
                 InputProps = {{
@@ -119,7 +118,7 @@ const DetailsForm = (props: Props) => {
                 name = "unsterilizedCats"
                 error = {nonSterilizedCatsError !== ""}
                 helperText = {nonSterilizedCatsError}   
-                defaultValue = {props.zone?.unsterilizedCats.length} 
+                defaultValue = {props.zone?.unsterilizedCats?.length} 
                 label = 'Numar pisici nesterilizate'
                 type = 'number'
                 onChange={e => {
@@ -135,7 +134,7 @@ const DetailsForm = (props: Props) => {
                 name = "sterilizedCats"
                 error = {sterilizedCatsError !== ""}
                 helperText = {sterilizedCatsError}   
-                defaultValue={props.zone?.sterilizedCats.length} 
+                defaultValue={props.zone?.sterilizedCats?.length} 
                 label='Numar pisici sterilizate'
                 type = 'number'
                 onChange={e => {
@@ -180,6 +179,16 @@ const DetailsForm = (props: Props) => {
                     readOnly: !props.isEditable,
                 }}
             />
+
+            <TextField  
+                name = "volunteerName" 
+                defaultValue = {props.zone?.volunteerName} 
+                label = 'Voluntarul responsabil'  
+                onChange={e => onInputChange(e)}
+                InputProps = {{
+                    readOnly: !props.isEditable,
+                }}
+            />  
         </form>
     );
 }

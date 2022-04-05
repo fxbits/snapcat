@@ -1,7 +1,7 @@
 .form{
     display: grid;
     grid-template-columns: repeat(2, auto);
-    grid-gap: 0.5vh;
+    grid-gap: 1vh;
     width: 80vw;
     margin-top: 3.5vh;
     margin-bottom: 1.5vh; 
