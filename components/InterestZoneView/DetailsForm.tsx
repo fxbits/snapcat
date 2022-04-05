@@ -11,7 +11,7 @@ import InputMask from 'react-input-mask';
 interface Props{
     isEditable: boolean,
     zone?: Partial<InterestZone>,
-    onChange: () => void,
+    onChange: (data: any) => void,
 }
 
 const options = [
@@ -31,10 +31,20 @@ const options = [
 
 const DetailsForm = (props: Props) => {
     const onChange = () => {
-        props.onChange();
+        props.onChange(newZone);
     };
 
+    const onInputChange = (event: any) => {
+        const {value, name} = event.target;
+        setNewZone({
+            ...newZone,
+            [name]: value
+        });
+    }
+
     const [status, setStatus] = useState(props.zone?.status || "To Do");
+
+    const [newZone, setNewZone] = useState({});
 
     const [addressError, setAddressError] = useState('');
     const [nonSterilizedCatsError, setNonSterilizedCatsError] = useState('');
@@ -46,24 +56,32 @@ const DetailsForm = (props: Props) => {
     };
 
     return(
-        <form className={styles.form}>
+        <form className={styles.form} onChange={onChange}>
                  
             <TextField 
+                name = "address" 
                 error = {!!addressError}
                 helperText = {addressError} 
-                id = "interest-zone-address-input" 
-                defaultValue = {props.zone?.address?.name!} 
+                defaultValue = {props.zone?.address?.name} 
                 label = 'Adresa'
-                onChange={e => addressValidation(e, setAddressError)} 
+                onChange={e => {
+                    addressValidation(e, setAddressError)
+                    onInputChange(e)
+                }}
+                InputProps = {{
+                    readOnly: !props.isEditable,
+                }}
             />
                 
             <TextField
-                id = "interest-zone-status-input"
+                name = "status"
                 select
                 label = "Status"
-                value = {status}
-                onChange = {handleChange}
-                defaultValue = {props.zone?.status}
+                onChange = {e => {
+                    handleChange
+                    onInputChange(e)
+                }}
+                defaultValue = {status || props.zone?.status}
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
@@ -77,80 +95,96 @@ const DetailsForm = (props: Props) => {
 
 
             <TextField  
-                value = {props.zone?.address?.lat!} 
-                label = 'Latitudine'  
-                InputProps = {{
-                    readOnly: true
-                }}
-            />
-
-            <TextField  
-                value = {props.zone?.address?.lng!} 
-                label = 'Longitudine'  
+                name = "lat"
+                defaultValue = {props.zone?.address?.lat} 
+                label = 'Latitudine'
+                onChange = {e => onInputChange(e)}  
                 InputProps = {{
                     readOnly: true
                 }}
             />
 
             <TextField
+                name = "lng"  
+                defaultValue = {props.zone?.address?.lng} 
+                label = 'Longitudine'
+                onChange = {e => onInputChange(e)}  
+                InputProps = {{
+                    disabled: true,
+                }}
+            />
+
+            <TextField
+                name = "unsterilizedCats"
                 error = {nonSterilizedCatsError !== ""}
                 helperText = {nonSterilizedCatsError}   
-                id = "interest-zone-unsterilized-input"
                 defaultValue = {props.zone?.unsterilizedCats?.length} 
                 label = 'Numar pisici nesterilizate'
                 type = 'number'
-                onChange={e => nonSterilizedCatsValidation(e, setNonSterilizedCatsError)} 
+                onChange={e => {
+                    nonSterilizedCatsValidation(e, setNonSterilizedCatsError)
+                    onInputChange(e)
+                }} 
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
             />
 
             <TextField
+                name = "sterilizedCats"
                 error = {sterilizedCatsError !== ""}
                 helperText = {sterilizedCatsError}   
-                id="interest-zone-sterilized-input"
                 defaultValue={props.zone?.sterilizedCats?.length} 
                 label='Numar pisici sterilizate'
                 type = 'number'
-                onChange={e => sterilizedCatsValidation(e, setSterilizedCatsError)}   
+                onChange={e => {
+                    sterilizedCatsValidation(e, setSterilizedCatsError)
+                    onInputChange(e)
+                }}   
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
             />
 
-            <TextField  
+            <TextField
+                name = "contactName" 
                 error = {nameError !== ""}
-                helperText = {nameError}   
-                id = "interest-zone-contact-name-input" 
+                helperText = {nameError}    
                 defaultValue = {props.zone?.contactPerson?.name} 
                 label = 'Persoana de contact'  
-                onChange={e => nameValidation(e, setNameError)} 
+                onChange={e => {
+                    nameValidation(e, setNameError)
+                    onInputChange(e)
+                }} 
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
             />
 
             <InputMask 
-                id = "interest-zone-contact-phone-input" 
+                name = "phoneNumber" 
                 mask="+4\0 999 999 999" 
                 defaultValue = {props.zone?.contactPerson?.phone} 
                 readOnly = {!props.isEditable} 
-                placeholder = 'Numar de telefon' 
+                placeholder = 'Numar de telefon'
+                onChange={e => onInputChange(e)} 
             />
 
             <TextField  
-                id = "interest-zone-observations-input" 
+                name = "observations" 
                 defaultValue = {props.zone?.observations} 
                 label = 'Observatii'  
+                onChange={e => onInputChange(e)}
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
             />
 
             <TextField  
-                id = "interest-zone-volunteerName-input" 
+                name = "volunteerName" 
                 defaultValue = {props.zone?.volunteerName} 
                 label = 'Voluntarul responsabil'  
+                onChange={e => onInputChange(e)}
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}

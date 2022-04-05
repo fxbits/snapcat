@@ -1,5 +1,6 @@
 import DetailsForm from '../InterestZoneView/DetailsForm';
 import styles from '../InterestZoneView/InterestZoneView.module.css';
+import { zoneServiceUi } from '../../ui/ZoneServices';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -15,16 +16,15 @@ interface Props{
 
 const InterestZoneAdd = (props: Props) => {
 
+    const [newZone, setNewZone] = useState<any>();
+
     const handleSave = () => {
+        zoneServiceUi.addZone(newZone);
     };
 
     const handleClose = useCallback(() => {
         props.onClose();
     }, []);
-
-    const handleZoneInputChange = () => {
-        
-    };
 
     return (
         <Modal
@@ -33,7 +33,7 @@ const InterestZoneAdd = (props: Props) => {
         >
             <div className={styles.container}>
                 <Box className={styles.box}>
-                    <DetailsForm onChange={handleZoneInputChange} isEditable={true} zone={props.zone}/>
+                    <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone}/>
                     <div className={styles.buttonsContainer}>
                         <Button variant="contained" color="success" className={styles.button} onClick={handleSave} style={{margin: "10px"}}>Save</Button>
                         <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
