@@ -5,11 +5,14 @@ import InterestZoneAdd from "../components/InterestZoneAdd/InterestZoneAdd";
 import { getColorMarkerByStatus } from "../utils/iconcolors.utils";
 import {mapContainer} from '../styles/map.module';
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { positions } from "@mui/system";
 import { useUser } from '@auth0/nextjs-auth0';
+import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
+import { MenuUnstyledContext } from '@mui/base';
+import { InterestZoneProviderContext } from '../components/Providers/ProviderZone';
 
 const center = {
   lat: 46.7677528,
@@ -28,7 +31,6 @@ function Map() {
   const [username, setUsername] = useState<string>("");
   const [map, setMap] = useState<GoogleMap>();
   const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
-  const [zoneView, setZoneView] = useState<InterestZone>();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [partialZone, setPartialZone] = useState<Partial<InterestZone>>({});
@@ -38,46 +40,54 @@ function Map() {
     setMap(map);
     setUsername(user?.name!);
   },[]);
- 
+  
+  const { interestZone, setInterestZone } = useContext(InterestZoneProviderContext)
+
   useEffect(()=>{
     zoneServiceUi.findAll().then((zones)=>{
       setInterestZones(zones);
     })   
   },[map])
 
+  useEffect(()=>{
+    if (interestZone)
+      setEditModalVisible(true);
+  },[interestZone])
+
   const addZone = useCallback((e:google.maps.MapMouseEvent) =>{
-    const geocoder = new google.maps.Geocoder();
-    const location = {
-      lat: e.latLng!.lat(),
-      lng: e.latLng!.lng(),
-    };
+      const geocoder = new google.maps.Geocoder();
+      const location = {
+        lat: e.latLng!.lat(),
+        lng: e.latLng!.lng(),
+      };
     
-    geocoder.geocode({ location }, (results, status) => {
-        if (status === "OK" && results) {
-          new google.maps.Marker({
-            position: new google.maps.LatLng(location),
-            map: map as any,
-          });
-          
-          setPartialZone({
-            address: {
-              name: results[0].formatted_address,
-              lat: location.lat,
-              lng: location.lng
-            },
-            volunteerName: username
-          });
-        }  
-    });
-    setAddModalVisible(true);
+      geocoder.geocode({ location }, (results, status) => {
+          if (status === "OK" && results) {
+            new google.maps.Marker({
+              position: new google.maps.LatLng(location),
+              map: map as any,
+            });
+            
+            setPartialZone({
+              address: {
+                name: results[0].formatted_address,
+                lat: location.lat,
+                lng: location.lng
+              },
+              volunteerName: username
+            });
+          }  
+      });
+      setAddModalVisible(true);
   }, [map]);
 
   const closeEditModal = useCallback(() => {
-    setEditModalVisible(false);
+      setEditModalVisible(false);
+      setInterestZone('disabled');
   }, [editModalVisible]);
 
   const openEditModal = useCallback(() => {
-    setEditModalVisible(true);
+      setEditModalVisible(true);
   }, [editModalVisible]);
 
   const displayZoneMarker = useCallback((e: google.maps.MapMouseEvent): void => {
@@ -87,49 +97,45 @@ function Map() {
       const interestZone = interestZones.find((zone: InterestZone) => {
         return zone.address.lat === lat && zone.address.lng === lng;
       });;
-
-      setZoneView(interestZone!);
-      setEditModalVisible(true);
+      setInterestZone(interestZone!);
   }, [interestZones]);
 
   const displayAddModal = useCallback(() => {
-    setAddModalVisible(true);
+      setAddModalVisible(true);
   }, [addModalVisible]);
 
   const closeAddModal = useCallback(() => {
-    setAddModalVisible(false);
+      setAddModalVisible(false);
   }, [addModalVisible]);
 
   if (!isLoaded) {
-    return <></>;
+      return <></>;
   }
   
   return  (
-    <div className="map-container">
-      <InteresZoneView onClose={closeEditModal} isVisible={editModalVisible} zone={zoneView!}/>
-      <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible} zone={partialZone}/>
-      <GoogleMap
-        mapContainerStyle={mapContainer}
-        center={new google.maps.LatLng(center.lat, center.lng)}
-        zoom={11}
-        onLoad={onLoad}
-        onRightClick={addZone}
-      >        
-        {
-          interestZones.map(zone => {
-            const position ={
-              lat: zone.address.lat,
-              lng: zone.address.lng,
-            };
-            return <Marker position={position} title={zone.status} key={zone._id} icon={getColorMarkerByStatus(zone.status)} onClick={displayZoneMarker}></Marker>
-          })
-        }   
-        <></>
-      </GoogleMap>
-    </div>
-  )
+      <div className="map-container">
+          {interestZone !== 'disabled'  && <InteresZoneView onClose={closeEditModal} isVisible={editModalVisible} zone={interestZone}/>}
+          <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible} zone={partialZone}/>
+          <GoogleMap
+            mapContainerStyle={mapContainer}
+            center={new google.maps.LatLng(center.lat, center.lng)}
+            zoom={11}
+            onLoad={onLoad}
+            onRightClick={addZone}
+          >        
+            {
+              interestZones.map(zone => {
+                const position ={
+                  lat: zone.address.lat,
+                  lng: zone.address.lng,
+                };
+                return <Marker position={position} title={zone.status} key={zone._id} icon={getColorMarkerByStatus(zone.status)} onClick={displayZoneMarker}></Marker>
+              })
+            }   
+          </GoogleMap>
+          <InterestZonesOverview interestZones={interestZones}/>
+      </div>
+  );
 }
 
 export default withPageAuthRequired(Map);
-
-

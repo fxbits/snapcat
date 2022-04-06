@@ -1,0 +1,239 @@
+.container {
+    position:relative;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    width: 96%;
+    height: 160px;
+    background: #FFFFFF;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2;
+    /* sc-grey */
+
+    border: 1px solid #DBDBDB;
+    box-sizing: border-box;
+    border-radius: 7px;
+
+    font-family: Circular Std Book;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 22px;
+}
+
+.locationIcon {
+    width: 16px;
+    height: 21.28px;
+    position: absolute;
+    left: 13px;
+    top: 15px;
+}
+
+.addressContainer {
+    position: absolute;
+    left: 10.46%;
+    right: 28.71%;
+    top: 5.62%;
+    bottom: 78.75%;
+
+    /* mobile-h5-b */
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    /* or 140% */
+
+    color: #000000;
+}
+
+.statusContainer {
+    position: absolute;
+    left: 74.94%;
+    right: 3.16%;
+    top: 5.62%;
+    bottom: 78.75%;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+}
+
+.statusTextContainer {
+    height: 20px;
+    width: 100%;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    color: #000000;
+}
+
+.coordinatesContainer {
+    position: absolute;
+    width: 95px;
+    height: 20px;
+    left: 43px;
+    top: 39px;
+
+    /* mobile-p2-l */
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    /* identical to box height, or 167% */
+
+
+    /* sc-grey-dark */
+
+    color: #B3B3B3;
+}
+
+.volunteerNameContainer {
+    position: absolute;
+    left: 3.65%;
+    right: 63.26%;
+    top: 80.5%;
+    bottom: 5%;
+
+    /* mobile-p1-b */
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    /* or 157% */
+
+
+    /* sc-grey-dark */
+
+    color: #000000;
+}
+
+.volunteerContainer {
+    position: absolute;
+    left: 3.65%;
+    right: 63.26%;
+    top: 67.5%;
+    bottom: 5%;
+
+    /* mobile-p1-b */
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    /* or 157% */
+
+    /* sc-grey-dark */
+
+    color: #B3B3B3;
+}
+
+.noSterilizedCats {
+    position: absolute;
+    left: 14.07%;
+    right: 81.07%;
+    top: 41.25%;
+    bottom: 41.25%;
+
+    /* mobile-h5-b */
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    /* identical to box height, or 140% */
+
+
+    color: #000000;
+}
+
+.sterilizedCatIconContainer {
+    position: absolute;
+    left: 4.14%;
+    right: 88.37%;
+    top: 41.25%;
+    bottom: 40.62%;
+    align-items: center;
+}
+
+.checkedIconContainer {
+    position: absolute;
+    width: 15.62px;
+    height: 15.62px;
+    top: calc((29px - 15.62px) / 2);
+    left: calc((30.81px - 15.62px) / 2);
+}
+
+.unsterilizedCatIconContainer {
+    position: absolute;
+    left: 25.3%;
+    right: 67.19%;
+    top: 41.25%;
+    bottom: 40.62%;
+}
+
+.noUnsterilizedCats {
+    position: absolute;
+    left: 35.24%;
+    right: 60.14%;
+    top: 41.25%;
+    bottom: 41.25%;
+    /* mobile-h5-b */
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    /* identical to box height, or 140% */
+
+    color: #000000;
+}
+
+.unsterilizedCatEstimateIconContainer {
+    position: absolute;
+    left: 75.23%;
+    right: 6.54%;
+    top: 35.85%;
+    bottom: 56.26%;
+}
+
+.questionMarkContainer {
+    position: absolute;
+    top: calc((78px - 44px) / 2);
+    left: calc((73px - 19px) / 2);
+    width: 19px;
+    height: 44px;
+    font-size: 36px;
+    line-height: 44px;
+    /* identical to box height, or 122% */
+
+    /* sc-grey-dark */
+    color: #B3B3B3;
+}
+
+.noUnsterilizedCatsEstimate {
+    position: absolute;
+    width: 94px;
+    height: 22px;
+    left: 73%;
+    top: 80.5%;
+
+    /* mobile-p1-b */
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    /* identical to box height, or 157% */
+
+    /* sc-grey-dark */
+
+    color: #B3B3B3;
+}
+
+.assignVolunteerButton {
+    position: absolute;
+    left: 3.41%;
+    top: 66.88%;
+    width: 130px;
+    height: 40px;
+    background-color: #FFFFFF;
+    color: #000000;
+
+    font-family: Circular Std Book;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+
+    border: 2px solid #000000;
+}
