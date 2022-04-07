@@ -1,6 +1,5 @@
 import { InterestZone, Status } from '../../models/zone.model';
 import { InterestZoneProviderContext } from '../Providers/ProviderZone';
-import styles from './InterestZoneElement.module.css';
 
 import { Box, Button, Container, Group, Stack, Text } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
@@ -10,10 +9,10 @@ interface Props {
     interestZone: InterestZone;
 }
 
-const InterestZoneElement = ({interestZone}: Props) => {
+const InterestZoneElement = ({ interestZone }: Props) => {
     const {setInterestZone} = useContext(InterestZoneProviderContext);
     const {_id, address, noUnsterilizedCats, observations, status, sterilizedCats, unsterilizedCats, volunteerName, contactPerson} = interestZone;
-    const [statusColor, setStatusColor] = useState<string>('');
+    const [statusColor, setStatusColor] = useState<string>('#EF8F8F');
 
     useEffect(() => {
         if (status === Status.DONE) setStatusColor('#B0EF8F');
@@ -24,11 +23,11 @@ const InterestZoneElement = ({interestZone}: Props) => {
     return (
         <Container m="xs" p="xs" sx={{border: "2px solid #DBDBDB", borderRadius: '7px'}} onClick={() => {setInterestZone(interestZone);}}>
            <Group position='apart' align='flex-start'>
-                <Box>
-                    <Group>
-                        <Image src='/icon/location-icon.png' width={20} height={25}></Image>
-                        <Stack spacing={0}>
-                            <Text>
+                <Box sx={{width: '55%'}}>
+                    <Group sx={{width: '100%'}}>
+                        <Image src='/icon/location-icon.png' width={16} height={23}></Image>
+                        <Stack spacing={0} sx={{width: '80%'}}>
+                            <Text weight={400} sx={{maxWidth: '100%'}}>
                                 {address.name}
                             </Text>
                             <Text color="gray" size='xs'>
@@ -38,30 +37,35 @@ const InterestZoneElement = ({interestZone}: Props) => {
                     </Group>
                     <Group mt='xs'>
                         <Group spacing='xs'>
-                            <Image src='/icon/sterilized-cat-icon.png ' width={20} height={20}></Image>
-                            <Text>
+                            <Image src='/icon/sterilized-cat-icon.png ' width={25} height={25}></Image>
+                            <Text weight={400}>
                                 {sterilizedCats.length}
                             </Text>
                         </Group>
                         <Group spacing='xs'>
-                            <Image src='/icon/unsterilized-icon.png ' width={20} height={20}></Image>
-                            <Text>
+                            <Image src='/icon/unsterilized-icon.png ' width={25} height={25}></Image>
+                            <Text weight={400}>
                                 {unsterilizedCats.length}
                             </Text>
                         </Group>
                     </Group>
-                    <Text mt='xs' color='gray'>
-                       Volunteer 
-                    </Text>
-                    <Text>
-                        Alexandru 
-                    </Text>
+                    {volunteerName && (
+                        <Text mt='md' color='gray'> Volunteer </Text>
+                    )}
+                    {volunteerName && (
+                        <Text> {volunteerName} </Text>
+                    )}
+                    {!volunteerName && (
+                        <Button mt='md' color='dark' variant='outline' sx={{width: '130px', fontSize: '13px', borderRadius: '10px', border: '2px solid black'}}> ASSIGN TO ME </Button>
+                    )}
                 </Box>
-                <Stack spacing={0}>
+                <Stack spacing={0} sx={{width: '35%', textAlign: 'center'}}>
                     <Text weight={500} mb='xs' sx={{background: statusColor, textAlign: 'center', borderRadius: '7px'}}>
                         {status}
                     </Text>
-                    <Image src='/icon/unsterilized-cat-icon-big.png' width={80} height={90}></Image>
+                    <Box>
+                        <Image src='/icon/unsterilized-cat-icon-big.png' width='73px' height='70px'></Image>
+                    </Box>
                     <Text color='gray'>
                         around {noUnsterilizedCats??0} cats
                     </Text>
