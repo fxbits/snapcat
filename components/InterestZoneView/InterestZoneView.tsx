@@ -69,9 +69,7 @@ const InterestZoneView = (props: Props) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                        <SterilizedCatsList onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
-                    </Typography>
+                    <SterilizedCatsList onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
                 </AccordionDetails>
             </Accordion>
         </ListItem>    
@@ -86,9 +84,7 @@ const InterestZoneView = (props: Props) => {
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Typography>
-                    <UnsterilizedCatsList onChange={handleUnsterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
-                </Typography>
+                <UnsterilizedCatsList onChange={handleUnsterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
             </AccordionDetails>
         </Accordion>
     </ListItem>    

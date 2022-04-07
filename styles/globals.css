@@ -23,3 +23,19 @@ a {
   align-content: center;
   justify-content: center;
 }
+
+@font-face {
+  font-family: "Circular Std Medium";
+  src: url("/fonts/CircularStd/circular-std-medium-500.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Circular Std Book";
+  src: url("/fonts/CircularStd/CircularStd-Book.woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

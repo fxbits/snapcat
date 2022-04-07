@@ -77,11 +77,8 @@ const DetailsForm = (props: Props) => {
                 name = "status"
                 select
                 label = "Status"
-                onChange = {e => {
-                    handleChange
-                    onInputChange(e)
-                }}
-                defaultValue = {status || props.zone?.status}
+                value = {status}
+                onChange = {handleChange}
                 InputProps = {{
                     readOnly: !props.isEditable,
                 }}
@@ -92,6 +89,7 @@ const DetailsForm = (props: Props) => {
                     </MenuItem>
                 ))}
             </TextField>
+            
 
 
             <TextField  
