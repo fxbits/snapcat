@@ -4,15 +4,14 @@ import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
 import InterestZoneAdd from "../components/InterestZoneAdd/InterestZoneAdd";
 import { getColorMarkerByStatus } from "../utils/iconcolors.utils";
 import {mapContainer} from '../styles/map.module';
+import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
+import { InterestZoneProviderContext } from '../components/Providers/ProviderZone';
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { positions } from "@mui/system";
 import { useUser } from '@auth0/nextjs-auth0';
-import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
-import { MenuUnstyledContext } from '@mui/base';
-import { InterestZoneProviderContext } from '../components/Providers/ProviderZone';
 
 const center = {
   lat: 46.7677528,
@@ -31,7 +30,6 @@ function Map() {
   const [username, setUsername] = useState<string>("");
   const [map, setMap] = useState<GoogleMap>();
   const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
-  const [editModalVisible, setEditModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [partialZone, setPartialZone] = useState<Partial<InterestZone>>({});
 
@@ -39,20 +37,15 @@ function Map() {
     map.panTo(new google.maps.LatLng( 46.7554537,23.5671444))
     setMap(map);
     setUsername(user?.name!);
-  },[]);
+  }, []);
   
-  const { interestZone, setInterestZone } = useContext(InterestZoneProviderContext)
+  const { interestZone, setInterestZone } = useContext(InterestZoneProviderContext);
 
   useEffect(()=>{
     zoneServiceUi.findAll().then((zones)=>{
       setInterestZones(zones);
     })   
-  },[map])
-
-  useEffect(()=>{
-    if (interestZone)
-      setEditModalVisible(true);
-  },[interestZone])
+  },[map]);
 
   const addZone = useCallback((e:google.maps.MapMouseEvent) =>{
       const geocoder = new google.maps.Geocoder();
@@ -81,15 +74,6 @@ function Map() {
       setAddModalVisible(true);
   }, [map]);
 
-  const closeEditModal = useCallback(() => {
-      setEditModalVisible(false);
-      setInterestZone('disabled');
-  }, [editModalVisible]);
-
-  const openEditModal = useCallback(() => {
-      setEditModalVisible(true);
-  }, [editModalVisible]);
-
   const displayZoneMarker = useCallback((e: google.maps.MapMouseEvent): void => {
       const lat = e.latLng!.lat();
       const lng = e.latLng!.lng();
@@ -99,6 +83,10 @@ function Map() {
       });;
       setInterestZone(interestZone!);
   }, [interestZones]);
+
+  const closeEditModal = useCallback(() => {
+    setInterestZone(undefined);
+  }, []);
 
   const displayAddModal = useCallback(() => {
       setAddModalVisible(true);
@@ -112,9 +100,11 @@ function Map() {
       return <></>;
   }
   
+  const editModalVisible = (interestZone != undefined);
+
   return  (
       <div className="map-container">
-          {interestZone !== 'disabled'  && <InteresZoneView onClose={closeEditModal} isVisible={editModalVisible} zone={interestZone}/>}
+          {interestZone !== undefined  && <InteresZoneView onClose={closeEditModal} isVisible={editModalVisible} zone={interestZone}/>}
           <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible} zone={partialZone}/>
           <GoogleMap
             mapContainerStyle={mapContainer}
@@ -129,7 +119,7 @@ function Map() {
                   lat: zone.address.lat,
                   lng: zone.address.lng,
                 };
-                return <Marker position={position} title={zone.status} key={zone._id} icon={getColorMarkerByStatus(zone.status)} onClick={displayZoneMarker}></Marker>
+                return (<Marker position={position} title={zone.status} key={zone._id} icon={getColorMarkerByStatus(zone.status)} onClick={displayZoneMarker}></Marker>);
               })
             }   
           </GoogleMap>
