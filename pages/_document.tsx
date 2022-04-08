@@ -1,4 +1,3 @@
-
 import Document, { DocumentContext } from 'next/document';
 import { Html, Head, Main, NextScript } from 'next/document';
 
@@ -12,9 +11,9 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link
-            href="/fonts/CircularStd/CircularStd-Book.woff2"
-            rel="preload"
-            as="font"
+            href='/fonts/CircularStd/CircularStd-Book.woff2'
+            rel='preload'
+            as='font'
             crossOrigin=''
           />
         </Head>

@@ -40,7 +40,9 @@
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^6.2.2",
     "react-script-hook": "^1.6.0",
+    "react-swipeable": "^6.2.1",
     "swr": "^1.2.2",
+    "tabler-icons-react": "^1.44.0",
     "use-places-autocomplete": "^2.0.0"
   },
   "devDependencies": {
