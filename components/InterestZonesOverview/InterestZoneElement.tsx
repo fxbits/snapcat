@@ -4,6 +4,7 @@ import { InterestZoneProviderContext } from '../Providers/ProviderZone';
 import { Box, Button, Container, Group, Stack, Sx, Text } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { ModalContext } from '../Providers/ModalProvider';
 
 interface Props {
   interestZone: InterestZone;
@@ -24,6 +25,7 @@ const styles: Record<string, Sx> = {
 
 const InterestZoneElement = ({ interestZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
+  const { setModal } = useContext(ModalContext);
   const {
     _id,
     address,
@@ -49,6 +51,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
       sx={styles.container}
       onClick={() => {
         setInterestZone(interestZone);
+        setModal({ type: 'zone', state: 'view' });
       }}>
       <Group position='apart' align='flex-start'>
         <Box sx={{ width: '55%' }}>

@@ -15,8 +15,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import Drawer from '../components/Drawer/MobileDrawer';
 import MobileDrawer from '../components/Drawer/MobileDrawer';
 import DesktopDrawer from '../components/Drawer/DesktopDrawer';
-import { ActionIcon, Box, Header, MediaQuery, Menu } from '@mantine/core';
-import { Menu2 } from 'tabler-icons-react';
+import { ModalContext } from '../components/Providers/ModalProvider';
 
 const center = {
   lat: 46.7677528,
@@ -35,8 +34,6 @@ function Map() {
   const [username, setUsername] = useState<string>('');
   const [map, setMap] = useState<GoogleMap>();
   const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
-  const [addModalVisible, setAddModalVisible] = useState(false);
-  const [partialZone, setPartialZone] = useState<Partial<InterestZone>>({});
 
   const onLoad = useCallback((map: any) => {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
@@ -44,8 +41,10 @@ function Map() {
     setUsername(user?.name!);
   }, []);
 
-  const { interestZone, setInterestZone } = useContext(InterestZoneProviderContext);
+  const { setInterestZone, setPartialInterestZone } = useContext(InterestZoneProviderContext);
+  const { setModal } = useContext(ModalContext);
 
+  //make zone service as hooks
   useEffect(() => {
     zoneServiceUi.findAll().then((zones) => {
       setInterestZones(zones);
@@ -67,71 +66,50 @@ function Map() {
             map: map as any,
           });
 
-          setPartialZone({
+          const zone = {
             address: {
               name: results[0].formatted_address,
               lat: location.lat,
               lng: location.lng,
             },
             volunteerName: username,
-          });
+          };
+
+          setModal({ type: 'zone', state: 'add' });
+          setPartialInterestZone(zone);
         }
       });
-      setAddModalVisible(true);
     },
-    [map]
+    [map, setModal, setPartialInterestZone, username]
   );
 
   const displayZoneMarker = useCallback(
     (e: google.maps.MapMouseEvent): void => {
       const lat = e.latLng!.lat();
       const lng = e.latLng!.lng();
+      setModal({ type: 'zone', state: 'view' });
 
       const interestZone = interestZones.find((zone: InterestZone) => {
         return zone.address.lat === lat && zone.address.lng === lng;
       });
       setInterestZone(interestZone!);
     },
-    [interestZones]
+    [interestZones, setInterestZone, setModal]
   );
-
-  const closeEditModal = useCallback(() => {
-    setInterestZone(undefined);
-  }, []);
-
-  const displayAddModal = useCallback(() => {
-    setAddModalVisible(true);
-  }, [addModalVisible]);
-
-  const closeAddModal = useCallback(() => {
-    setAddModalVisible(false);
-  }, [addModalVisible]);
-
-  const [open, setOpen] = useState(false);
 
   if (!isLoaded) {
     return <></>;
   }
 
-  const editModalVisible = interestZone != undefined;
   return (
     <>
       <MobileDrawer zones={interestZones} />
       <DesktopDrawer zones={interestZones} />
-      {interestZone !== undefined && (
-        <InteresZoneView
-          onClose={closeEditModal}
-          isVisible={editModalVisible}
-          zone={interestZone}
-        />
-      )}
-      <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible} zone={partialZone} />
-
       <GoogleMap
         center={new google.maps.LatLng(center.lat, center.lng)}
         zoom={11}
         onLoad={onLoad}
-        mapContainerStyle={{ width: '100%', height: 'calc(100vh - 50px)' }}
+        mapContainerStyle={{ width: '100%', height: 'calc(100vh - 60px)' }}
         onRightClick={addZone}>
         {interestZones.map((zone) => {
           const position = {

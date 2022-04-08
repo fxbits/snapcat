@@ -6,16 +6,19 @@ import ProviderZone from '../components/Providers/ProviderZone';
 import { MantineProvider } from '@mantine/core';
 import Layout from '../components/Layout/Layout';
 import theme from '../styles/theme';
+import { ModalProvider } from '../components/Providers/ModalProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <ProviderZone>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </MantineProvider>
+        <ModalProvider>
+          <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MantineProvider>
+        </ModalProvider>
       </ProviderZone>
     </UserProvider>
   );
