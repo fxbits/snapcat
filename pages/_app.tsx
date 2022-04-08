@@ -6,18 +6,15 @@ import ProviderZone from '../components/Providers/ProviderZone';
 import { MantineProvider } from '@mantine/core';
 
 function MyApp({ Component, pageProps }: AppProps) {
-	
-  return  (
-	<UserProvider>
-		<ProviderZone>
-			<MantineProvider
-			withGlobalStyles
-			withNormalizeCSS>
-  				<Component {...pageProps} />
-			</MantineProvider>
-		</ProviderZone>
-	</UserProvider>
-	);
+  return (
+    <UserProvider>
+      <ProviderZone>
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          <Component {...pageProps} />
+        </MantineProvider>
+      </ProviderZone>
+    </UserProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
