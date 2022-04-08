@@ -15,7 +15,7 @@ export default function DesktopDrawer({ zones }: Drawer) {
           left: 0,
           top: 0,
           height: 'calc(100vh - 50px)',
-          width: '400px',
+          width: '500px',
           zIndex: '200',
         }}>
         <Stack mt='xs' spacing={0} sx={{ overflowY: 'scroll', height: '100%' }}>

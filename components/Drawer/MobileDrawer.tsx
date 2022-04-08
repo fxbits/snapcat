@@ -51,7 +51,7 @@ export default function MobileDrawer({ zones }: Drawer) {
               sx={(theme) => ({
                 width: '90px',
                 height: '5px',
-                backgroundColor: theme.primaryColor,
+                backgroundColor: theme.colors.yellow[6],
                 borderRadius: theme.radius.xl,
               })}
             />
@@ -70,8 +70,9 @@ export default function MobileDrawer({ zones }: Drawer) {
             <ActionIcon
               variant='light'
               size='xl'
+              radius='xl'
               m='xl'
-              color='orange'
+              color='yellow'
               sx={{ position: 'absolute', bottom: 0, right: 0 }}
               onClick={() => setIndex(0)}>
               <Compass size={100} />
