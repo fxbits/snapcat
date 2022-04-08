@@ -12,7 +12,11 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { positions } from '@mui/system';
 import { useUser } from '@auth0/nextjs-auth0';
-import Drawer from '../components/Drawer/Drawer';
+import Drawer from '../components/Drawer/MobileDrawer';
+import MobileDrawer from '../components/Drawer/MobileDrawer';
+import DesktopDrawer from '../components/Drawer/DesktopDrawer';
+import { ActionIcon, Box, Header, MediaQuery, Menu } from '@mantine/core';
+import { Menu2 } from 'tabler-icons-react';
 
 const center = {
   lat: 46.7677528,
@@ -103,14 +107,17 @@ function Map() {
     setAddModalVisible(false);
   }, [addModalVisible]);
 
+  const [open, setOpen] = useState(false);
+
   if (!isLoaded) {
     return <></>;
   }
 
   const editModalVisible = interestZone != undefined;
-
   return (
-    <div className='map-container'>
+    <>
+      <MobileDrawer zones={interestZones} />
+      <DesktopDrawer zones={interestZones} />
       {interestZone !== undefined && (
         <InteresZoneView
           onClose={closeEditModal}
@@ -119,11 +126,12 @@ function Map() {
         />
       )}
       <InterestZoneAdd onClose={closeAddModal} isVisible={addModalVisible} zone={partialZone} />
+
       <GoogleMap
-        mapContainerStyle={mapContainer}
         center={new google.maps.LatLng(center.lat, center.lng)}
         zoom={11}
         onLoad={onLoad}
+        mapContainerStyle={{ width: '100%', height: 'calc(100vh - 50px)' }}
         onRightClick={addZone}>
         {interestZones.map((zone) => {
           const position = {
@@ -140,9 +148,8 @@ function Map() {
           );
         })}
       </GoogleMap>
-      <InterestZonesOverview interestZones={interestZones} />
-      <Drawer />
-    </div>
+      {/* <InterestZonesOverview interestZones={interestZones} /> */}
+    </>
   );
 }
 
