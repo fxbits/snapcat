@@ -16,6 +16,7 @@ export default function ModalComponent() {
       opened={modal !== undefined}
       sx={(theme) => ({
         '& .mantine-Modal-modal': {
+          overflowY: "scroll",
           padding: 0,
           borderRadius: '15px',
           width: '100%',
