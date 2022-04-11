@@ -8,40 +8,43 @@ import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import { InterestZone } from '../../models/zone.model';
 
-interface Props{
-    onClose: () => void,
-    isVisible: boolean,
-    zone: Partial<InterestZone>
-}   
+interface Props {
+  onClose: () => void;
+  isVisible: boolean;
+  zone: Partial<InterestZone>;
+}
 
 const InterestZoneAdd = (props: Props) => {
+  const [newZone, setNewZone] = useState<any>();
 
-    const [newZone, setNewZone] = useState<any>();
+  const handleSave = () => {
+    zoneServiceUi.addZone(newZone);
+  };
 
-    const handleSave = () => {
-        zoneServiceUi.addZone(newZone);
-    };
+  const handleClose = useCallback(() => {
+    props.onClose();
+  }, []);
 
-    const handleClose = useCallback(() => {
-        props.onClose();
-    }, []);
-
-    return (
-        <Modal
-          open={props.isVisible}
-          onClose={handleClose}
-        >
-            <div className={styles.container}>
-                <Box className={styles.box}>
-                    <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone}/>
-                    <div className={styles.buttonsContainer}>
-                        <Button variant="contained" color="success" className={styles.button} onClick={handleSave} style={{margin: "10px"}}>Save</Button>
-                        <Button variant="outlined" color="error" className={styles.button} onClick={handleClose}>Cancel</Button>
-                    </div>
-                </Box>
-            </div>
-        </Modal>
-    );
-}
+  return (
+    <div className={styles.container}>
+      <Box className={styles.box}>
+        <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone} />
+        <div className={styles.buttonsContainer}>
+          <Button
+            variant='contained'
+            color='success'
+            className={styles.button}
+            onClick={handleSave}
+            style={{ margin: '10px' }}>
+            Save
+          </Button>
+          <Button variant='outlined' color='error' className={styles.button} onClick={handleClose}>
+            Cancel
+          </Button>
+        </div>
+      </Box>
+    </div>
+  );
+};
 
 export default InterestZoneAdd;

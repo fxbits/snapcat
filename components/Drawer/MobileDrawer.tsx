@@ -31,7 +31,7 @@ export default function MobileDrawer({ zones }: Drawer) {
 
   return (
     <MediaQuery largerThan='md' styles={{ display: 'none' }}>
-      <Portal zIndex={100}>
+      <Portal>
         <Paper
           sx={(theme) => ({
             width: '100%',
