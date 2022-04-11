@@ -30,6 +30,10 @@ const zoneSchema = new Schema (
             type: String,
             default: ''
         },
+        deleted: {
+            type: Boolean,
+            default: false
+        },
         unsterilizedCats: [unsterilizedCatSchema],
         sterilizedCats: [sterilizedCatSchema]
     },

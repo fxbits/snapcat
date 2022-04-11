@@ -12,7 +12,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
             } catch (error: any) {
                 res.status(404).json({message: error.message});
             }
-        break;
+            break;
         case 'POST':
             try{
                 const newZone = await zoneService.addCatToZone(req.query.id, req.body);
@@ -25,6 +25,15 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
                     res.status(404).json({message: error.message});
                 }
             }
+            break;
+        case 'DELETE':
+            try{
+                const deletedCount = await zoneService.deleteZone(req.query.id);
+                res.json({deleted: deletedCount});
+            } catch (error: any) {
+                res.status(404).json({message: error.message});
+            }
+            break;  
     }
 });
 

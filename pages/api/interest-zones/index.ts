@@ -12,7 +12,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
             } catch(error: any) {
                 res.status(500).json({message: error.message})
             }
-        break;
+            break;
         case 'POST':
             try{
                 const newInterestZone = await zoneService.addZone(req.body);
@@ -25,7 +25,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
                     res.status(500).json({message: error.message});
                 }
             }
-        break;
+            break;
     }
 });
 

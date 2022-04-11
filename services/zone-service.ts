@@ -24,7 +24,8 @@ class ZoneService {
     } 
     
     async findAll (): Promise<InterestZone[]> {
-        return await zoneSchema.find();
+        //TODO: change query from not equal to true to false
+        return await zoneSchema.find({deleted: {$ne: true}});
     }
 
     async findByCoordinates (coordinates: any): Promise<any> {
@@ -88,22 +89,32 @@ class ZoneService {
     }
 
     async addCatToZone(zoneID: string | string[], cat: any) {
-        try{
-            const interestZone = await this.findById(zoneID);
-            const sterilizedStatus: boolean = await this.validateCat(cat);
-    
-            if (sterilizedStatus) {
-                const catSchema = new sterilizedCatSchema(cat);
-                interestZone.sterilizedCats.push(catSchema);
-            } else {
-                const catSchema = new unsterilizedCatSchema(cat);
-                interestZone.unsterilizedCats.push(catSchema);
-            }
+        const interestZone = await this.findById(zoneID);
+        const sterilizedStatus: boolean = await this.validateCat(cat);
 
-            return await interestZone.save(); 
-        } catch(error: any) {
-            throw error;
+        if (sterilizedStatus) {
+            const catSchema = new sterilizedCatSchema(cat);
+            interestZone.sterilizedCats.push(catSchema);
+        } else {
+            const catSchema = new unsterilizedCatSchema(cat);
+            interestZone.unsterilizedCats.push(catSchema);
         }
+
+        return await interestZone.save(); 
+    }
+
+    async deleteZone(zoneID: string | string[]) {
+        let interestZone = await this.findById(zoneID);
+
+        // test if there are already sterilized cats assigned to the zone
+        // soft delete if any
+        if (interestZone.sterilizedCats.length > 0) {
+            interestZone.deleted = true;
+            await interestZone.save();
+            return 1;
+        }
+
+        return await zoneSchema.deleteOne({_id: zoneID});
     }
 
     private async validateCat(cat: any): Promise<boolean> {
