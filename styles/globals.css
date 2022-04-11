@@ -16,12 +16,8 @@ a {
   box-sizing: border-box;
 }
 
-.harta-google{
-  height: 100%;
-  width: 100%;
-  display:flex;
-  align-content: center;
-  justify-content: center;
+.search{
+  background-color: #FFDB3C;
 }
 
 @font-face {
