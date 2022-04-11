@@ -47,12 +47,9 @@ function Map() {
   const { interestZone, setInterestZone } = useContext(InterestZoneProviderContext);
 
   useEffect(() => {
-    async function findAll() {
-      await zoneServiceUi.findAll().then((zones) => {
-        setInterestZones(zones);
-      });
-    }
-    findAll();
+    zoneServiceUi.findAll().then((zones) => {
+      setInterestZones(zones);
+    });
   }, [map]);
 
   const addZone = useCallback(

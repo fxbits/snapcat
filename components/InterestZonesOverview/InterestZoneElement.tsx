@@ -22,12 +22,6 @@ const styles: Record<string, Sx> = {
   },
 };
 
-interface StatusColor {
-  [Status.DONE]: string;
-  [Status.INPROGRESS]: string;
-  [Status.TODO]: string;
-}
-
 const InterestZoneElement = ({ interestZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const {
@@ -42,7 +36,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
     contactPerson,
   } = interestZone;
 
-  const statusColor: StatusColor = {
+  const statusColor: Record<Status, string> = {
     [Status.DONE]: '#B0EF8F',
     [Status.INPROGRESS]: '#FFDB3C',
     [Status.TODO]: '#EF8F8F',
