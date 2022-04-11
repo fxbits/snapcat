@@ -3,6 +3,7 @@ import { createContext, ReactNode, useState } from 'react';
 export type Modal = {
   state: 'view' | 'edit' | 'add';
   type: 'cat' | 'zone';
+  back: Modal | undefined;
 };
 
 export interface ContextModal {
@@ -11,7 +12,7 @@ export interface ContextModal {
 }
 const defaultContext: ContextModal = {
   modal: undefined,
-  setModal: (modal: Modal | undefined) => undefined,
+  setModal: () => undefined,
 };
 
 export const ModalContext = createContext(defaultContext);

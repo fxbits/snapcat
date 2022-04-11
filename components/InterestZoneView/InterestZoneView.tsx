@@ -88,74 +88,62 @@ const InterestZoneView = (props: Props) => {
   ));
 
   return (
-    <Modal
-      open={props.isVisible}
-      onClose={handleClose}
-      aria-labelledby='modal-modal-details'
-      aria-describedby='modal-modal-zone-details'
-      hideBackdrop
-      sx={{ marginTop: '60px' }}>
-      <div className={styles.container}>
-        <Box className={styles.box}>
-          <DetailsForm onChange={handleZoneInputChange} zone={props.zone} isEditable={isEditable} />
-          <div className={styles.catsDisplayDiv}>
-            <Accordion
-              className={styles.catTypeContent}
-              expanded={expanded === 'panel1'}
-              onChange={handleChange('panel1')}>
-              <AccordionSummary>
-                <Typography>Pisici sterilizate</Typography>
-              </AccordionSummary>
-              <AccordionDetails className={styles.catListContent}>
-                <div className={styles.catsDiv}>
-                  <List className={styles.catsList}>{sterilizedCatsList}</List>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion
-              className={styles.catTypeContent}
-              expanded={expanded === 'panel2'}
-              onChange={handleChange('panel2')}>
-              <AccordionSummary>
-                <Typography>Pisici nesterilizate</Typography>
-              </AccordionSummary>
-              <AccordionDetails className={styles.catListContent}>
-                <div className={styles.catsDiv}>
-                  <List className={styles.catsList}>{unsterilizedCatsList}</List>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-          <div className={styles.buttonsContainer}>
-            {!isEditable && (
-              <Button
-                variant='contained'
-                color='success'
-                className={styles.button}
-                onClick={handleEdit}>
-                Edit
-              </Button>
-            )}
-            {isEditable && (
-              <Button
-                variant='contained'
-                color='success'
-                className={styles.button}
-                onClick={handleSave}>
-                Save
-              </Button>
-            )}
+    <div className={styles.container}>
+      <Box className={styles.box}>
+        <DetailsForm onChange={handleZoneInputChange} zone={props.zone} isEditable={isEditable} />
+        <div className={styles.catsDisplayDiv}>
+          <Accordion
+            className={styles.catTypeContent}
+            expanded={expanded === 'panel1'}
+            onChange={handleChange('panel1')}>
+            <AccordionSummary>
+              <Typography>Pisici sterilizate</Typography>
+            </AccordionSummary>
+            <AccordionDetails className={styles.catListContent}>
+              <div className={styles.catsDiv}>
+                <List className={styles.catsList}>{sterilizedCatsList}</List>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            className={styles.catTypeContent}
+            expanded={expanded === 'panel2'}
+            onChange={handleChange('panel2')}>
+            <AccordionSummary>
+              <Typography>Pisici nesterilizate</Typography>
+            </AccordionSummary>
+            <AccordionDetails className={styles.catListContent}>
+              <div className={styles.catsDiv}>
+                <List className={styles.catsList}>{unsterilizedCatsList}</List>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <div className={styles.buttonsContainer}>
+          {!isEditable && (
             <Button
-              variant='outlined'
-              color='error'
+              variant='contained'
+              color='success'
               className={styles.button}
-              onClick={handleClose}>
-              Cancel
+              onClick={handleEdit}>
+              Edit
             </Button>
-          </div>
-        </Box>
-      </div>
-    </Modal>
+          )}
+          {isEditable && (
+            <Button
+              variant='contained'
+              color='success'
+              className={styles.button}
+              onClick={handleSave}>
+              Save
+            </Button>
+          )}
+          <Button variant='outlined' color='error' className={styles.button} onClick={handleClose}>
+            Cancel
+          </Button>
+        </div>
+      </Box>
+    </div>
   );
 };
 

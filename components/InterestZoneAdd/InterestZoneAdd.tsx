@@ -26,30 +26,24 @@ const InterestZoneAdd = (props: Props) => {
   }, []);
 
   return (
-    <Modal open={props.isVisible} onClose={handleClose} sx={{ marginTop: '60px' }} hideBackdrop>
-      <div className={styles.container}>
-        <Box className={styles.box}>
-          <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone} />
-          <div className={styles.buttonsContainer}>
-            <Button
-              variant='contained'
-              color='success'
-              className={styles.button}
-              onClick={handleSave}
-              style={{ margin: '10px' }}>
-              Save
-            </Button>
-            <Button
-              variant='outlined'
-              color='error'
-              className={styles.button}
-              onClick={handleClose}>
-              Cancel
-            </Button>
-          </div>
-        </Box>
-      </div>
-    </Modal>
+    <div className={styles.container}>
+      <Box className={styles.box}>
+        <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone} />
+        <div className={styles.buttonsContainer}>
+          <Button
+            variant='contained'
+            color='success'
+            className={styles.button}
+            onClick={handleSave}
+            style={{ margin: '10px' }}>
+            Save
+          </Button>
+          <Button variant='outlined' color='error' className={styles.button} onClick={handleClose}>
+            Cancel
+          </Button>
+        </div>
+      </Box>
+    </div>
   );
 };
 
