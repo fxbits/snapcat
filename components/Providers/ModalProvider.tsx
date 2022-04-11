@@ -3,7 +3,7 @@ import { createContext, ReactNode, useState } from 'react';
 export type Modal = {
   state: 'view' | 'edit' | 'add';
   type: 'cat' | 'zone';
-  back: Modal | undefined;
+  back?: Modal | undefined;
 };
 
 export interface ContextModal {
