@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Header
         height={50}
         sx={(theme) => ({
-          backgroundColor: theme.primaryColor,
+          backgroundColor: theme.colors.yellow[6],
           alignItems: 'center',
           display: 'flex',
         })}>

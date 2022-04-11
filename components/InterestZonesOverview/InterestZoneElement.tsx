@@ -35,18 +35,16 @@ const InterestZoneElement = ({ interestZone }: Props) => {
     volunteerName,
     contactPerson,
   } = interestZone;
-  const [statusColor, setStatusColor] = useState<string>('#EF8F8F');
 
-  useEffect(() => {
-    if (status === Status.DONE) setStatusColor('#B0EF8F');
-    else if (status === Status.INPROGRESS) setStatusColor('#FFDB3C');
-    else setStatusColor('#EF8F8F');
-  }, [status]);
+  const statusColor: Record<Status, string> = {
+    [Status.DONE]: '#B0EF8F',
+    [Status.INPROGRESS]: '#FFDB3C',
+    [Status.TODO]: '#EF8F8F',
+  };
 
   return (
     <Container
-      mx='xs'
-      mb='xs'
+      m='xs'
       p='xs'
       sx={styles.container}
       onClick={() => {
@@ -101,7 +99,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           <Text
             weight={500}
             mb='xs'
-            sx={{ background: statusColor, textAlign: 'center', borderRadius: '7px' }}>
+            sx={{ background: statusColor[status], textAlign: 'center', borderRadius: '7px' }}>
             {status}
           </Text>
           <Box>
