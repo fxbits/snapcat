@@ -1,5 +1,9 @@
 import { UnsterilizedCat } from '../../models/cat.model';
-import styles from './UnsterilizedCatsList.module.css';
+
+import { faMars, faVenus, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { Box, Group, Stack, Text } from '@mantine/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
 interface Props{
     isEditable: boolean,
@@ -13,14 +17,22 @@ const UnsterilizedCatsList = (props: Props) => {
     };
 
     return (
-        <form className={styles.catListItem}>
-            <label>Gender</label>
-            <input id="unsterilized-cat-gender-input"  type="text" defaultValue={props.cat?.gender} readOnly={!props.isEditable}></input>
-            <label>Voluntar</label>
-            <input id="unsterilized-cat-volunteer-input" type="text" defaultValue={props.cat?.mediaLinks} readOnly={!props.isEditable}></input>
-            <label>Observatii</label>
-            <input id="unsterilized-cat-observations-input" type="text" defaultValue={props.cat?.observations} readOnly={!props.isEditable}></input>
-        </form> 
+        <Box>
+            <Group sx={{width: '100%'}}>
+                {props.cat?.gender === 'male' && <FontAwesomeIcon icon={faMars}/> }
+                {props.cat?.gender === 'female' && <FontAwesomeIcon icon={faVenus}/> }
+                <Image src='/icon/sterilized-cat-icon.png ' width={25} height={25} />
+                <Stack>
+                    <Group sx={{width: '100%'}}> 
+                        <Text> Note: </Text>
+                        {props.cat?.observations}
+                    </Group>
+                    <Group sx={{width: '100%'}}>  
+                        <FontAwesomeIcon icon={faCalendarDays}/>
+                    </Group>
+                </Stack>
+            </Group>
+        </Box>
     );
 }
 

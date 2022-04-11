@@ -4,11 +4,12 @@
     display: flex;
     align-items: center;
     align-content:center;
+    justify-content: center;
 }
 
 .box{
-    width: 100vw;
-    height: 100vh;
+    width: 75vw;
+    height: 75vh;
     background-color: white;
     margin: auto;
     display: flex;
@@ -18,9 +19,13 @@
 }
 
 .button{
-    width: 40%;
+    width: 20% !important;
     margin: 1vh;
-    margin: 10px !important;
+    margin: 12px !important;
+}
+
+.statusLabel {
+    margin: auto;
 }
 
 .catsDiv{
@@ -50,9 +55,11 @@
 }
 
 .buttonsContainer{
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .catsDisplayDiv{
