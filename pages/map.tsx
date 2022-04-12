@@ -1,24 +1,17 @@
 import { zoneServiceUi } from '../ui/ZoneServices';
 import { InterestZone } from '../models/zone.model';
-import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
-import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
-import { getColorMarkerByStatus } from '../utils/iconcolors.utils';
-import { mapContainer } from '../styles/map.module';
-import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
 import { InterestZoneProviderContext } from '../components/Providers/ProviderZone';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { GoogleMap, Marker, OverlayView, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0';
-import Drawer from '../components/Drawer/MobileDrawer';
 import MobileDrawer from '../components/Drawer/MobileDrawer';
 import DesktopDrawer from '../components/Drawer/DesktopDrawer';
 import { ModalContext } from '../components/Providers/ModalProvider';
 
 import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import SvgComponentMarker from "../components/Icons/IconMarker";
-import { Box, Group } from "@mantine/core";
 
 interface Bounds{
   north: number,
@@ -39,6 +32,7 @@ const CLUJ_NAPOCA_BOUNDS: Bounds= {
   east: parseFloat(process.env.NEXT_PUBLIC_EAST!),
 };
 
+const libraries:("places")[] = ["places"];
 function Map() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -51,12 +45,13 @@ function Map() {
   const [username, setUsername] = useState<string>('');
   const [map, setMap] = useState<google.maps.Map>();
   const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
+  const [addModalVisible, setAddModalVisible] = useState(false);
+
 
   const onLoad = useCallback((map: google.maps.Map) =>  {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
     setMap(map);
-    setUsername(user?.name!);
-    
+    setUsername(user?.name!);    
   }, []);
 
   const { setInterestZone, setPartialInterestZone } = useContext(InterestZoneProviderContext);
@@ -100,24 +95,20 @@ function Map() {
     },
     [map, setModal, setPartialInterestZone, username]
   );
-  const displayZoneMarker = useCallback(
-    (e: google.maps.MapMouseEvent): void => {
+ 
   const displayZoneMarker = useCallback(( { lat, lng } ): void => {
       setModal({ type: 'zone', state: 'view' });
 
-      const interestZone = interestZones.find((zone: InterestZone) => {
-        return zone.address.lat === lat && zone.address.lng === lng;
+  const interestZone = interestZones.find((zone: InterestZone) => {
+      return zone.address.lat === lat && zone.address.lng === lng;
       });
       setInterestZone(interestZone!);
-    },
-    [interestZones, setInterestZone, setModal]
-  );
+    },[interestZones, setInterestZone, setModal]);
 
   const closeAddModal = useCallback(() => {
     setAddModalVisible(false);
   }, [addModalVisible]);
 
-  
  
   const searchPlace = (address: string): void =>{
     const geocoder = new google.maps.Geocoder();
@@ -145,19 +136,23 @@ function Map() {
 
   return (
     <>
+      <HeaderGoogle searchPosition={searchPlace} ></HeaderGoogle>
       <MobileDrawer zones={interestZones} />
       <DesktopDrawer zones={interestZones} />
+      
       <GoogleMap
         center={new google.maps.LatLng(center.lat, center.lng)}
         zoom={11}
         onLoad={onLoad}
         mapContainerStyle={{ width: '100%', height: 'calc(100vh - 60px)' }}
-        onRightClick={addZone}>
-        {interestZones.map((zone) => {
-          const position = {
-            lat: zone.address.lat,
-            lng: zone.address.lng,
-          };
+        onRightClick={addZone}
+      >
+          {
+            interestZones.map((zone) => {
+              const position = {
+                lat: zone.address.lat,
+                lng: zone.address.lng,
+              };
 
             return(
               <OverlayView
@@ -167,10 +162,13 @@ function Map() {
                   <SvgComponentMarker status={zone.status} location={position} displayZone={displayZoneMarker}></SvgComponentMarker>
               </OverlayView>
             );
+          })}
       </GoogleMap>
-      {/* <InterestZonesOverview interestZones={interestZones} /> */}
+        
+      
     </>
   );
 }
+
 
 export default withPageAuthRequired(Map);
