@@ -12,6 +12,8 @@ import { ModalContext } from '../components/Providers/ModalProvider';
 
 import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import SvgComponentMarker from "../components/Icons/IconMarker";
+import { Text } from '@mantine/core';
+import theme from '../styles/theme';
 
 interface Bounds{
   north: number,
@@ -46,7 +48,6 @@ function Map() {
   const [map, setMap] = useState<google.maps.Map>();
   const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
   const [addModalVisible, setAddModalVisible] = useState(false);
-
 
   const onLoad = useCallback((map: google.maps.Map) =>  {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
@@ -164,6 +165,14 @@ function Map() {
             );
           })}
       </GoogleMap>
+        <Text
+          sx={(theme) => ({
+              [theme.fn.smallerThan("md")]: { position:"absolute", bottom:"60px", left:"calc(50% - 172px / 2)"},
+              [theme.fn.largerThan("md")]: { position:"absolute", bottom:"0px", left:"calc(50% - 172px / 2)"},
+              })}
+      >Made with &#10084; by fxbits</Text>
+     
+      
     </>
   );
 }

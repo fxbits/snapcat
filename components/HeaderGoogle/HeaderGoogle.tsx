@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   Group,
   Menu,
   Stack,
@@ -56,14 +57,14 @@ const HeaderGoogle = (props: Props) => {
           </Text>
           <Menu
             control={
-              <ActionIcon>
+              <Box>
                 {" "}
                 <Image
                   src="/icon/user-icon.svg"
-                  width={40}
-                  height={40}
+                  width={35}
+                  height={35}
                 ></Image>{" "}
-              </ActionIcon>
+              </Box>
             }
             position="bottom"
             styles={(theme) => ({
@@ -75,12 +76,11 @@ const HeaderGoogle = (props: Props) => {
               },
             })}>
             <Stack align="center" sx={{ backgroundColor: "#FFDB3C" }}>
-              <Group direction="column" sx={{ fontWeight: "bold" }}>
-                <Link href="">Profile</Link>
-                <Link href="/api/auth/logout">Logout</Link>
-              </Group>
+                <Group direction="column" sx={{ fontWeight: "bold" }}>
+                  <Link href="">Profile</Link>
+                  <Link href="/api/auth/logout">Logout</Link>
+                </Group>
               <Group position="apart">
-                <Text>Made with &#10084; by fxbits</Text>
               </Group>
             </Stack>
           </Menu>
