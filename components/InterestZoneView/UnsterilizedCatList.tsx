@@ -21,7 +21,7 @@ const UnsterilizedCatsList = (props: Props) => {
             <Group sx={{width: '100%'}}>
                 {props.cat?.gender === 'male' && <FontAwesomeIcon icon={faMars}/> }
                 {props.cat?.gender === 'female' && <FontAwesomeIcon icon={faVenus}/> }
-                <Image src='/icon/sterilized-cat-icon.png ' width={25} height={25} />
+                <Image src='/icon/unsterilized-cat-icon.png' alt='unsterilized cat' width={25} height={25} />
                 <Stack>
                     <Group sx={{width: '100%'}}> 
                         <Text> Note: </Text>

@@ -13,7 +13,7 @@ const ViewDetails = (props: Props) => {
             <Group position='apart' align='flex-start'>
                 <Box sx={{width: '55%'}}>
                     <Group sx={{width: '100%'}}>
-                        <Image src='/icon/location-icon.png' width={16} height={23}></Image>
+                        <Image src='/icon/location-icon.png' alt='location icon' width={16} height={23}></Image>
                         <Stack spacing={0} sx={{width: '80%'}}>
                             <Text weight={400} sx={{maxWidth: '100%'}}>
                                 {props.zone?.address?.name}
@@ -25,13 +25,13 @@ const ViewDetails = (props: Props) => {
                     </Group>
                     <Group mt='xs'>
                         <Group spacing='xs'>
-                            <Image src='/icon/sterilized-cat-icon.png ' width={25} height={25}></Image>
+                            <Image src='/icon/sterilized-cat-icon.png' alt='sterilized cat' width={25} height={25}></Image>
                             <Text weight={400}>
                                 {props.zone?.sterilizedCats?.length}
                             </Text>
                         </Group>
                         <Group spacing='xs'>
-                            <Image src='/icon/unsterilized-icon.png ' width={25} height={25}></Image>
+                            <Image src='/icon/unsterilized-icon.png' alt='unsterilized cat' width={25} height={25}></Image>
                             <Text weight={400}>
                                 {props.zone?.unsterilizedCats?.length}
                             </Text>

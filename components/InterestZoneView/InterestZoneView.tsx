@@ -4,7 +4,7 @@ import UnsterilizedCatsList from './UnsterilizedCatList';
 import styles from './InterestZoneView.module.css';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Box, Button, Grid } from '@mantine/core';
+import { Box, Button, Grid, ScrollArea } from '@mantine/core';
 import { ArrowNarrowLeft, Trash, Pencil, DeviceFloppy } from 'tabler-icons-react';
 import { Accordion } from '@mantine/core';
 import ViewDetails from './ViewDetails';
@@ -52,12 +52,12 @@ const InterestZoneView = (props: Props) => {
         
     };
 
-    const sterilizedCatsList = props.zone?.sterilizedCats.map((cat) => 
-        <SterilizedCatsList onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
+    const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, cnt) => 
+        <SterilizedCatsList key={cnt} onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
     );
 
-    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat) =>
-        <UnsterilizedCatsList onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
+    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) =>
+        <UnsterilizedCatsList key={cnt} onChange={handleUnsterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
     );
 
     return (
@@ -69,7 +69,9 @@ const InterestZoneView = (props: Props) => {
                 <Grid.Col lg={6} sm={12}>
                     <Accordion disableIconRotation>
                         <Accordion.Item label= "Pisici sterilizate">
-                            {sterilizedCatsList}
+                            <ScrollArea style={{ height: 250 }}>
+                                {sterilizedCatsList}
+                            </ScrollArea>
                         </Accordion.Item>
                     </Accordion>
                     <Accordion disableIconRotation >
