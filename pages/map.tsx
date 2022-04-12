@@ -164,8 +164,6 @@ function Map() {
             );
           })}
       </GoogleMap>
-        
-      
     </>
   );
 }
