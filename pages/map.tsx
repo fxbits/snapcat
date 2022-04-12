@@ -93,7 +93,7 @@ function Map() {
             volunteerName: username,
           };
 
-          setModal({ type: 'zone', state: 'add' });
+          setModal({ type: 'ADD_ZONE' });
           setPartialInterestZone(zone);
         }
       });
@@ -102,8 +102,10 @@ function Map() {
   );
 
   const displayZoneMarker = useCallback(
-    ({ lat, lng }): void => {
-      setModal({ type: 'zone', state: 'view' });
+    (e: google.maps.MapMouseEvent): void => {
+      const lat = e.latLng!.lat();
+      const lng = e.latLng!.lng();
+      setModal({ type: 'VIEW_ZONE' });
 
       const interestZone = interestZones.find((zone: InterestZone) => {
         return zone.address.lat === lat && zone.address.lng === lng;

@@ -28,7 +28,7 @@ export default function ZoneModalHeader({
           Back
         </Title>
       </Group>
-      {modal.state === 'view' ? (
+      {modal.type === 'VIEW_ZONE' ? (
         <Button sx={{ backgroundColor: statusColor[zone.status || Status.TODO] }}>
           <Text size='lg'>{zone?.status}</Text>
         </Button>
@@ -36,20 +36,20 @@ export default function ZoneModalHeader({
         <Select data={['To Do', 'In Progress', 'Done']} defaultValue={zone?.status}></Select>
       )}
       <Group spacing='xs'>
-        {modal.state === 'view' ? (
+        {modal.type === 'VIEW_ZONE' ? (
           <ActionIcon
             color='orange'
-            onClick={() => setModal({ ...modal, state: 'edit' })}
+            onClick={() => setModal({ ...modal, type: 'EDIT_ZONE' })}
             size='xl'
             radius='xl'
             variant='outline'>
             <Edit size={40} />
           </ActionIcon>
         ) : (
-          modal.state === 'edit' && (
+          modal.type === 'EDIT_ZONE' && (
             <ActionIcon
               radius='xl'
-              onClick={() => setModal({ ...modal, state: 'view' })}
+              onClick={() => setModal({ ...modal, type: 'VIEW_ZONE' })}
               size='xl'
               variant='outline'>
               <BrandStackoverflow size={40} />
