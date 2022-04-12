@@ -51,7 +51,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
       sx={styles.container}
       onClick={() => {
         setInterestZone(interestZone);
-        setModal({ type: 'zone', state: 'view' });
+        setModal({ type: 'VIEW_ZONE' });
       }}>
       <Group position='apart' align='flex-start'>
         <Box sx={{ width: '55%' }}>

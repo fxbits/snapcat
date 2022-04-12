@@ -33,7 +33,7 @@ const useStyles = createStyles((theme) => ({
 
 type SterializeStatus = 'sterilized' | 'unsterilized';
 
-export default function CatAdd({ cat, modal }: { cat?: Cat; modal: ModalConfig }) {
+export default function CatModalView({ cat, modal }: { cat?: Cat; modal: ModalConfig }) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
   const [statusSterialize, setStatusSterialize] = useState<SterializeStatus>('sterilized');
@@ -51,7 +51,7 @@ export default function CatAdd({ cat, modal }: { cat?: Cat; modal: ModalConfig }
     releaseDate: '05 October 2011 14:48 UTC',
   });
 
-  const edit = modal.state === 'edit';
+  const edit = modal.type === 'EDIT_CAT';
 
   return (
     <Box p='md' pb='xl' mb='xl' className={classes.modal}>

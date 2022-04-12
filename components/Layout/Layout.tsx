@@ -7,7 +7,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <ModalManager />
-
       <main>{children}</main>
     </>
   );

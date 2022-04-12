@@ -20,7 +20,6 @@ export default function CatModalHeader({
   modal: ModalConfig;
   setModal: (modal: ModalConfig | undefined) => void;
 }) {
-  const theme = useMantineTheme();
   return (
     <Group
       p='md'
@@ -33,23 +32,23 @@ export default function CatModalHeader({
       <ActionIcon onClick={() => setModal(undefined)} variant='filled' size='xl' color='yellow'>
         <ArrowLeft size={50} />
       </ActionIcon>
-      {modal.state === 'add' && <Text>ADD CAT</Text>}
-      {modal.state === 'view' && <Text>VIEW CAT</Text>}
-      {modal.state === 'edit' && <Text>EDIT CAT</Text>}
+      {modal.type === 'ADD_CAT' && <Text>ADD CAT</Text>}
+      {modal.type === 'VIEW_CAT' && <Text>VIEW CAT</Text>}
+      {modal.type === 'EDIT_CAT' && <Text>EDIT CAT</Text>}
 
       <Group spacing='xs'>
-        {modal.state === 'view' ? (
+        {modal.type === 'VIEW_CAT' ? (
           <ActionIcon
-            onClick={() => setModal({ ...modal, state: 'edit' })}
+            onClick={() => setModal({ ...modal, type: 'EDIT_CAT' })}
             size='lg'
             radius='md'
             variant='filled'>
             <Edit size={40} />
           </ActionIcon>
         ) : (
-          (modal.state === 'edit' || modal.state === 'add') && (
+          (modal.type === 'EDIT_CAT' || modal.type === 'ADD_CAT') && (
             <ActionIcon
-              onClick={() => setModal({ ...modal, state: 'view' })}
+              onClick={() => setModal({ ...modal, type: 'VIEW_CAT' })}
               size='lg'
               radius='md'
               variant='filled'>
@@ -58,7 +57,7 @@ export default function CatModalHeader({
           )
         )}
 
-        {modal.state !== 'add' && (
+        {modal.type !== 'ADD_CAT' && (
           <ActionIcon size='lg' radius='md' variant='filled' color='red'>
             <Trash size={40} />
           </ActionIcon>
