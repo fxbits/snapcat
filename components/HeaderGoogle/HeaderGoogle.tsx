@@ -12,7 +12,6 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useState } from "react";
 import Link from "next/link";
 
-
 interface Props {
   searchPosition: (address: string) => void;
 }
@@ -48,13 +47,11 @@ const HeaderGoogle = (props: Props) => {
             />
           </form>
         </Group>
-
         <Group align="center" justify-content="space-between">
           <Text
             sx={(theme) => ({
               [theme.fn.smallerThan("md")]: { display: "none" },
-            })}
-          >
+            })}>
             Welcome {user!.name}
           </Text>
           <Menu
@@ -76,8 +73,7 @@ const HeaderGoogle = (props: Props) => {
                 border:"#FFDB3C",
                 [theme.fn.largerThan("md")]: { width: "20vw" },
               },
-            })}
-          >
+            })}>
             <Stack align="center" sx={{ backgroundColor: "#FFDB3C" }}>
               <Group direction="column" sx={{ fontWeight: "bold" }}>
                 <Link href="">Profile</Link>
