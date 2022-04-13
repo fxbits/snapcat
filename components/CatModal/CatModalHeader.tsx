@@ -29,7 +29,11 @@ export default function CatModalHeader({
         width: '100%',
         borderRadius: '15px',
       }}>
-      <ActionIcon onClick={() => setModal(undefined)} variant='filled' size='xl' color='yellow'>
+      <ActionIcon
+        onClick={() => (modal.back ? setModal(modal.back) : setModal(undefined))}
+        variant='filled'
+        size='xl'
+        color='yellow'>
         <ArrowLeft size={50} />
       </ActionIcon>
       {modal.type === 'ADD_CAT' && <Text>ADD CAT</Text>}
