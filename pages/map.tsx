@@ -102,9 +102,7 @@ function Map() {
   );
 
   const displayZoneMarker = useCallback(
-    (e: google.maps.MapMouseEvent): void => {
-      const lat = e.latLng!.lat();
-      const lng = e.latLng!.lng();
+    ({ lat, lng }): void => {
       setModal({ type: 'VIEW_ZONE' });
 
       const interestZone = interestZones.find((zone: InterestZone) => {
