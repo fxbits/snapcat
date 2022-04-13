@@ -69,7 +69,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           <Group mt='xs'>
             <Group spacing='xs'>
               <Image
-                src='/icon/sterilized-cat-icon.png '
+                src='/icon/sterilized-cat-icon.png'
                 width={25}
                 height={25}
                 alt='cat-icon'></Image>
@@ -77,7 +77,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
             </Group>
             <Group spacing='xs'>
               <Image
-                src='/icon/unsterilized-icon.png '
+                src='/icon/unsterilized-icon.png'
                 width={25}
                 height={25}
                 alt='cat-icon'></Image>
