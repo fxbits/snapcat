@@ -25,12 +25,12 @@ const InterestZoneView = (props: Props) => {
         setIsEditable(false);  
     }, [props.isVisible])
 
-    const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, cnt) => 
-        <SterilizedCatsList key={cnt} cat={cat} isEditable={isEditable}/>
+    const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, index) => 
+        <SterilizedCatsList key={index} cat={cat} isEditable={isEditable}/>
     );
 
-    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) =>
-        <UnsterilizedCatsList key={cnt} cat={cat} isEditable={isEditable}/>
+    const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, index) =>
+        <UnsterilizedCatsList key={index} cat={cat} isEditable={isEditable}/>
     );
 
     return (
