@@ -5,12 +5,14 @@ export enum Gender {
 }
 
 export interface UnsterilizedCat {
+    _id: string,
     gender: Gender,
     mediaLinks: string[],
     observations: string
 }
 
 export interface SterilizedCat {
+    _id: string,
     gender: Gender,
     mediaLinks: string[],
     observations: string,
