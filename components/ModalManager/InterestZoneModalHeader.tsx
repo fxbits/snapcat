@@ -3,7 +3,7 @@ import { ActionIcon, Button, Group, MediaQuery, Select, Text, Title } from '@man
 import { InterestZone, Status } from '../../models/zone.model';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { ArrowBarLeft, BrandStackoverflow, Edit, Trash } from 'tabler-icons-react';
-
+import { useStatusColor } from '../hooks/useStatusColor';
 export default function ZoneModalHeader({
   modal,
   zone,
@@ -13,11 +13,7 @@ export default function ZoneModalHeader({
   zone: InterestZone | Partial<InterestZone>;
   setModal: (modal: ModalConfig | undefined) => void;
 }) {
-  const statusColor: Record<Status, string> = {
-    [Status.DONE]: '#B0EF8F',
-    [Status.INPROGRESS]: '#FFDB3C',
-    [Status.TODO]: '#EF8F8F',
-  };
+  const status = useStatusColor;
   return (
     <Group p='md' position='apart' align='center' sx={{ width: '100%' }}>
       <Group spacing={0} sx={{ height: '100%' }}>
@@ -29,7 +25,7 @@ export default function ZoneModalHeader({
         </Title>
       </Group>
       {modal.type === 'VIEW_ZONE' ? (
-        <Button sx={{ backgroundColor: statusColor[zone.status || Status.TODO] }}>
+        <Button sx={{ backgroundColor: status[zone.status || Status.TODO] }}>
           <Text size='lg'>{zone?.status}</Text>
         </Button>
       ) : (

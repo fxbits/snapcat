@@ -13,7 +13,7 @@ import {
 import { DatePicker } from '@mantine/dates';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { Cat, Gender } from '../../models/cat.model';
+import { Cat, Gender, SterilizedCat } from '../../models/cat.model';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { dropzoneChildren } from '../Dropzone/Dropzone';
@@ -46,9 +46,9 @@ export default function CatModalView({ cat, modal }: { cat?: Cat; modal: ModalCo
     }
   );
   const [sterilizedForm, setSterilizedForm] = useState({
-    volunteerName: 'Xd Guy',
-    hospitalizationDate: '05 October 2011 14:48 UTC',
-    releaseDate: '05 October 2011 14:48 UTC',
+    volunteerName: (cat as SterilizedCat)?.volunteerName || '',
+    hospitalizationDate: (cat as SterilizedCat)?.hospitalizationDate || '',
+    releaseDate: (cat as SterilizedCat)?.releaseDate || '',
   });
 
   const edit = modal.type === 'EDIT_CAT';
@@ -81,8 +81,8 @@ export default function CatModalView({ cat, modal }: { cat?: Cat; modal: ModalCo
               },
             }}
             disabled={!edit}
-            onDrop={(files) => console.log('accepted files', files)}
-            onReject={(files) => console.log('rejected files', files)}
+            onDrop={() => {}}
+            //TODO: add image upload
             maxSize={3 * 1024 ** 2}
             accept={IMAGE_MIME_TYPE}>
             {(status) => dropzoneChildren(status, theme)}
@@ -130,7 +130,11 @@ export default function CatModalView({ cat, modal }: { cat?: Cat; modal: ModalCo
             />
             <Group mt='xs' grow>
               <DatePicker
-                value={new Date(sterilizedForm.hospitalizationDate)}
+                value={
+                  sterilizedForm.hospitalizationDate !== ''
+                    ? new Date(sterilizedForm.hospitalizationDate)
+                    : new Date()
+                }
                 onChange={(e) =>
                   setSterilizedForm({ ...sterilizedForm, hospitalizationDate: e?.toString()! })
                 }
@@ -140,7 +144,11 @@ export default function CatModalView({ cat, modal }: { cat?: Cat; modal: ModalCo
                 label='Admitted'
               />
               <DatePicker
-                value={new Date(sterilizedForm.releaseDate)}
+                value={
+                  sterilizedForm.releaseDate !== ''
+                    ? new Date(sterilizedForm.releaseDate)
+                    : new Date()
+                }
                 onChange={(e) =>
                   setSterilizedForm({ ...sterilizedForm, releaseDate: e?.toString()! })
                 }
