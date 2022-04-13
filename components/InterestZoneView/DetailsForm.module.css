@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(2, auto);
     grid-gap: 1vh;
-    width: 80vw;
+    width: 75vw;
     margin-top: 3.5vh;
     margin-bottom: 1.5vh; 
     max-height: 50vh;

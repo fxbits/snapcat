@@ -1,32 +1,42 @@
 import { SterilizedCat } from '../../models/cat.model';
-import styles from './SterilizedCatsList.module.css';
+import { Gender } from '../../models/cat.model';
+
+import { faMars, faVenus, faPerson, faArrowRightToBracket, faArrowRightFromBracket, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { Box, Group, Stack, Text } from '@mantine/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
 interface Props{
     isEditable: boolean,
-    cat?: SterilizedCat,
-    onChange: () => void
+    cat?: SterilizedCat
 }
 
 const SterilizedCatsList = (props: Props) => {
-    const onChange = () => {
-        props.onChange();
-    };
-
     return (
-        <form className={styles.catListItem}>
-            <label>Data internare</label>
-            <input id="sterilized-cat-indate-input" type="text" defaultValue={props.cat?.hospitalizationDate} readOnly={!props.isEditable}></input>
-            <label>Data externare</label>
-            <input id="sterilized-cat-outdate-input" type="text" defaultValue={props.cat?.releaseDate} readOnly={!props.isEditable}></input>
-            <label>Gender</label>
-            <input id="sterilized-cat-gender-input" type="text" defaultValue={props.cat?.gender} readOnly={!props.isEditable}></input>
-            <label>Voluntar</label>
-            <input id="sterilized-cat-volunteer-input" type="text" defaultValue={props.cat?.volunteerName} readOnly={!props.isEditable}></input>
-            <label>Media</label>
-            <input id="sterilized-cat-media-input" type="text" defaultValue={props.cat?.mediaLinks} readOnly={!props.isEditable}></input>
-            <label>Observatii</label>
-            <input id="sterilized-cat-observations-input" type="text" defaultValue={props.cat?.observations} readOnly={!props.isEditable}></input>
-        </form> 
+        <Box>
+            <Group sx={{width: '100%'}}>
+                {props.cat?.gender === Gender.MALE && <FontAwesomeIcon icon={faMars}/> }
+                {props.cat?.gender === Gender.FEMALE && <FontAwesomeIcon icon={faVenus}/> }
+                {props.cat?.gender === Gender.UNKNOWN && <FontAwesomeIcon icon={faQuestion}/> }
+                <Image src='/icon/sterilized-cat-icon.png' alt='sterilized cat' width={25} height={25} />
+                <Stack>
+                    <Group sx={{width: '100%'}}> 
+                        <FontAwesomeIcon icon={faPerson}/>
+                        {props.cat?.volunteerName}
+                    </Group>
+                    <Group sx={{width: '100%'}}>  
+                        <FontAwesomeIcon icon={faArrowRightToBracket}/>
+                        {props.cat?.hospitalizationDate}
+                        <FontAwesomeIcon icon={faArrowRightFromBracket}/>
+                        {props.cat?.releaseDate}
+                    </Group>
+                    <Group sx={{width: '100%'}}> 
+                        <Text> Note: </Text>
+                        {props.cat?.observations}
+                    </Group>
+                </Stack>
+            </Group>
+        </Box>
     );
 }
 
