@@ -18,7 +18,7 @@ const InterestZoneAdd = (props: Props) => {
   const handleSave = () => {
     zoneServiceUi.addZone(newZone);
   };
-
+  //TODO: refactor zoneServicesUi with swr and getServerSideProps
   const handleClose = useCallback(() => {
     props.onClose();
   }, []);

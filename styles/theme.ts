@@ -55,11 +55,11 @@ const theme: MantineThemeOverride = {
   headings: {
     fontFamily: 'Poppins, sans-serif',
     sizes: {
-      h1: { fontSize: "40px", lineHeight: "48px" },
-      h2: { fontSize: "36px", lineHeight: "44px" },
-      h3: { fontSize: "30px", lineHeight: "38px" },
-      h4: { fontSize: "24px", lineHeight: "32px" },
-      h5: { fontSize: "20px", lineHeight: "28px" },
+      h1: { fontSize: '40px', lineHeight: '48px' },
+      h2: { fontSize: '36px', lineHeight: '44px' },
+      h3: { fontSize: '30px', lineHeight: '38px' },
+      h4: { fontSize: '24px', lineHeight: '32px' },
+      h5: { fontSize: '20px', lineHeight: '28px' },
     },
   },
 };

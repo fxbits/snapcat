@@ -1,5 +1,5 @@
 import { InterestZone, Status } from '../../models/zone.model';
-import { InterestZoneProviderContext } from '../Providers/ProviderZone';
+import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 
 import { Box, Button, Container, Group, Stack, Sx, Text } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
@@ -51,7 +51,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
       sx={styles.container}
       onClick={() => {
         setInterestZone(interestZone);
-        setModal({ type: 'zone', state: 'view' });
+        setModal({ type: 'VIEW_ZONE' });
       }}>
       <Group position='apart' align='flex-start'>
         <Box sx={{ width: '55%' }}>
