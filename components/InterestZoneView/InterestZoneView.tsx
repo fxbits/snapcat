@@ -1,11 +1,9 @@
 import { InterestZone } from '../../models/zone.model';
 import SterilizedCatsList from './SterilizedCatList';
 import UnsterilizedCatsList from './UnsterilizedCatList';
-import styles from './InterestZoneView.module.css';
 
-import { useCallback, useEffect, useState } from 'react';
-import { Box, Button, Grid, ScrollArea } from '@mantine/core';
-import { ArrowNarrowLeft, Trash, Pencil, DeviceFloppy } from 'tabler-icons-react';
+import { useEffect, useState } from 'react';
+import { Box, Grid, ScrollArea } from '@mantine/core';
 import { Accordion } from '@mantine/core';
 import ViewDetails from './ViewDetails';
 
@@ -27,37 +25,12 @@ const InterestZoneView = (props: Props) => {
         setIsEditable(false);  
     }, [props.isVisible])
 
-
-    const handleEdit = () => {
-        setIsEditable(!isEditable);
-    };
-
-    const handleSave = () => {
-        setIsEditable(!isEditable);
-    };
-
-    const handleClose = useCallback(() => {
-        props.onClose();
-    }, []);
-
-    const handleSterilizedCatInputChange = () => {
-
-    };
-
-    const handleUnsterilizedCatInputChange = () => {
-        
-    };
-
-    const handleZoneInputChange = () => {
-        
-    };
-
     const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, cnt) => 
-        <SterilizedCatsList key={cnt} onChange={handleSterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
+        <SterilizedCatsList key={cnt} cat={cat} isEditable={isEditable}/>
     );
 
     const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, cnt) =>
-        <UnsterilizedCatsList key={cnt} onChange={handleUnsterilizedCatInputChange} cat={cat} isEditable={isEditable}/>
+        <UnsterilizedCatsList key={cnt} cat={cat} isEditable={isEditable}/>
     );
 
     return (
@@ -68,6 +41,7 @@ const InterestZoneView = (props: Props) => {
                 </Grid.Col>
                 <Grid.Col lg={6} sm={12}>
                     <Accordion disableIconRotation>
+                        {/* TODO: translation keys */}
                         <Accordion.Item label= "Pisici sterilizate">
                             <ScrollArea style={{ height: 250 }}>
                                 {sterilizedCatsList}
@@ -75,6 +49,7 @@ const InterestZoneView = (props: Props) => {
                         </Accordion.Item>
                     </Accordion>
                     <Accordion disableIconRotation >
+                        {/* TODO: translation keys */}
                         <Accordion.Item label= "Pisici nesterilizate">
                             {unsterilizedCatsList}
                         </Accordion.Item>

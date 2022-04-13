@@ -1,8 +1,0 @@
-.catListItem{
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 0.5vh;
-    text-align: center;
-    max-width: 75vw;
-    margin-left: -3vw;
-}

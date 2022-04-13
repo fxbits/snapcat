@@ -37,19 +37,20 @@ const ViewDetails = (props: Props) => {
                             </Text>
                         </Group>
                     </Group>
-                    <Text mt='md' color='gray' size='xs'> Volunteer </Text>
-                    <Text size='sm'> {props.zone?.volunteerName || "Alex Pirvu"} </Text>
+                    {/* TODO: translation keys */}
+                    <Text mt='md' color='gray' size='xs'> Volunteer </Text> 
+                    <Text size='sm'> {props.zone?.volunteerName} </Text>
                 </Box>
                 <Stack spacing={0} sx={{width: '35%', textAlign: 'left'}}>
                     <Text size='xs'>
                         Contact
                     </Text>
                     <Text size='sm'>
-                        {props.zone?.contactPerson?.name || "Pati Vulc"}
+                        {props.zone?.contactPerson?.name}
                     </Text>
                     <Group spacing='xs'>
                         <Phone size={18} strokeWidth={2} color={'black'}/>
-                        <Text size='sm'>{props.zone?.contactPerson?.phone || "+40712345678"}</Text>
+                        <Text size='sm'>{props.zone?.contactPerson?.phone}</Text>
                     </Group>
                 </Stack>
             </Group>
