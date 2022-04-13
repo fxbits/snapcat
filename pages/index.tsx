@@ -8,30 +8,29 @@ const MainApp = () => {
   if (isLoading) {
     return <div className={styles.container}>Loading...</div>;
   }
-  
+
   if (error) {
     return <div className={styles.container}>{error.message}</div>;
   }
 
   if (user) {
     return (
-      <div className={styles.container}>
-        <div className={styles.headerContainer}>
-          <p>Welcome {user.name}!</p> 
-          <Link href="/map">Open map</Link>
-          <Link href="/api/auth/logout">Logout</Link>
-        </div>
-      </div>
+      <></>
+      // <div className={styles.container}>
+      //   <div className={styles.headerContainer}>
+      //     <p>Welcome {user.name}!</p>
+      //     <Link href="/map">Open map</Link>
+      //     <Link href="/api/auth/logout">Logout</Link>
+      //   </div>
+      // </div>
     );
   }
-  
-  return(
+
+  return (
     <div className={styles.container}>
-      <Link href="/api/auth/login">Login</Link>
+      <Link href='/api/auth/login'>Login</Link>
     </div>
-  )};
- 
+  );
+};
 
 export default MainApp;
-         
-
