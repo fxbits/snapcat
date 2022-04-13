@@ -5,14 +5,10 @@ import { Box } from '@mantine/core';
 const variants: Variants = {
   initial: (custom) => ({
     opacity: 0,
-    rotate: custom * 30,
-    scale: 0.8,
-    x: 0,
+    rotate: -45,
   }),
   animate: {
     opacity: 1,
-    scale: 1,
-    y: 50,
   },
 };
 export default function MovingLine({ index }: { index: number }) {
@@ -21,14 +17,15 @@ export default function MovingLine({ index }: { index: number }) {
       component={motion.div}
       variants={variants}
       custom={Math.random()}
-      transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.8 }}
+      transition={{ repeat: Infinity, repeatType: 'reverse', duration: 2, ease: 'circIn' }}
       sx={{
-        top: index * 20,
-        borderRadius: '50%',
+        top: `calc(50% + ${index * 20}px)`,
+        left: `calc(-50% + ${index * 20}px)`,
         position: 'absolute',
-        width: '170%',
-        height: '20px',
-        background: 'linear-gradient(to right bottom, red, yellow)',
+        transformOrigin: '0 0',
+        width: '200%',
+        height: '10px',
+        backgroundColor: 'black',
       }}></Box>
   );
 }

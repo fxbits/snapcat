@@ -7,7 +7,7 @@ export default function MovingBox() {
   return (
     <Box
       component={motion.div}
-      sx={{ position: 'relative', width: '100%', height: '100%' }}
+      sx={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}
       initial='initial'
       transition={{ staggerChildren: 0.25 }}
       animate='animate'>
