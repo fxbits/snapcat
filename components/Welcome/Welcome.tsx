@@ -11,7 +11,7 @@ export default withPageAuthRequired( () => {
   const { data, error } = useSWR('/api/secure-hello', fetcher);
   
   if (error) {
-    return <div>oops... {error.message}</div>;
+    return <div>Oops... {error.message}</div>;
   }
 
   if (data === undefined) {

@@ -35,7 +35,7 @@ class ZoneService {
     }
 
     async importZone(sheetEntry: SheetEntry): Promise<void> {
-        const coordinates = await convertAddressToLocation(`${sheetEntry.zoneName}, ${process.env.CITY_LOCATION}`);
+        const coordinates = await convertAddressToLocation(`${sheetEntry.zoneName}, ${process.env.NEXT_PUBLIC_CITY_LOCATION}`);
     
         let zone = await this.findByCoordinates(coordinates);
         const newCatSchema = new sterilizedCatSchema({

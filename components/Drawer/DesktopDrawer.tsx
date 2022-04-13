@@ -7,7 +7,7 @@ interface Drawer {
 }
 
 const styles: CSSObject = {
-  marginTop: '50px',
+  marginTop: '75px',
   position: 'fixed',
   left: 0,
   top: 0,
