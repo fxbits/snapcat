@@ -29,6 +29,7 @@
     "@react-google-maps/api": "^2.7.0",
     "axios": "^0.26.1",
     "crs-dropdown-container": "^0.0.13",
+    "framer-motion": "^6.2.10",
     "googleapis": "^97.0.0",
     "mongoose": "^6.2.6",
     "next": "12.1.0",
