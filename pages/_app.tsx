@@ -6,7 +6,7 @@ import { MantineProvider } from '@mantine/core';
 import Layout from '../components/Layout/Layout';
 import theme from '../styles/theme';
 import { ModalProvider } from '../components/Providers/ModalProvider';
-import CatProvider, { CatProviderContext } from '../components/Providers/CatProvider';
+import CatProvider from '../components/Providers/CatProvider';
 import ZoneProvider from '../components/Providers/ZoneProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
