@@ -6,9 +6,11 @@ import Image from 'next/image';
 import { Logout, Map, Signature } from 'tabler-icons-react';
 import MovingBox from '../components/Homepage/MovingBox';
 import UserContainer from '../components/Homepage/UserContainer';
+import { useRouter } from 'next/router';
 
 const MainApp = () => {
   const { user } = useUser();
+  const router = useRouter();
   const theme = useMantineTheme();
   return (
     <Grid
@@ -66,6 +68,7 @@ const MainApp = () => {
                 variant='filled'
                 color='yellow'
                 disabled={user === undefined}
+                onClick={() => user !== undefined && router.push('/map')}
                 leftIcon={<Map size={50} />}>
                 Open Map
               </Button>
