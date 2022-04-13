@@ -1,10 +1,13 @@
-import React, { ReactNode } from 'react';
-import HeaderGoogle from '../HeaderGoogle/HeaderGoogle';
-import Modal from '../Modal/Modal';
+import { Box, Button, Header } from '@mantine/core';
+import React, { ReactNode, useContext } from 'react';
+import ModalManager from '../ModalManager/ModalManager';
+import { ModalContext } from '../Providers/ModalProvider';
 const Layout = ({ children }: { children: ReactNode }) => {
+  const { setModal } = useContext(ModalContext);
   return (
     <>
-      <Modal />
+      <ModalManager />
+
       <main>{children}</main>
     </>
   );
