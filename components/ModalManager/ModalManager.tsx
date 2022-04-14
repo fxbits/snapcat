@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function ModalComponent() {
+export default function ModalManager() {
   const { modal, setModal } = useContext(ModalContext);
   const { cat } = useContext(CatContext);
   const { interestZone, partialInterestZone } = useContext(InterestZoneProviderContext);
