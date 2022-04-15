@@ -29,7 +29,7 @@
     "@react-google-maps/api": "^2.7.0",
     "axios": "^0.26.1",
     "crs-dropdown-container": "^0.0.13",
-    "framer-motion": "^6.2.10",
+    "framer-motion": "^6.3.0",
     "googleapis": "^97.0.0",
     "mongoose": "^6.2.6",
     "next": "12.1.0",
@@ -45,7 +45,7 @@
     "react-script-hook": "^1.6.0",
     "react-swipeable": "^6.2.1",
     "swr": "^1.2.2",
-    "tabler-icons-react": "^1.44.0",
+    "tabler-icons-react": "^1.45.0",
     "use-places-autocomplete": "^2.0.0"
   },
   "devDependencies": {

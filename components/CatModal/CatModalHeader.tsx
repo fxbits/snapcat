@@ -46,7 +46,7 @@ export default function CatModalHeader({
             onClick={() => setModal({ ...modal, type: 'EDIT_CAT' })}
             size='lg'
             radius='md'
-            variant='filled'>
+            variant='outline'>
             <Edit size={40} />
           </ActionIcon>
         ) : (

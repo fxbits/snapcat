@@ -16,8 +16,9 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colors.yellow[5],
       borderRadius: '15px',
       width: '100%',
+
       [theme.fn.largerThan('md')]: {
-        width: '55%',
+        width: '65%',
         marginTop: '50px',
       },
     },
@@ -41,7 +42,9 @@ export default function ModalManager() {
           opened={modal !== undefined}
           className={classes.manager}
           styles={{ inner: { padding: 0 } }}
-          onClose={() => setModal(undefined)}
+          onClose={() => {
+            setModal(undefined);
+          }}
           withCloseButton={false}>
           {modal.type === 'ADD_ZONE' && partialInterestZone && (
             <>
@@ -63,8 +66,7 @@ export default function ModalManager() {
               />
             </>
           )}
-          {cat &&
-            (modal.type === 'VIEW_CAT' || modal.type === 'ADD_CAT' || modal.type === 'EDIT_CAT') &&
+          {(modal.type === 'VIEW_CAT' || modal.type === 'ADD_CAT' || modal.type === 'EDIT_CAT') &&
             interestZone && (
               <>
                 <CatModalHeader modal={modal} setModal={setModal} />
