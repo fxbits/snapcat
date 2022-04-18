@@ -29,7 +29,7 @@ import {
   Scissors,
   Trash,
 } from 'tabler-icons-react';
-import { DeleteCat } from '../CatModal/CatActions';
+import useCatActions from '../CatModal/CatActions';
 
 interface Props {
   cat?: SterilizedCat;
@@ -38,7 +38,7 @@ interface Props {
 const SterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
-
+  const [AddCat, UpdateCat, DeleteCat, SterilizeCat] = useCatActions(cat?._id!);
   const theme = useMantineTheme();
 
   const handleChange = useCallback(
@@ -55,7 +55,7 @@ const SterilizedCat = ({ cat }: Props) => {
       sx={{ position: 'relative', cursor: 'pointer' }}
       drag='x'
       key='drag'
-      dragConstraints={{ left: -300, right: 0 }}>
+      dragConstraints={{ left: -150, right: 0 }}>
       <Group
         onClick={handleChange}
         sx={(theme) => ({
@@ -130,10 +130,7 @@ const SterilizedCat = ({ cat }: Props) => {
       <Group
         grow
         spacing={0}
-        sx={{ position: 'absolute', right: -300, top: 0, width: '300px', height: '100%' }}>
-        <ActionIcon sx={{ height: '100%' }} color='yellow' variant='filled'>
-          <Scissors />
-        </ActionIcon>
+        sx={{ position: 'absolute', right: -150, top: 0, width: '150px', height: '100%' }}>
         <ActionIcon
           onClick={() => {
             setCat(cat);
@@ -144,7 +141,11 @@ const SterilizedCat = ({ cat }: Props) => {
           variant='filled'>
           <Edit />
         </ActionIcon>
-        <ActionIcon sx={{ height: '100%' }} color='red' variant='filled'>
+        <ActionIcon
+          sx={{ height: '100%' }}
+          onClick={() => DeleteCat()}
+          color='red'
+          variant='filled'>
           <Trash />
         </ActionIcon>
       </Group>
