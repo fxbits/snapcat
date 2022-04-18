@@ -5,7 +5,7 @@ import ImageUploadIcon from './DropzoneIcon';
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   if (status.accepted) return theme.colors[theme.primaryColor][6];
   else if (status.rejected) return theme.colors.red[6];
-  return theme.colors.dark[0];
+  return theme.colors.gray[7];
 }
 
 export const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (

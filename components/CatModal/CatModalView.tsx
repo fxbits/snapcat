@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   createStyles,
   Grid,
   Group,
@@ -12,12 +11,15 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import Image from 'next/image';
-import React, { useState } from 'react';
 import { Cat, Gender, SterilizedCat } from '../../models/cat.model';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { dropzoneChildren } from '../Dropzone/Dropzone';
 import { useForm } from '@mantine/hooks';
+import CatModalHeader from './CatModalHeader';
+import { useSWRConfig } from 'swr';
+import useCatActions from './CatActions';
+import { useEffect } from 'react';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -34,21 +36,29 @@ const useStyles = createStyles((theme) => ({
 
 type SterializeStatus = 'sterilized' | 'unsterilized';
 
-interface FormValues {
+export interface FormValues {
   gender: Gender;
   observations: string;
   mediaLinks: string[];
-  sterilizeStatus: SterializeStatus;
+  sterilizedStatus: SterializeStatus;
   volunteerName?: string;
   hospitalizationDate?: Date;
   releaseDate?: Date;
 }
 
-export default function CatModalView({ cat, modal }: { cat: Cat; modal: ModalConfig }) {
+export default function CatModalView({
+  cat,
+  modal,
+  setModal,
+  zoneId,
+}: {
+  cat: Cat | undefined;
+  modal: ModalConfig;
+  setModal: (modal: ModalConfig | undefined) => void;
+  zoneId: string;
+}) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-  const disabled = !(modal.type === 'ADD_CAT' || modal.type === 'EDIT_CAT');
-
   const form = useForm<FormValues>({
     initialValues: {
       ...(cat || {
@@ -57,56 +67,74 @@ export default function CatModalView({ cat, modal }: { cat: Cat; modal: ModalCon
           'Enter here any observations, notes, that might help identify the cat more accurately.',
         mediaLinks: [],
       }),
-      hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || ''),
-      releaseDate: new Date((cat as SterilizedCat)?.releaseDate || ''),
-      sterilizeStatus: (cat as SterilizedCat)?.releaseDate ? 'sterilized' : 'unsterilized',
+      volunteerName: (cat as SterilizedCat)?.volunteerName || '',
+      hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || Date.now()),
+      releaseDate: new Date((cat as SterilizedCat)?.releaseDate || Date.now()),
+      sterilizedStatus: (cat as SterilizedCat)?.releaseDate ? 'sterilized' : 'unsterilized',
     },
   });
 
+  useEffect(() => {
+    modal.type === 'STERILIZE_CAT' && form.setFieldValue('sterilizedStatus', 'sterilized');
+  }, [modal]);
+
+  const disabled = !(
+    modal.type === 'ADD_CAT' ||
+    modal.type === 'EDIT_CAT' ||
+    modal.type === 'STERILIZE_CAT'
+  );
+  const [AddCat, UpdateCat, DeleteCat, SterilizeCat] = useCatActions(cat?._id!);
   return (
-    <Box p='md' pb='xl' mb='xl' className={classes.modal}>
-      <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>
-        <Grid.Col sm={6} lg={6}>
-          <Box
-            sx={{
-              width: '100%',
-              height: '30vh',
-              position: 'relative',
-              borderRadius: theme.radius.lg,
-              overflow: 'hidden',
-            }}>
-            <Image
-              src='/images/placeholder-cat.webp'
-              layout='fill'
-              alt='Cat Picture'
-              objectFit='cover'
-            />
-          </Box>
-        </Grid.Col>
-        <Grid.Col sm={6} lg={6}>
-          <Dropzone
-            sx={{
-              width: '100%',
-              height: '30vh',
-              borderRadius: theme.radius.lg,
-              backgroundColor: !disabled ? theme.colors.blue[1] : theme.colors.gray[3],
-              '&:hover': {
-                backgroundColor: !disabled ? theme.colors.blue[2] : theme.colors.gray[3],
-              },
-            }}
-            disabled={disabled}
-            onDrop={() => {}}
-            //TODO: add image upload
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}>
-            {(status) => dropzoneChildren(status, theme)}
-          </Dropzone>
-        </Grid.Col>
-      </Grid>
-      <form
-        style={{ width: '100%', flex: 1 }}
-        onSubmit={form.onSubmit((values) => console.log(values))}>
-        <Stack sx={{ height: '100%' }} justify='center'>
+    <>
+      <CatModalHeader
+        modal={modal}
+        setModal={setModal}
+        addCat={() => AddCat(form)}
+        updateCat={() => UpdateCat(form)}
+        deleteCat={() => DeleteCat()}
+        sterilizeCat={() => SterilizeCat(form)}
+      />
+      <Box p='md' pb='xl' mb='xl' className={classes.modal}>
+        <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>
+          <Grid.Col sm={6} lg={6}>
+            <Box
+              sx={{
+                width: '100%',
+                height: '30vh',
+                position: 'relative',
+                borderRadius: theme.radius.lg,
+                overflow: 'hidden',
+              }}>
+              <Image
+                src='/images/placeholder-cat.webp'
+                layout='fill'
+                alt='Cat Picture'
+                objectFit='cover'
+              />
+            </Box>
+          </Grid.Col>
+          <Grid.Col sm={6} lg={6}>
+            <Dropzone
+              sx={{
+                width: '100%',
+                height: '30vh',
+                borderColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
+                borderRadius: theme.radius.lg,
+                backgroundColor: !disabled ? theme.colors.green[2] : theme.colors.gray[3],
+                '&:hover': {
+                  backgroundColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
+                },
+              }}
+              disabled={disabled}
+              onDrop={() => {}}
+              //TODO: add image upload
+              maxSize={3 * 1024 ** 2}
+              accept={IMAGE_MIME_TYPE}>
+              {(status) => dropzoneChildren(status, theme)}
+            </Dropzone>
+          </Grid.Col>
+        </Grid>
+        <Stack sx={{ height: '100%', width: '100%', flex: 1 }} justify='center'>
           <SegmentedControl
             color='blue'
             disabled={disabled}
@@ -118,9 +146,9 @@ export default function CatModalView({ cat, modal }: { cat: Cat; modal: ModalCon
             ]}
           />
           <SegmentedControl
-            disabled={disabled}
-            {...form.getInputProps('sterilizeStatus')}
-            onChange={(e) => form.setFieldValue('sterilizeStatus', e as SterializeStatus)}
+            disabled={modal.type !== 'ADD_CAT'}
+            {...form.getInputProps('sterilizedStatus')}
+            onChange={(e) => form.setFieldValue('sterilizedStatus', e as SterializeStatus)}
             data={[
               { label: 'Sterilized', value: 'sterilized' },
               { label: 'Unsterilized', value: 'unsterilized' },
@@ -133,7 +161,7 @@ export default function CatModalView({ cat, modal }: { cat: Cat; modal: ModalCon
             onChange={(e) => form.setFieldValue('observations', e.currentTarget.value)}
             label='Observations'
           />
-          {form.values.sterilizeStatus === 'sterilized' && (
+          {form.values.sterilizedStatus === 'sterilized' && (
             <>
               <TextInput
                 {...form.getInputProps('volunteerName')}
@@ -164,7 +192,7 @@ export default function CatModalView({ cat, modal }: { cat: Cat; modal: ModalCon
             </>
           )}
         </Stack>
-      </form>
-    </Box>
+      </Box>
+    </>
   );
 }

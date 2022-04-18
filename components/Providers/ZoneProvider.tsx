@@ -1,6 +1,7 @@
 import { InterestZone } from '../../models/zone.model';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Cat } from '../../models/cat.model';
+import useSWR from 'swr';
 
 export interface ContextType {
   interestZone: InterestZone | undefined;
@@ -21,6 +22,14 @@ export const InterestZoneProviderContext = React.createContext(defaultContext);
 const ZoneProvider = ({ children }: { children: ReactNode }) => {
   const [interestZone, setInterestZone] = useState<InterestZone | undefined>(undefined);
   const [partialInterestZone, setPartialInterestZone] = useState<Partial<InterestZone>>();
+  const { data: zone } = useSWR<InterestZone>(
+    interestZone?._id ? `/api/interest-zones/${interestZone?._id}` : null
+  );
+
+  useEffect(() => {
+    zone !== undefined && setInterestZone(zone);
+  }, [zone]);
+
   return (
     <InterestZoneProviderContext.Provider
       value={{ interestZone, partialInterestZone, setPartialInterestZone, setInterestZone }}>

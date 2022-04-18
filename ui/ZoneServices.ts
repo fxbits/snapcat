@@ -41,7 +41,22 @@ class ZoneService {
 }
 
 export const addCatToZone = async (zoneId: string, cat: Cat) => {
-  const response = await axios.post(URL + zoneId, { ...cat }, { params: { id: zoneId } });
+  const response = await axios.post(URL + zoneId, { ...cat });
+  return response.data;
+};
+
+export const deleteCat = async (zoneId: string, catID: string) => {
+  const response = await axios.delete(URL + zoneId + '/' + catID);
+  return response.data;
+};
+
+export const updateCat = async (zoneId: string, cat: Cat, catID: string) => {
+  const response = await axios.put(URL + zoneId + '/' + catID, { ...cat });
+  return response.data;
+};
+
+export const sterilizeCat = async (zoneId: string, cat: Cat, catID: string) => {
+  const response = await axios.patch(URL + zoneId + '/' + catID, { ...cat });
   return response.data;
 };
 

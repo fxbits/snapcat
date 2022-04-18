@@ -1,7 +1,14 @@
 import { createContext, ReactNode, useState } from 'react';
 
 export type ModalConfig = {
-  type: 'VIEW_CAT' | 'ADD_CAT' | 'EDIT_CAT' | 'VIEW_ZONE' | 'ADD_ZONE' | 'EDIT_ZONE';
+  type:
+    | 'VIEW_CAT'
+    | 'ADD_CAT'
+    | 'EDIT_CAT'
+    | 'STERILIZE_CAT'
+    | 'VIEW_ZONE'
+    | 'ADD_ZONE'
+    | 'EDIT_ZONE';
   back?: ModalConfig | undefined;
 };
 

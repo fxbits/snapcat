@@ -1,9 +1,9 @@
 import { InterestZone } from '../../models/zone.model';
-import SterilizedCatsList from './SterilizedCatList';
-import UnsterilizedCatsList from './UnsterilizedCatList';
+import SterilizedCat from './SterilizedCat';
+import UnsterilizedCat from './UnsterilizedCat';
 
 import { useContext, useEffect, useState } from 'react';
-import { ActionIcon, Box, Button, Grid, ScrollArea, Stack } from '@mantine/core';
+import { ActionIcon, Box, Grid, Group, ScrollArea, Stack, Text } from '@mantine/core';
 import { Accordion } from '@mantine/core';
 import ViewDetails from './ViewDetails';
 import Image from 'next/image';
@@ -33,11 +33,11 @@ const InterestZoneView = (props: Props) => {
   }, [props.isVisible]);
 
   const sterilizedCatsList = props.zone?.sterilizedCats.map((cat, index) => (
-    <SterilizedCatsList key={index} cat={cat} isEditable={isEditable} />
+    <SterilizedCat key={index} cat={cat} />
   ));
 
   const unsterilizedCatsList = props.zone?.unsterilizedCats.map((cat, index) => (
-    <UnsterilizedCatsList key={index} cat={cat} isEditable={isEditable} />
+    <UnsterilizedCat key={index} cat={cat} />
   ));
 
   return (
@@ -56,8 +56,6 @@ const InterestZoneView = (props: Props) => {
           <Accordion styles={{ content: { paddingLeft: 0 } }} initialItem={0} disableIconRotation>
             {/* TODO: translation keys */}
             <Accordion.Item
-              sx={{ position: 'relative' }}
-              label='Pisici sterilizate'
               icon={
                 <Image
                   src='/icon/sterilized-cat-icon.svg'
@@ -65,18 +63,25 @@ const InterestZoneView = (props: Props) => {
                   height={40}
                   alt='Sterilized Cats'
                 />
+              }
+              label={
+                <Group sx={{ position: 'relative', height: '40px' }} align='center'>
+                  <Text>Sterilized Cats</Text>
+                  <ActionIcon
+                    sx={{ position: 'absolute', right: 0 }}
+                    variant='filled'
+                    component='div'
+                    size='lg'
+                    color='green'
+                    onClick={() => {
+                      setModal({ type: 'ADD_CAT', back: modal });
+                      setCat(undefined);
+                    }}>
+                    <Plus />
+                  </ActionIcon>
+                </Group>
               }>
-              <ActionIcon
-                sx={{ position: 'absolute', top: 0, right: 0, margin: '8px' }}
-                variant='filled'
-                color='dark'
-                onClick={() => {
-                  setModal({ type: 'ADD_CAT', back: modal });
-                  setCat(undefined);
-                }}>
-                <Plus />
-              </ActionIcon>
-              <ScrollArea style={{ height: '100%' }}>
+              <ScrollArea style={{ height: '300px' }}>
                 <Stack sx={{ overflow: 'hidden' }}>{sterilizedCatsList}</Stack>
               </ScrollArea>
             </Accordion.Item>
@@ -86,11 +91,30 @@ const InterestZoneView = (props: Props) => {
                   src='/icon/unsterilized-cat-icon.svg'
                   width={40}
                   height={40}
-                  alt='Sterilized Cats'
+                  alt='Unsterilized Cats'
                 />
               }
-              label='Pisici nesterilizate'>
-              {unsterilizedCatsList}
+              sx={{ position: 'relative' }}
+              label={
+                <Group sx={{ position: 'relative', height: '40px' }} align='center'>
+                  <Text>Unterilized Cats</Text>
+                  <ActionIcon
+                    component='div'
+                    sx={{ position: 'absolute', right: 0 }}
+                    variant='filled'
+                    color='dark'
+                    size='lg'
+                    onClick={() => {
+                      setModal({ type: 'ADD_CAT', back: modal });
+                      setCat(undefined);
+                    }}>
+                    <Plus />
+                  </ActionIcon>
+                </Group>
+              }>
+              <ScrollArea style={{ height: '300px' }}>
+                <Stack sx={{ overflow: 'hidden' }}>{unsterilizedCatsList}</Stack>
+              </ScrollArea>
             </Accordion.Item>
           </Accordion>
           {/* TODO: translation keys */}

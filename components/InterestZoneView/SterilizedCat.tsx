@@ -4,13 +4,11 @@ import { Gender } from '../../models/cat.model';
 import {
   ActionIcon,
   Box,
-  Button,
   Center,
   Group,
   Stack,
   Text,
   ThemeIcon,
-  Title,
   useMantineTheme,
 } from '@mantine/core';
 import Image from 'next/image';
@@ -23,7 +21,6 @@ import { motion } from 'framer-motion';
 import {
   ArrowBarLeft,
   ArrowBarRight,
-  ArrowLeft,
   Edit,
   GenderFemale,
   GenderMale,
@@ -32,16 +29,14 @@ import {
   Scissors,
   Trash,
 } from 'tabler-icons-react';
-import { useTheme } from '@emotion/react';
-import { useMediaQuery } from '../hooks/useMediaQuery';
+import { DeleteCat } from '../CatModal/CatActions';
 
 interface Props {
-  isEditable: boolean;
   cat?: SterilizedCat;
 }
 
-const SterilizedCatsList = ({ cat }: Props) => {
-  const { setModal } = useContext(ModalContext);
+const SterilizedCat = ({ cat }: Props) => {
+  const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
 
   const theme = useMantineTheme();
@@ -112,7 +107,7 @@ const SterilizedCatsList = ({ cat }: Props) => {
               {cat?.volunteerName}
             </Text>
           </Group>
-          <Text>
+          <Text lineClamp={3}>
             <Text component='span' weight={600} color='green'>
               NOTE:{' '}
             </Text>
@@ -121,11 +116,13 @@ const SterilizedCatsList = ({ cat }: Props) => {
           <Group spacing='md' mt='xs'>
             <Group spacing='xs'>
               <ArrowBarRight />
-              <Text size='sm'>{cat?.releaseDate}</Text>
+              <Text size='sm'>
+                {new Date(cat?.hospitalizationDate || ' ').toLocaleDateString('en-GB')}
+              </Text>
             </Group>
             <Group spacing='xs'>
               <ArrowBarLeft />
-              <Text size='sm'>{cat?.hospitalizationDate}</Text>
+              <Text size='sm'>{new Date(cat?.releaseDate || ' ').toLocaleDateString('en-GB')}</Text>
             </Group>
           </Group>
         </Stack>
@@ -137,7 +134,14 @@ const SterilizedCatsList = ({ cat }: Props) => {
         <ActionIcon sx={{ height: '100%' }} color='yellow' variant='filled'>
           <Scissors />
         </ActionIcon>
-        <ActionIcon sx={{ height: '100%' }} color='blue' variant='filled'>
+        <ActionIcon
+          onClick={() => {
+            setCat(cat);
+            setModal({ type: 'EDIT_CAT', back: modal });
+          }}
+          sx={{ height: '100%' }}
+          color='blue'
+          variant='filled'>
           <Edit />
         </ActionIcon>
         <ActionIcon sx={{ height: '100%' }} color='red' variant='filled'>
@@ -148,4 +152,4 @@ const SterilizedCatsList = ({ cat }: Props) => {
   );
 };
 
-export default SterilizedCatsList;
+export default SterilizedCat;

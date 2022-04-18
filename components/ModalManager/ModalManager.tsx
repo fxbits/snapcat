@@ -6,7 +6,6 @@ import InterestZoneView from '../InterestZoneView/InterestZoneView';
 import { ModalContext } from '../Providers/ModalProvider';
 
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
-import CatModalHeader from '../CatModal/CatModalHeader';
 import ZoneModalHeader from './InterestZoneModalHeader';
 import { CatContext } from '../Providers/CatProvider';
 
@@ -31,10 +30,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function ModalManager() {
+  const { classes } = useStyles();
   const { modal, setModal } = useContext(ModalContext);
   const { cat } = useContext(CatContext);
   const { interestZone, partialInterestZone } = useContext(InterestZoneProviderContext);
-  const { classes } = useStyles();
   return (
     <>
       {modal && (
@@ -66,12 +65,12 @@ export default function ModalManager() {
               />
             </>
           )}
-          {(modal.type === 'VIEW_CAT' || modal.type === 'ADD_CAT' || modal.type === 'EDIT_CAT') &&
+          {(modal.type === 'VIEW_CAT' ||
+            modal.type === 'ADD_CAT' ||
+            modal.type === 'EDIT_CAT' ||
+            modal.type === 'STERILIZE_CAT') &&
             interestZone && (
-              <>
-                <CatModalHeader modal={modal} setModal={setModal} />
-                <CatModalView modal={modal} cat={cat} />
-              </>
+              <CatModalView zoneId={interestZone._id} modal={modal} cat={cat} setModal={setModal} />
             )}
         </WindowModal>
       )}
