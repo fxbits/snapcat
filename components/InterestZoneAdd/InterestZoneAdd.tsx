@@ -1,4 +1,4 @@
-import DetailsForm from '../InterestZoneView/DetailsForm';
+import DetailsForm from '../InterestZoneModal/DetailsForm';
 import { zoneServiceUi } from '../../ui/ZoneServices';
 
 import Box from '@mui/material/Box';
@@ -24,14 +24,10 @@ const InterestZoneAdd = (props: Props) => {
   }, []);
 
   return (
-    <Box >
+    <Box>
       <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone} />
       <div>
-        <Button
-          variant='contained'
-          color='success'
-          onClick={handleSave}
-          style={{ margin: '10px' }}>
+        <Button variant='contained' color='success' onClick={handleSave} style={{ margin: '10px' }}>
           Save
         </Button>
         <Button variant='outlined' color='error' onClick={handleClose}>

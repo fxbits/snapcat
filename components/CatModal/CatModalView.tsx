@@ -14,11 +14,11 @@ import Image from 'next/image';
 import { Cat, Gender, SterilizedCat } from '../../models/cat.model';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { dropzoneChildren } from '../Dropzone/Dropzone';
+import { dropzoneChildren } from './Dropzone/Dropzone';
 import { useForm } from '@mantine/hooks';
 import CatModalHeader from './CatModalHeader';
 import { useSWRConfig } from 'swr';
-import useCatActions from './CatActions';
+import useCatActions from './useCatActions';
 import { useEffect } from 'react';
 
 const useStyles = createStyles((theme) => ({
@@ -50,7 +50,6 @@ export default function CatModalView({
   cat,
   modal,
   setModal,
-  zoneId,
 }: {
   cat: Cat | undefined;
   modal: ModalConfig;
@@ -83,16 +82,16 @@ export default function CatModalView({
     modal.type === 'EDIT_CAT' ||
     modal.type === 'STERILIZE_CAT'
   );
-  const [AddCat, UpdateCat, DeleteCat, SterilizeCat] = useCatActions(cat?._id!);
+  const { AddCat, UpdateCat, DeleteCat, SterilizeCat } = useCatActions(cat?._id!);
   return (
     <>
       <CatModalHeader
         modal={modal}
         setModal={setModal}
-        addCat={() => AddCat(form)}
-        updateCat={() => UpdateCat(form)}
+        addCat={() => AddCat(form.values)}
+        updateCat={() => UpdateCat(form.values)}
         deleteCat={() => DeleteCat()}
-        sterilizeCat={() => SterilizeCat(form)}
+        sterilizeCat={() => SterilizeCat(form.values)}
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>
         <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>

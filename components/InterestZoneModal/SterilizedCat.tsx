@@ -29,7 +29,7 @@ import {
   Scissors,
   Trash,
 } from 'tabler-icons-react';
-import useCatActions from '../CatModal/CatActions';
+import useCatActions from '../CatModal/useCatActions';
 
 interface Props {
   cat?: SterilizedCat;
@@ -38,7 +38,7 @@ interface Props {
 const SterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
-  const [AddCat, UpdateCat, DeleteCat, SterilizeCat] = useCatActions(cat?._id!);
+  const { DeleteCat } = useCatActions(cat?._id!);
   const theme = useMantineTheme();
 
   const handleChange = useCallback(

@@ -12,7 +12,6 @@ const MainApp = () => {
   const { user } = useUser();
   const router = useRouter();
   const theme = useMantineTheme();
-
   return (
     <Grid
       sx={{

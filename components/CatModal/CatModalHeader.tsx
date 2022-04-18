@@ -55,7 +55,8 @@ export default function CatModalHeader({
             onClick={() => setModal({ ...modal, type: 'EDIT_CAT' })}
             size='lg'
             radius='md'
-            variant='outline'>
+            color='indigo'
+            variant='filled'>
             <Edit size={40} />
           </ActionIcon>
         )}
@@ -68,6 +69,7 @@ export default function CatModalHeader({
             }}
             size='lg'
             radius='md'
+            color='indigo'
             variant='filled'>
             <BrandStackoverflow size={40} />
           </ActionIcon>

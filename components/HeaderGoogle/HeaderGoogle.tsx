@@ -69,13 +69,18 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
                 />
               </Center>
             }>
-            <Text
-              size='sm'
-              sx={(theme) => ({
-                [theme.fn.smallerThan('md')]: { display: 'none' },
-              })}>
-              {user!.name}
-            </Text>
+            <Stack spacing={0} align='center'>
+              <Text size='md' color='dark' inline weight={700}>
+                Welcome
+              </Text>
+              <Text
+                size='sm'
+                sx={(theme) => ({
+                  [theme.fn.smallerThan('md')]: { display: 'none' },
+                })}>
+                {user!.name}
+              </Text>
+            </Stack>
           </Button>
         }
         position='bottom'

@@ -2,23 +2,25 @@ import { createStyles, CSSObject, Modal as WindowModal } from '@mantine/core';
 import React, { useContext, useState } from 'react';
 import CatModalView from '../CatModal/CatModalView';
 import InterestZoneAdd from '../InterestZoneAdd/InterestZoneAdd';
-import InterestZoneView from '../InterestZoneView/InterestZoneView';
+import InterestZoneView from '../InterestZoneModal/InterestZoneView';
 import { ModalContext } from '../Providers/ModalProvider';
 
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
-import ZoneModalHeader from './InterestZoneModalHeader';
+import ZoneModalHeader from '../InterestZoneModal/InterestZoneModalHeader';
 import { CatContext } from '../Providers/CatProvider';
 
 const useStyles = createStyles((theme) => ({
   manager: {
     '& .mantine-Modal-modal': {
       backgroundColor: theme.colors.yellow[5],
-      borderRadius: '15px',
       width: '100%',
-
+      minHeight: '100vh',
+      borderRadius: '0px',
       [theme.fn.largerThan('md')]: {
         width: '65%',
+        minHeight: 'auto',
         marginTop: '50px',
+        borderRadius: '15px',
       },
     },
     '& .mantine-Modal-body': {
@@ -40,12 +42,19 @@ export default function ModalManager() {
         <WindowModal
           opened={modal !== undefined}
           className={classes.manager}
-          styles={{ inner: { padding: 0 } }}
+          overlayOpacity={1}
+          overlayColor='#FFFFFF30'
+          styles={{
+            inner: { padding: 0 },
+            overlay: {
+              backdropFilter: 'blur(5px)',
+            },
+          }}
           onClose={() => {
             setModal(undefined);
           }}
           withCloseButton={false}>
-          {modal.type === 'ADD_ZONE' && partialInterestZone && (
+          {/* {modal.type === 'ADD_ZONE' && partialInterestZone && (
             <>
               <ZoneModalHeader zone={partialInterestZone} modal={modal} setModal={setModal} />
               <InterestZoneAdd
@@ -54,17 +63,20 @@ export default function ModalManager() {
                 isVisible={true}
               />
             </>
-          )}
-          {modal.type === 'VIEW_ZONE' && interestZone && (
-            <>
-              <ZoneModalHeader zone={interestZone} modal={modal} setModal={setModal} />
-              <InterestZoneView
-                zone={interestZone}
-                isVisible={true}
-                onClose={() => setModal(undefined)}
-              />
-            </>
-          )}
+          )} */}
+          {(modal.type === 'VIEW_ZONE' ||
+            modal.type === 'EDIT_ZONE' ||
+            modal.type === 'ADD_ZONE') &&
+            (interestZone || partialInterestZone) && (
+              <>
+                <ZoneModalHeader
+                  zone={interestZone || partialInterestZone!}
+                  modal={modal}
+                  setModal={setModal}
+                />
+                <InterestZoneView zone={interestZone} partialZone={partialInterestZone} />
+              </>
+            )}
           {(modal.type === 'VIEW_CAT' ||
             modal.type === 'ADD_CAT' ||
             modal.type === 'EDIT_CAT' ||

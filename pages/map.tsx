@@ -1,6 +1,6 @@
 import { zoneServiceUi } from '../ui/ZoneServices';
 import { InterestZone } from '../models/zone.model';
-import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
+import InteresZoneView from '../components/InterestZoneModal/InterestZoneView';
 import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
 import { mapContainer } from '../styles/map.module';
 import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';

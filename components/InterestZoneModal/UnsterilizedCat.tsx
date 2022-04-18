@@ -18,16 +18,8 @@ import { CatContext } from '../Providers/CatProvider';
 
 import { motion } from 'framer-motion';
 
-import {
-  Edit,
-  GenderFemale,
-  GenderMale,
-  Man,
-  QuestionMark,
-  Scissors,
-  Trash,
-} from 'tabler-icons-react';
-import useCatActions from '../CatModal/CatActions';
+import { Edit, GenderFemale, GenderMale, QuestionMark, Scissors, Trash } from 'tabler-icons-react';
+import useCatActions from '../CatModal/useCatActions';
 
 interface Props {
   cat?: UnsterilizedCat;
@@ -38,7 +30,7 @@ const UnsterilizedCat = ({ cat }: Props) => {
   const { setCat } = useContext(CatContext);
 
   const theme = useMantineTheme();
-  const [AddCat, UpdateCat, DeleteCat, SterilizeCat] = useCatActions(cat?._id!);
+  const { DeleteCat } = useCatActions(cat?._id!);
 
   const handleChange = useCallback(
     (e: MouseEvent) => {
