@@ -2,7 +2,6 @@ import { InterestZone } from '../../models/zone.model';
 import { Phone } from 'tabler-icons-react';
 import { Box, Group, Stack, Container, Text, useMantineTheme } from '@mantine/core';
 import Image from 'next/image';
-import { textAlign } from '@mui/system';
 
 interface Props {
   zone?: Partial<InterestZone>;

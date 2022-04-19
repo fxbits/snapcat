@@ -33,17 +33,8 @@ const InterestZoneElement = ({ interestZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);
   const { classes } = useStyles();
-  const {
-    _id,
-    address,
-    noUnsterilizedCats,
-    observations,
-    status,
-    sterilizedCats,
-    unsterilizedCats,
-    volunteerName,
-    contactPerson,
-  } = interestZone;
+  const { address, noUnsterilizedCats, status, sterilizedCats, unsterilizedCats, volunteerName } =
+    interestZone;
 
   const statusColor: Record<Status, string> = {
     [Status.DONE]: '#B0EF8F',

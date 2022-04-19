@@ -11,8 +11,10 @@ import { ModalContext } from '../components/Providers/ModalProvider';
 
 import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import SvgComponentMarker from '../components/Icons/IconMarker';
-import { Text } from '@mantine/core';
+import { Box, Center, Text, ThemeIcon } from '@mantine/core';
 import useSWR from 'swr';
+import { SterilizedCatIcon, UnsterilizedCatIcon } from '../components/Icons/Icons';
+import { useStatusColorMantine } from '../components/hooks/useStatusColor';
 
 interface Bounds {
   north: number;
@@ -109,6 +111,7 @@ function Map() {
     });
   };
 
+  const statusColor = useStatusColorMantine;
   if (!isLoaded) {
     return <></>;
   }
@@ -135,10 +138,20 @@ function Map() {
               position={position}
               key={zone._id}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-              <SvgComponentMarker
-                status={zone.status}
-                location={position}
-                displayZone={displayZoneMarker}></SvgComponentMarker>
+              <Center
+                sx={(theme) => ({
+                  width: 60 + zone.noUnsterilizedCats * 20,
+                  borderRadius: '50%',
+                  height: 60 + zone.noUnsterilizedCats * 20,
+                  fill: theme.colors[statusColor[zone.status]][5],
+                  backgroundColor: theme.colors[statusColor[zone.status]][2] + '80',
+                  zIndex: 50,
+                })}
+                onClick={() => displayZoneMarker(position)}>
+                <Box sx={{ width: '50%', height: '50%' }}>
+                  <UnsterilizedCatIcon />
+                </Box>
+              </Center>
             </OverlayView>
           );
         })}

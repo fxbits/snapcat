@@ -20,7 +20,7 @@ const addZone = async (zone: Partial<InterestZone>) => {
       lng: zone?.address?.lng,
     },
     noUnsterilizedCats: zone.unsterilizedCats ?? 0,
-    status: Status.TODO,
+    status: zone.status,
     contactPerson: {
       phone: zone.contactPerson?.phone,
       name: zone.contactPerson?.name,
@@ -61,7 +61,7 @@ const useZoneActions = (zoneId: string) => {
           lng: zone?.address.lng,
         },
       }),
-
+      status: values.status,
       contactPerson: {
         name: values.contact,
         phone: values.phone,
@@ -82,20 +82,20 @@ const useZoneActions = (zoneId: string) => {
   const AddZone = async (values: FormValues, address: Address, volunteerName?: string) => {
     const body = getBody(values, address, volunteerName);
 
-    addZone(body);
+    await addZone(body);
     mutate(`/api/interest-zones/`);
   };
 
   const UpdateZone = async (values: FormValues, zone: InterestZone | undefined) => {
     const body = getBody(values, undefined, undefined, zone);
+    await updateZone(zoneId, body);
 
-    updateZone(zoneId, body);
     mutate(`/api/interest-zones/${zoneId}`);
     mutate(`/api/interest-zones/`);
   };
 
   const DeleteZone = async () => {
-    deleteZone(zoneId);
+    await deleteZone(zoneId);
     mutate(`/api/interest-zones/`);
   };
 

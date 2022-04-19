@@ -1,8 +1,8 @@
-import { InterestZone } from '../../models/zone.model';
+import { InterestZone, Status } from '../../models/zone.model';
 import SterilizedCat from './SterilizedCat';
 import UnsterilizedCat from './UnsterilizedCat';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ActionIcon, Box, Grid, Group, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
 import { Accordion } from '@mantine/core';
 import InterestZoneDetails from './InterestZoneDetails';
@@ -25,20 +25,20 @@ export interface FormValues {
   volunteerName: string;
   contact: string;
   phone: string;
+  status: Status;
 }
 const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { modal, setModal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
-
   const form = useForm<FormValues>({
     initialValues: {
-      addressName:
-        zone?.address?.name || partialZone?.address?.name.split(' ').slice(0, 2).join(' ') || '',
+      addressName: zone?.address?.name || partialZone?.address?.name.split(', ')[0] || '',
       volunteerName: zone?.volunteerName || partialZone?.volunteerName || '',
       contact: zone?.contactPerson?.name || '',
       phone: zone?.contactPerson?.phone || '',
+      status: zone?.status || Status.TODO,
     },
     validationRules: {
       contact: (value) => value.length > 2,
@@ -52,6 +52,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
     <>
       <ZoneModalHeader
         zone={zone || partialZone!}
+        form={form}
         addZone={() => {
           setModal(modal?.back);
           AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);

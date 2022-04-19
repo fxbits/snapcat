@@ -4,6 +4,8 @@ import { InterestZone, Status } from '../../models/zone.model';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { ArrowLeft, BrandStackoverflow, Edit, Plus, Trash } from 'tabler-icons-react';
 import useZoneActions from './hooks/useZoneActions';
+import { FormValues } from './InterestZoneView';
+import { UseForm } from '@mantine/hooks/lib/use-form/use-form';
 export default function ZoneModalHeader({
   modal,
   zone,
@@ -11,6 +13,7 @@ export default function ZoneModalHeader({
   addZone,
   updateZone,
   deleteZone,
+  form,
 }: {
   modal: ModalConfig;
   zone: InterestZone | Partial<InterestZone>;
@@ -18,6 +21,7 @@ export default function ZoneModalHeader({
   addZone: () => void;
   updateZone: () => void;
   deleteZone: () => void;
+  form: UseForm<FormValues>;
 }) {
   const { AddZone } = useZoneActions(zone._id!);
   return (
@@ -38,7 +42,15 @@ export default function ZoneModalHeader({
           </Text>
         </Stack>
       ) : (
-        <Select data={['To Do', 'In Progress', 'Done']} defaultValue={zone?.status}></Select>
+        <Select
+          {...form.getInputProps('status')}
+          onChange={(e) => form.setFieldValue('status', e as Status)}
+          data={[
+            { value: Status.TODO, label: 'To Do' },
+            { value: Status.INPROGRESS, label: 'In Progress' },
+            { value: Status.DONE, label: 'Done' },
+          ]}
+          defaultValue={zone?.status}></Select>
       )}
       <Group spacing='xs'>
         {modal.type === 'VIEW_ZONE' && (
