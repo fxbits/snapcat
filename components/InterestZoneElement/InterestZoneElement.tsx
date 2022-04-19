@@ -5,6 +5,7 @@ import { Box, Button, Container, createStyles, Group, Stack, Sx, Text } from '@m
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ModalContext } from '../Providers/ModalProvider';
+import useAdressName from '../hooks/useAdress';
 
 interface Props {
   interestZone: InterestZone;
@@ -42,6 +43,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
     [Status.TODO]: '#EF8F8F',
   };
 
+  const newAdress = useAdressName(interestZone.address);
   return (
     <Container
       m='md'
@@ -57,10 +59,10 @@ const InterestZoneElement = ({ interestZone }: Props) => {
             <Image src='/icon/location-icon.png' width={16} height={23} alt='location-icon'></Image>
             <Stack spacing={0} sx={{ width: '80%' }}>
               <Text weight={400} sx={{ maxWidth: '100%' }}>
-                {address.name}
+                {newAdress.street}
               </Text>
               <Text color='gray' size='xs'>
-                {address.lat} {address.lng}
+                {newAdress.city}
               </Text>
             </Stack>
           </Group>

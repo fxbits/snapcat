@@ -2,6 +2,7 @@ import { InterestZone } from '../../models/zone.model';
 import { Phone } from 'tabler-icons-react';
 import { Box, Group, Stack, Container, Text, useMantineTheme } from '@mantine/core';
 import Image from 'next/image';
+import useAdressName from '../hooks/useAdress';
 
 interface Props {
   zone?: Partial<InterestZone>;
@@ -9,6 +10,8 @@ interface Props {
 
 const ViewDetails = (props: Props) => {
   const theme = useMantineTheme();
+  const newAdress = useAdressName(props.zone?.address!);
+
   return (
     <Group
       p='md'
@@ -24,11 +27,9 @@ const ViewDetails = (props: Props) => {
           <Image src='/icon/location-icon.png' alt='location icon' width={16} height={23}></Image>
           <Stack spacing={0}>
             <Text size='xl' weight={400}>
-              {props.zone?.address?.name}
+              {newAdress.street}
             </Text>
-            <Text color='gray'>
-              {props.zone?.address?.lat} {props.zone?.address?.lng}
-            </Text>
+            <Text color='gray'>{newAdress.city}</Text>
           </Stack>
         </Group>
         <Group mt='xs'>

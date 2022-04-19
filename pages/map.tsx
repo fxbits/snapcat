@@ -78,6 +78,7 @@ function Map() {
         };
         setModal({ type: 'ADD_ZONE' });
         setInterestZone(undefined);
+        setPartialInterestZone(undefined);
         setPartialInterestZone(zone);
         map?.panTo(new google.maps.LatLng(location.lat, location.lng));
       }
@@ -140,9 +141,9 @@ function Map() {
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
               <Center
                 sx={(theme) => ({
-                  width: 60 + zone.noUnsterilizedCats * 20,
+                  width: 60 + zone.noUnsterilizedCats * 10,
                   borderRadius: '50%',
-                  height: 60 + zone.noUnsterilizedCats * 20,
+                  height: 60 + zone.noUnsterilizedCats * 10,
                   fill: theme.colors[statusColor[zone.status]][5],
                   backgroundColor: theme.colors[statusColor[zone.status]][2] + '80',
                   zIndex: 50,

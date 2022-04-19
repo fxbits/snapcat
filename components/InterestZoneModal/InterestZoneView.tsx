@@ -32,9 +32,10 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { setCat } = useContext(CatContext);
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
+
   const form = useForm<FormValues>({
     initialValues: {
-      addressName: zone?.address?.name || partialZone?.address?.name.split(', ')[0] || '',
+      addressName: zone?.address?.name || partialZone?.address?.name || '',
       volunteerName: zone?.volunteerName || partialZone?.volunteerName || '',
       contact: zone?.contactPerson?.name || '',
       phone: zone?.contactPerson?.phone || '',
