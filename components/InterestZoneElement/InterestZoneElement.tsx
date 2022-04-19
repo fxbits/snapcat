@@ -1,7 +1,7 @@
 import { InterestZone, Status } from '../../models/zone.model';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 
-import { Box, Button, Container, Group, Stack, Sx, Text } from '@mantine/core';
+import { Box, Button, Container, createStyles, Group, Stack, Sx, Text } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ModalContext } from '../Providers/ModalProvider';
@@ -10,10 +10,16 @@ interface Props {
   interestZone: InterestZone;
 }
 
-const styles: Record<string, Sx> = {
+const useStyles = createStyles((theme) => ({
   container: {
-    border: '2px solid #DBDBDB',
+    outline: '2px solid #DBDBDB',
     borderRadius: '7px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.gray[2],
+      outline: '5px solid  #DBDBDB',
+    },
+    transition: 'all 0.1s ease-in-out',
   },
   button: {
     width: '130px',
@@ -21,11 +27,12 @@ const styles: Record<string, Sx> = {
     borderRadius: '10px',
     border: '2px solid black',
   },
-};
+}));
 
 const InterestZoneElement = ({ interestZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);
+  const { classes } = useStyles();
   const {
     _id,
     address,
@@ -46,9 +53,9 @@ const InterestZoneElement = ({ interestZone }: Props) => {
 
   return (
     <Container
-      m='xs'
+      m='md'
       p='xs'
-      sx={styles.container}
+      className={classes.container}
       onClick={() => {
         setInterestZone(interestZone);
         setModal({ type: 'VIEW_ZONE' });
@@ -92,7 +99,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           )}
           {volunteerName && <Text> {volunteerName} </Text>}
           {!volunteerName && (
-            <Button mt='md' color='dark' variant='outline' sx={styles.button}>
+            <Button mt='md' color='dark' variant='outline' className={classes.button}>
               {' '}
               ASSIGN TO ME{' '}
             </Button>

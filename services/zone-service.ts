@@ -111,7 +111,7 @@ class ZoneService {
     } else {
       const catSchema = new unsterilizedCatSchema(cat);
       interestZone.noUnsterilizedCats = interestZone.noUnsterilizedCats
-        ? interestZone.noUnsterilizedCats++
+        ? interestZone.noUnsterilizedCats + 1
         : 1;
       interestZone.unsterilizedCats.push(catSchema);
     }
@@ -252,7 +252,7 @@ class ZoneService {
     if (!body) throw new ZoneValidationError(400, ZoneError.ZONE);
     if (!(body?.address?.lat > 0 && body?.address?.lng > 0))
       throw new ZoneValidationError(400, ZoneError.COORDINATES);
-    if (!(body?.address?.name?.length > 5)) throw new ZoneValidationError(400, ZoneError.ADDRESS);
+    // if (!(body?.address?.name?.length > 5)) throw new ZoneValidationError(400, ZoneError.ADDRESS);
     if (!(body?.noUnsterilizedCats >= 0))
       throw new ZoneValidationError(400, ZoneError.NO_UNSTERILIZED_CATS);
     if (!Object.values(Status).includes(body?.status))

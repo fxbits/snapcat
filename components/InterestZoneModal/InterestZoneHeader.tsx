@@ -2,17 +2,24 @@ import React from 'react';
 import { ActionIcon, Button, Group, MediaQuery, Select, Stack, Text, Title } from '@mantine/core';
 import { InterestZone, Status } from '../../models/zone.model';
 import { ModalConfig } from '../Providers/ModalProvider';
-import { ArrowLeft, BrandStackoverflow, Edit, Trash } from 'tabler-icons-react';
-import { useStatusColor } from '../hooks/useStatusColor';
+import { ArrowLeft, BrandStackoverflow, Edit, Plus, Trash } from 'tabler-icons-react';
+import useZoneActions from './hooks/useZoneActions';
 export default function ZoneModalHeader({
   modal,
   zone,
   setModal,
+  addZone,
+  updateZone,
+  deleteZone,
 }: {
   modal: ModalConfig;
   zone: InterestZone | Partial<InterestZone>;
   setModal: (modal: ModalConfig | undefined) => void;
+  addZone: () => void;
+  updateZone: () => void;
+  deleteZone: () => void;
 }) {
+  const { AddZone } = useZoneActions(zone._id!);
   return (
     <Group p='md' position='apart' align='center' sx={{ width: '100%' }}>
       <Group spacing='sm' sx={{ height: '100%' }}>
@@ -34,7 +41,7 @@ export default function ZoneModalHeader({
         <Select data={['To Do', 'In Progress', 'Done']} defaultValue={zone?.status}></Select>
       )}
       <Group spacing='xs'>
-        {modal.type === 'VIEW_ZONE' ? (
+        {modal.type === 'VIEW_ZONE' && (
           <ActionIcon
             color='indigo'
             onClick={() => setModal({ ...modal, type: 'EDIT_ZONE' })}
@@ -43,20 +50,28 @@ export default function ZoneModalHeader({
             variant='filled'>
             <Edit size={40} />
           </ActionIcon>
-        ) : (
-          modal.type === 'EDIT_ZONE' && (
-            <ActionIcon
-              onClick={() => setModal({ ...modal, type: 'VIEW_ZONE' })}
-              size='lg'
-              color='indigo'
-              radius='md'
-              variant='filled'>
-              <BrandStackoverflow size={40} />
-            </ActionIcon>
-          )
         )}
-
-        <ActionIcon size='lg' radius='md' color='red' variant='filled'>
+        {modal.type === 'EDIT_ZONE' && (
+          <ActionIcon
+            onClick={() => updateZone()}
+            size='lg'
+            color='indigo'
+            radius='md'
+            variant='filled'>
+            <BrandStackoverflow size={40} />
+          </ActionIcon>
+        )}
+        {modal.type === 'ADD_ZONE' && (
+          <ActionIcon
+            onClick={() => addZone()}
+            size='lg'
+            color='indigo'
+            radius='md'
+            variant='filled'>
+            <Plus size={40} />
+          </ActionIcon>
+        )}
+        <ActionIcon onClick={() => deleteZone()} size='lg' radius='md' color='red' variant='filled'>
           <Trash size={40} />
         </ActionIcon>
       </Group>
