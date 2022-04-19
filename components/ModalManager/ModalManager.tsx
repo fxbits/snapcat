@@ -18,8 +18,7 @@ const useStyles = createStyles((theme) => ({
       borderRadius: '0px',
       [theme.fn.largerThan('md')]: {
         width: '65%',
-        minHeight: 'auto',
-        marginTop: '50px',
+        minHeight: '650px',
         borderRadius: '15px',
       },
     },
@@ -40,6 +39,7 @@ export default function ModalManager() {
     <>
       {modal && (
         <WindowModal
+          centered
           opened={modal !== undefined}
           className={classes.manager}
           overlayOpacity={1}

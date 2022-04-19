@@ -18,14 +18,14 @@ const ViewDetails = (props: Props) => {
         backgroundColor: theme.colors.yellow[2],
         borderRadius: theme.radius.md,
       })}>
-      <Stack>
+      <Stack spacing={0}>
         <Group>
           <Image src='/icon/location-icon.png' alt='location icon' width={16} height={23}></Image>
           <Stack spacing={0}>
-            <Text size='lg' weight={400}>
+            <Text size='xl' weight={400}>
               {props.zone?.address?.name}
             </Text>
-            <Text color='gray' size='xs'>
+            <Text color='gray'>
               {props.zone?.address?.lat} {props.zone?.address?.lng}
             </Text>
           </Stack>
@@ -37,7 +37,9 @@ const ViewDetails = (props: Props) => {
               alt='sterilized cat'
               width={45}
               height={45}></Image>
-            <Text weight={400}>{props.zone?.sterilizedCats?.length}</Text>
+            <Text weight={600} size='xl'>
+              {props.zone?.sterilizedCats?.length}
+            </Text>
           </Group>
           <Group spacing='xs'>
             <Image
@@ -45,23 +47,37 @@ const ViewDetails = (props: Props) => {
               alt='unsterilized cat'
               width={45}
               height={45}></Image>
-            <Text weight={400}>{props.zone?.unsterilizedCats?.length}</Text>
+            <Text weight={600} size='xl'>
+              {props.zone?.unsterilizedCats?.length}
+            </Text>
           </Group>
         </Group>
         <Text mt='md' color='gray'>
           Volunteer{' '}
         </Text>
-        <Text weight={600}> {props.zone?.volunteerName} </Text>
+        {props.zone?.volunteerName ? (
+          <Text weight={600}> {props.zone?.volunteerName} </Text>
+        ) : (
+          <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
+        )}
       </Stack>
 
       {/* TODO: translation keys */}
 
       <Stack spacing={0} sx={{ width: '35%', textAlign: 'left' }}>
         <Text>Contact</Text>
-        <Text weight={600}>{props.zone?.contactPerson?.name}</Text>
-        <Group spacing={0}>
+        {props.zone?.contactPerson?.name ? (
+          <Text weight={600}>{props.zone.contactPerson.name}</Text>
+        ) : (
+          <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
+        )}
+        <Group spacing={0} mt='xs'>
           <Phone size={18} strokeWidth={2} color={'black'} />
-          <Text weight={600}>{props.zone?.contactPerson?.phone}</Text>
+          {props.zone?.contactPerson?.phone ? (
+            <Text weight={600}>{props.zone.contactPerson.name}</Text>
+          ) : (
+            <Box sx={{ width: '70px', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
+          )}
         </Group>
       </Stack>
     </Group>

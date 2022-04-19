@@ -39,6 +39,18 @@ const theme: MantineThemeOverride = {
       '#0B155B',
       '#060B2D',
     ],
+    green: [
+      '#F3F5EF',
+      '#DEE4D2',
+      '#C8D3B6',
+      '#B3C299',
+      '#9DB07D',
+      '#889F60',
+      '#6D7F4D',
+      '#525F3A',
+      '#364026',
+      '#1B2013',
+    ],
   },
   headings: {
     fontFamily: 'Poppins, sans-serif',
