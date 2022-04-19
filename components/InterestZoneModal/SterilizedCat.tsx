@@ -117,12 +117,19 @@ const SterilizedCat = ({ cat }: Props) => {
             <Group spacing='xs'>
               <ArrowBarRight />
               <Text size='sm'>
-                {new Date(cat?.hospitalizationDate || ' ').toLocaleDateString('en-GB')}
+                {(cat?.hospitalizationDate
+                  ? new Date(cat.hospitalizationDate)
+                  : new Date()
+                ).toLocaleDateString('en-GB')}
               </Text>
             </Group>
             <Group spacing='xs'>
               <ArrowBarLeft />
-              <Text size='sm'>{new Date(cat?.releaseDate || ' ').toLocaleDateString('en-GB')}</Text>
+              <Text size='sm'>
+                {(cat?.releaseDate ? new Date(cat.releaseDate) : new Date()).toLocaleDateString(
+                  'en-GB'
+                )}
+              </Text>
             </Group>
           </Group>
         </Stack>

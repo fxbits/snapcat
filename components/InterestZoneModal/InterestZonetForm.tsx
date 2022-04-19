@@ -12,7 +12,6 @@ interface FormValues {
 }
 
 export default function InterestZoneForm({ zone }: { zone: Partial<InterestZone> }) {
-  console.log(zone);
   const form = useForm<FormValues>({
     initialValues: {
       adress: zone.address?.name || '',
