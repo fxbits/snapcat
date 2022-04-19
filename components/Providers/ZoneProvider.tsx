@@ -27,7 +27,10 @@ const ZoneProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    zone !== undefined && setInterestZone(zone);
+    if (zone !== undefined) {
+      setInterestZone(zone);
+      setPartialInterestZone(undefined);
+    }
   }, [zone]);
 
   return (

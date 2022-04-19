@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Box, Stack, Text, ActionIcon, Portal, Paper, MediaQuery } from '@mantine/core';
+import { Box, Stack, Text, ActionIcon, Portal, Paper, MediaQuery, ScrollArea } from '@mantine/core';
 import { SwipeEventData, useSwipeable } from 'react-swipeable';
-import { Compass } from 'tabler-icons-react';
+import { Compass, Map } from 'tabler-icons-react';
 import { InterestZone } from '../../models/zone.model';
-import InterestZoneElement from '../InterestZonesOverview/InterestZoneElement';
+import InterestZoneElement from '../InterestZoneElement/InterestZoneElement';
 
 interface Drawer {
   zones: InterestZone[];
@@ -61,21 +61,21 @@ export default function MobileDrawer({ zones }: Drawer) {
               </Text>
             )}
           </Stack>
-          <Stack spacing={0} sx={{ overflowY: 'scroll', height: '100%' }}>
+          <ScrollArea px='md' py='md' sx={{ height: 'calc(100% - 60px)' }}>
             {zones.map((zone) => (
               <InterestZoneElement interestZone={zone} key={zone._id} />
             ))}
-          </Stack>
+          </ScrollArea>
           {index >= 1 && (
             <ActionIcon
               variant='light'
               size='xl'
-              radius='xl'
               m='xl'
+              p='xs'
               color='yellow'
               sx={{ position: 'absolute', bottom: 0, right: 0 }}
               onClick={() => setIndex(0)}>
-              <Compass size={100} />
+              <Map size={200} />
             </ActionIcon>
           )}
         </Paper>

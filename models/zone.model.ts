@@ -6,7 +6,7 @@ export enum Status {
   INPROGRESS = 'In Progress',
 }
 
-interface Address {
+export interface Address {
   name: string;
   lat: number;
   lng: number;

@@ -1,9 +1,4 @@
-import { zoneServiceUi } from '../ui/ZoneServices';
 import { InterestZone } from '../models/zone.model';
-import InteresZoneView from '../components/InterestZoneModal/InterestZoneView';
-import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
-import { mapContainer } from '../styles/map.module';
-import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
 import { InterestZoneProviderContext } from '../components/Providers/ZoneProvider';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -16,10 +11,10 @@ import { ModalContext } from '../components/Providers/ModalProvider';
 
 import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import SvgComponentMarker from '../components/Icons/IconMarker';
-import { Text } from '@mantine/core';
-import theme from '../styles/theme';
+import { Box, Center, Text, ThemeIcon } from '@mantine/core';
 import useSWR from 'swr';
-import axios from 'axios';
+import { SterilizedCatIcon, UnsterilizedCatIcon } from '../components/Icons/Icons';
+import { useStatusColorMantine } from '../components/hooks/useStatusColor';
 
 interface Bounds {
   north: number;
@@ -52,7 +47,6 @@ function Map() {
   const [username, setUsername] = useState<string>('');
   const [map, setMap] = useState<google.maps.Map>();
   const { data: interestZones } = useSWR<InterestZone[]>('/api/interest-zones/');
-  const [addModalVisible, setAddModalVisible] = useState(false);
 
   const onLoad = useCallback((map: google.maps.Map) => {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
@@ -65,53 +59,40 @@ function Map() {
   //make zone service as hooks
 
   //TODO: remove useCallback usage with the exception of large component lists
-  const addZone = useCallback(
-    (e: google.maps.MapMouseEvent) => {
-      const geocoder = new google.maps.Geocoder();
-      const location = {
-        lat: e.latLng!.lat(),
-        lng: e.latLng!.lng(),
-      };
+  const addZone = (e: google.maps.MapMouseEvent) => {
+    const geocoder = new google.maps.Geocoder();
+    const location = {
+      lat: e.latLng!.lat(),
+      lng: e.latLng!.lng(),
+    };
 
-      geocoder.geocode({ location }, (results, status) => {
-        if (status === 'OK' && results) {
-          new google.maps.Marker({
-            position: new google.maps.LatLng(location),
-            map: map as google.maps.Map,
-          });
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK' && results) {
+        const zone: Partial<InterestZone> = {
+          address: {
+            name: results[0].formatted_address,
+            lat: location.lat,
+            lng: location.lng,
+          },
+          volunteerName: username,
+        };
+        setModal({ type: 'ADD_ZONE' });
+        setInterestZone(undefined);
+        setPartialInterestZone(undefined);
+        setPartialInterestZone(zone);
+        map?.panTo(new google.maps.LatLng(location.lat, location.lng));
+      }
+    });
+  };
 
-          const zone: Partial<InterestZone> = {
-            address: {
-              name: results[0].formatted_address,
-              lat: location.lat,
-              lng: location.lng,
-            },
-            volunteerName: username,
-          };
-
-          setModal({ type: 'ADD_ZONE' });
-          setPartialInterestZone(zone);
-        }
-      });
-    },
-    [map, setModal, setPartialInterestZone, username]
-  );
-
-  const displayZoneMarker = useCallback(
-    ({ lat, lng }): void => {
-      setModal({ type: 'VIEW_ZONE' });
-      if (!interestZones) return;
-      const interestZone = interestZones.find((zone: InterestZone) => {
-        return zone.address.lat === lat && zone.address.lng === lng;
-      });
-      setInterestZone(interestZone!);
-    },
-    [interestZones, setInterestZone, setModal]
-  );
-
-  const closeAddModal = useCallback(() => {
-    setAddModalVisible(false);
-  }, [addModalVisible]);
+  const displayZoneMarker = ({ lat, lng }: { lat: number; lng: number }): void => {
+    setModal({ type: 'VIEW_ZONE' });
+    if (!interestZones) return;
+    const interestZone = interestZones.find((zone: InterestZone) => {
+      return zone.address.lat === lat && zone.address.lng === lng;
+    });
+    setInterestZone(interestZone!);
+  };
 
   const searchPlace = (address: string): void => {
     const geocoder = new google.maps.Geocoder();
@@ -131,6 +112,7 @@ function Map() {
     });
   };
 
+  const statusColor = useStatusColorMantine;
   if (!isLoaded) {
     return <></>;
   }
@@ -142,10 +124,9 @@ function Map() {
       <DesktopDrawer zones={interestZones || []} />
 
       <GoogleMap
-        center={new google.maps.LatLng(center.lat, center.lng)}
         zoom={11}
         onLoad={onLoad}
-        mapContainerStyle={{ width: '100%', height: 'calc(100vh - 60px)' }}
+        mapContainerStyle={{ height: 'calc(100vh - 60px)' }}
         onRightClick={addZone}>
         {interestZones?.map((zone) => {
           const position = {
@@ -158,10 +139,20 @@ function Map() {
               position={position}
               key={zone._id}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-              <SvgComponentMarker
-                status={zone.status}
-                location={position}
-                displayZone={displayZoneMarker}></SvgComponentMarker>
+              <Center
+                sx={(theme) => ({
+                  width: 60 + zone.noUnsterilizedCats * 10,
+                  borderRadius: '50%',
+                  height: 60 + zone.noUnsterilizedCats * 10,
+                  fill: theme.colors[statusColor[zone.status]][5],
+                  backgroundColor: theme.colors[statusColor[zone.status]][2] + '80',
+                  zIndex: 50,
+                })}
+                onClick={() => displayZoneMarker(position)}>
+                <Box sx={{ width: '50%', height: '50%' }}>
+                  <UnsterilizedCatIcon />
+                </Box>
+              </Center>
             </OverlayView>
           );
         })}

@@ -1,19 +1,26 @@
 import { InterestZone, Status } from '../../models/zone.model';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 
-import { Box, Button, Container, Group, Stack, Sx, Text } from '@mantine/core';
+import { Box, Button, Container, createStyles, Group, Stack, Sx, Text } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ModalContext } from '../Providers/ModalProvider';
+import useAdressName from '../hooks/useAdress';
 
 interface Props {
   interestZone: InterestZone;
 }
 
-const styles: Record<string, Sx> = {
+const useStyles = createStyles((theme) => ({
   container: {
-    border: '2px solid #DBDBDB',
+    outline: '2px solid #DBDBDB',
     borderRadius: '7px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.gray[2],
+      outline: '5px solid  #DBDBDB',
+    },
+    transition: 'all 0.1s ease-in-out',
   },
   button: {
     width: '130px',
@@ -21,22 +28,14 @@ const styles: Record<string, Sx> = {
     borderRadius: '10px',
     border: '2px solid black',
   },
-};
+}));
 
 const InterestZoneElement = ({ interestZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);
-  const {
-    _id,
-    address,
-    noUnsterilizedCats,
-    observations,
-    status,
-    sterilizedCats,
-    unsterilizedCats,
-    volunteerName,
-    contactPerson,
-  } = interestZone;
+  const { classes } = useStyles();
+  const { address, noUnsterilizedCats, status, sterilizedCats, unsterilizedCats, volunteerName } =
+    interestZone;
 
   const statusColor: Record<Status, string> = {
     [Status.DONE]: '#B0EF8F',
@@ -44,11 +43,12 @@ const InterestZoneElement = ({ interestZone }: Props) => {
     [Status.TODO]: '#EF8F8F',
   };
 
+  const newAdress = useAdressName(interestZone.address);
   return (
     <Container
-      m='xs'
+      m='md'
       p='xs'
-      sx={styles.container}
+      className={classes.container}
       onClick={() => {
         setInterestZone(interestZone);
         setModal({ type: 'VIEW_ZONE' });
@@ -59,10 +59,10 @@ const InterestZoneElement = ({ interestZone }: Props) => {
             <Image src='/icon/location-icon.png' width={16} height={23} alt='location-icon'></Image>
             <Stack spacing={0} sx={{ width: '80%' }}>
               <Text weight={400} sx={{ maxWidth: '100%' }}>
-                {address.name}
+                {newAdress.street}
               </Text>
               <Text color='gray' size='xs'>
-                {address.lat} {address.lng}
+                {newAdress.city}
               </Text>
             </Stack>
           </Group>
@@ -92,7 +92,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           )}
           {volunteerName && <Text> {volunteerName} </Text>}
           {!volunteerName && (
-            <Button mt='md' color='dark' variant='outline' sx={styles.button}>
+            <Button mt='md' color='dark' variant='outline' className={classes.button}>
               {' '}
               ASSIGN TO ME{' '}
             </Button>

@@ -1,9 +1,31 @@
+import axios from 'axios';
 import { useContext } from 'react';
 import { useSWRConfig } from 'swr';
 import { Cat, CatUI } from '../../models/cat.model';
-import { addCatToZone, deleteCat, sterilizeCat, updateCat } from '../../ui/ZoneServices';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { FormValues } from './CatModalView';
+
+const URL = '/api/interest-zones/';
+
+const addCatToZone = async (zoneId: string, cat: Partial<CatUI>) => {
+  const response = await axios.post(URL + zoneId, cat);
+  return response.data;
+};
+
+const deleteCat = async (zoneId: string, catID: string) => {
+  const response = await axios.delete(URL + zoneId + '/' + catID);
+  return response.data;
+};
+
+const updateCat = async (zoneId: string, cat: Partial<CatUI>, catID: string) => {
+  const response = await axios.put(URL + zoneId + '/' + catID, cat);
+  return response.data;
+};
+
+const sterilizeCat = async (zoneId: string, cat: Partial<CatUI>, catID: string) => {
+  const response = await axios.patch(URL + zoneId + '/' + catID, cat);
+  return response.data;
+};
 
 const useCatActions = (catId: string) => {
   const { interestZone } = useContext(InterestZoneProviderContext);

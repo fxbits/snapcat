@@ -2,6 +2,7 @@ import { InterestZone } from '../../models/zone.model';
 import { Phone } from 'tabler-icons-react';
 import { Box, Group, Stack, Container, Text, useMantineTheme } from '@mantine/core';
 import Image from 'next/image';
+import useAdressName from '../hooks/useAdress';
 
 interface Props {
   zone?: Partial<InterestZone>;
@@ -9,9 +10,12 @@ interface Props {
 
 const ViewDetails = (props: Props) => {
   const theme = useMantineTheme();
+  const newAdress = useAdressName(props.zone?.address!);
+
   return (
     <Group
       p='md'
+      spacing='xs'
       position='apart'
       align='flex-start'
       sx={(theme) => ({
@@ -19,15 +23,13 @@ const ViewDetails = (props: Props) => {
         borderRadius: theme.radius.md,
       })}>
       <Stack spacing={0}>
-        <Group>
+        <Group noWrap>
           <Image src='/icon/location-icon.png' alt='location icon' width={16} height={23}></Image>
           <Stack spacing={0}>
             <Text size='xl' weight={400}>
-              {props.zone?.address?.name}
+              {newAdress.street}
             </Text>
-            <Text color='gray'>
-              {props.zone?.address?.lat} {props.zone?.address?.lng}
-            </Text>
+            <Text color='gray'>{newAdress.city}</Text>
           </Stack>
         </Group>
         <Group mt='xs'>
@@ -52,11 +54,11 @@ const ViewDetails = (props: Props) => {
             </Text>
           </Group>
         </Group>
-        <Text mt='md' color='gray'>
+        <Text weight={500} mt='md'>
           Volunteer{' '}
         </Text>
         {props.zone?.volunteerName ? (
-          <Text weight={600}> {props.zone?.volunteerName} </Text>
+          <Text size='sm'> {props.zone?.volunteerName} </Text>
         ) : (
           <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
         )}
@@ -64,17 +66,22 @@ const ViewDetails = (props: Props) => {
 
       {/* TODO: translation keys */}
 
-      <Stack spacing={0} sx={{ width: '35%', textAlign: 'left' }}>
-        <Text>Contact</Text>
+      <Stack
+        spacing={0}
+        sx={(theme) => ({
+          [theme.fn.largerThan('sm')]: { alignItems: 'flex-end' },
+          alignItems: 'flex-start',
+        })}>
+        <Text weight={500}>Contact</Text>
         {props.zone?.contactPerson?.name ? (
-          <Text weight={600}>{props.zone.contactPerson.name}</Text>
+          <Text size='sm'>{props.zone.contactPerson.name}</Text>
         ) : (
           <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
         )}
-        <Group spacing={0} mt='xs'>
+        <Group noWrap spacing={0} mt='xs'>
           <Phone size={18} strokeWidth={2} color={'black'} />
           {props.zone?.contactPerson?.phone ? (
-            <Text weight={600}>{props.zone.contactPerson.name}</Text>
+            <Text size='sm'>{props.zone.contactPerson.phone}</Text>
           ) : (
             <Box sx={{ width: '70px', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
           )}
