@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { useCallback, useState } from 'react';
 import Button from '@mui/material/Button';
 import { InterestZone } from '../../models/zone.model';
+import { showNotification } from '@mantine/notifications';
 
 interface Props {
   onClose: () => void;
@@ -27,7 +28,16 @@ const InterestZoneAdd = (props: Props) => {
     <Box>
       <DetailsForm onChange={setNewZone} isEditable={true} zone={props.zone} />
       <div>
-        <Button variant='contained' color='success' onClick={handleSave} style={{ margin: '10px' }}>
+        <Button variant='contained' color='success' style={{ margin: '10px' }}
+          onClick={ () => {
+            handleSave
+            showNotification({
+              title: 'Added successfully',
+              message: 'A zone has been added!',
+              color: 'green'
+            })}
+          }
+        >
           Save
         </Button>
         <Button variant='outlined' color='error' onClick={handleClose}>

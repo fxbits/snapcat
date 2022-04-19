@@ -9,6 +9,7 @@ import { ModalProvider } from '../components/Providers/ModalProvider';
 import CatProvider from '../components/Providers/CatProvider';
 import ZoneProvider from '../components/Providers/ZoneProvider';
 import { SWRConfig } from 'swr';
+import { NotificationsProvider } from '@mantine/notifications';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,11 +21,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ZoneProvider>
           <CatProvider>
             <ModalProvider>
-              <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </MantineProvider>
+              <NotificationsProvider autoClose={4000}>
+                <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </MantineProvider>
+              </NotificationsProvider>
             </ModalProvider>
           </CatProvider>
         </ZoneProvider>
