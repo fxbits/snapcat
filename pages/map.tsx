@@ -147,25 +147,24 @@ function Map() {
         onLoad={onLoad}
         mapContainerStyle={{ width: '100%', height: 'calc(100vh - 60px)' }}
         onRightClick={addZone}>
-        {interestZones &&
-          interestZones.map((zone) => {
-            const position = {
-              lat: zone.address.lat,
-              lng: zone.address.lng,
-            };
+        {interestZones?.map((zone) => {
+          const position = {
+            lat: zone.address.lat,
+            lng: zone.address.lng,
+          };
 
-            return (
-              <OverlayView
-                position={position}
-                key={zone._id}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-                <SvgComponentMarker
-                  status={zone.status}
-                  location={position}
-                  displayZone={displayZoneMarker}></SvgComponentMarker>
-              </OverlayView>
-            );
-          })}
+          return (
+            <OverlayView
+              position={position}
+              key={zone._id}
+              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
+              <SvgComponentMarker
+                status={zone.status}
+                location={position}
+                displayZone={displayZoneMarker}></SvgComponentMarker>
+            </OverlayView>
+          );
+        })}
       </GoogleMap>
       <Text
         sx={(theme) => ({

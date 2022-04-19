@@ -24,7 +24,6 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
   const [addressName, setAddressName] = useState<string>('');
 
   const searchPlace = (): void => {
-    console.log(addressName);
     searchPosition(addressName);
   };
 

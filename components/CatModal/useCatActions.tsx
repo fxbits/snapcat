@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useSWRConfig } from 'swr';
+import { Cat, CatUI } from '../../models/cat.model';
 import { addCatToZone, deleteCat, sterilizeCat, updateCat } from '../../ui/ZoneServices';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { FormValues } from './CatModalView';
@@ -10,7 +11,7 @@ const useCatActions = (catId: string) => {
   const zoneId = interestZone?._id!;
 
   function getBody(values: FormValues) {
-    let body: any = {
+    let body: Partial<CatUI> = {
       gender: values.gender,
       observations: values.observations,
       mediaLinks: values.mediaLinks,

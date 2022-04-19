@@ -46,6 +46,8 @@ export interface FormValues {
   releaseDate?: Date;
 }
 
+const MAX_SIZE = 3 * 1024 ** 2;
+
 export default function CatModalView({
   cat,
   modal,
@@ -60,12 +62,11 @@ export default function CatModalView({
   const theme = useMantineTheme();
   const form = useForm<FormValues>({
     initialValues: {
-      ...(cat || {
-        gender: Gender.UNKNOWN,
-        observations:
-          'Enter here any observations, notes, that might help identify the cat more accurately.',
-        mediaLinks: [],
-      }),
+      gender: Gender.UNKNOWN,
+      observations:
+        'Enter here any observations, notes, that might help identify the cat more accurately.',
+      mediaLinks: [],
+      ...(cat ?? {}),
       volunteerName: (cat as SterilizedCat)?.volunteerName || '',
       hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || Date.now()),
       releaseDate: new Date((cat as SterilizedCat)?.releaseDate || Date.now()),
@@ -127,7 +128,7 @@ export default function CatModalView({
               disabled={disabled}
               onDrop={() => {}}
               //TODO: add image upload
-              maxSize={3 * 1024 ** 2}
+              maxSize={MAX_SIZE}
               accept={IMAGE_MIME_TYPE}>
               {(status) => dropzoneChildren(status, theme)}
             </Dropzone>

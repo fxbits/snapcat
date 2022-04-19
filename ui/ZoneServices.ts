@@ -1,4 +1,4 @@
-import { Cat } from './../models/cat.model';
+import { Cat, CatUI } from './../models/cat.model';
 import { InterestZone } from '../models/zone.model';
 
 import axios from 'axios';
@@ -40,8 +40,8 @@ class ZoneService {
   }
 }
 
-export const addCatToZone = async (zoneId: string, cat: Cat) => {
-  const response = await axios.post(URL + zoneId, { ...cat });
+export const addCatToZone = async (zoneId: string, cat: Partial<CatUI>) => {
+  const response = await axios.post(URL + zoneId, cat);
   return response.data;
 };
 
@@ -50,13 +50,13 @@ export const deleteCat = async (zoneId: string, catID: string) => {
   return response.data;
 };
 
-export const updateCat = async (zoneId: string, cat: Cat, catID: string) => {
-  const response = await axios.put(URL + zoneId + '/' + catID, { ...cat });
+export const updateCat = async (zoneId: string, cat: Partial<CatUI>, catID: string) => {
+  const response = await axios.put(URL + zoneId + '/' + catID, cat);
   return response.data;
 };
 
-export const sterilizeCat = async (zoneId: string, cat: Cat, catID: string) => {
-  const response = await axios.patch(URL + zoneId + '/' + catID, { ...cat });
+export const sterilizeCat = async (zoneId: string, cat: Partial<CatUI>, catID: string) => {
+  const response = await axios.patch(URL + zoneId + '/' + catID, cat);
   return response.data;
 };
 
