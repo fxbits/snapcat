@@ -1,24 +1,21 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Grid,
-  Group,
-  Select,
-  Text,
-  Title,
-  useMantineTheme,
-} from '@mantine/core';
-import React, { useContext } from 'react';
-import { ArrowBarLeft, ArrowLeft, BrandStackoverflow, Edit, Trash } from 'tabler-icons-react';
+import { ActionIcon, Group, Text } from '@mantine/core';
+import { ArrowLeft, BrandStackoverflow, Edit, MedicalCross, Trash } from 'tabler-icons-react';
 import { ModalConfig } from '../Providers/ModalProvider';
 
 export default function CatModalHeader({
   modal,
   setModal,
+  addCat,
+  updateCat,
+  deleteCat,
+  sterilizeCat,
 }: {
   modal: ModalConfig;
   setModal: (modal: ModalConfig | undefined) => void;
+  addCat: () => void;
+  updateCat: () => void;
+  deleteCat: () => void;
+  sterilizeCat: () => void;
 }) {
   return (
     <Group
@@ -41,28 +38,65 @@ export default function CatModalHeader({
       {modal.type === 'EDIT_CAT' && <Text>EDIT CAT</Text>}
 
       <Group spacing='xs'>
-        {modal.type === 'VIEW_CAT' ? (
+        {modal.type === 'VIEW_CAT' && (
+          <ActionIcon
+            onClick={() => {
+              setModal({ ...modal, type: 'STERILIZE_CAT' });
+            }}
+            size='lg'
+            color='green'
+            radius='md'
+            variant='filled'>
+            <MedicalCross size={40} />
+          </ActionIcon>
+        )}
+        {modal.type === 'VIEW_CAT' && (
           <ActionIcon
             onClick={() => setModal({ ...modal, type: 'EDIT_CAT' })}
             size='lg'
             radius='md'
+            color='indigo'
             variant='filled'>
             <Edit size={40} />
           </ActionIcon>
-        ) : (
-          (modal.type === 'EDIT_CAT' || modal.type === 'ADD_CAT') && (
-            <ActionIcon
-              onClick={() => setModal({ ...modal, type: 'VIEW_CAT' })}
-              size='lg'
-              radius='md'
-              variant='filled'>
-              <BrandStackoverflow size={40} />
-            </ActionIcon>
-          )
+        )}
+
+        {(modal.type === 'EDIT_CAT' || modal.type === 'STERILIZE_CAT') && (
+          <ActionIcon
+            onClick={() => {
+              setModal({ ...modal, type: 'VIEW_CAT' });
+              modal.type === 'EDIT_CAT' ? updateCat() : sterilizeCat();
+            }}
+            size='lg'
+            radius='md'
+            color='indigo'
+            variant='filled'>
+            <BrandStackoverflow size={40} />
+          </ActionIcon>
+        )}
+        {modal.type === 'ADD_CAT' && (
+          <ActionIcon
+            onClick={() => {
+              setModal(modal.back);
+              addCat();
+            }}
+            size='lg'
+            radius='md'
+            variant='filled'>
+            <BrandStackoverflow size={40} />
+          </ActionIcon>
         )}
 
         {modal.type !== 'ADD_CAT' && (
-          <ActionIcon size='lg' radius='md' variant='filled' color='red'>
+          <ActionIcon
+            size='lg'
+            onClick={() => {
+              deleteCat();
+              setModal(modal.back);
+            }}
+            radius='md'
+            variant='filled'
+            color='red'>
             <Trash size={40} />
           </ActionIcon>
         )}

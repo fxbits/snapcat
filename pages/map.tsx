@@ -1,6 +1,6 @@
 import { zoneServiceUi } from '../ui/ZoneServices';
 import { InterestZone } from '../models/zone.model';
-import InteresZoneView from '../components/InterestZoneView/InterestZoneView';
+import InteresZoneView from '../components/InterestZoneModal/InterestZoneView';
 import InterestZoneAdd from '../components/InterestZoneAdd/InterestZoneAdd';
 import { mapContainer } from '../styles/map.module';
 import InterestZonesOverview from '../components/InterestZonesOverview/InterestZonesOverview';
@@ -18,6 +18,8 @@ import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import SvgComponentMarker from '../components/Icons/IconMarker';
 import { Text } from '@mantine/core';
 import theme from '../styles/theme';
+import useSWR from 'swr';
+import axios from 'axios';
 
 interface Bounds {
   north: number;
@@ -49,7 +51,7 @@ function Map() {
   const { user, error, isLoading } = useUser();
   const [username, setUsername] = useState<string>('');
   const [map, setMap] = useState<google.maps.Map>();
-  const [interestZones, setInterestZones] = useState<InterestZone[]>([]);
+  const { data: interestZones } = useSWR<InterestZone[]>('/api/interest-zones/');
   const [addModalVisible, setAddModalVisible] = useState(false);
 
   const onLoad = useCallback((map: google.maps.Map) => {
@@ -60,13 +62,7 @@ function Map() {
 
   const { setInterestZone, setPartialInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);
-
   //make zone service as hooks
-  useEffect(() => {
-    zoneServiceUi.findAll().then((zones) => {
-      setInterestZones(zones);
-    });
-  }, [map]);
 
   //TODO: remove useCallback usage with the exception of large component lists
   const addZone = useCallback(
@@ -104,7 +100,7 @@ function Map() {
   const displayZoneMarker = useCallback(
     ({ lat, lng }): void => {
       setModal({ type: 'VIEW_ZONE' });
-
+      if (!interestZones) return;
       const interestZone = interestZones.find((zone: InterestZone) => {
         return zone.address.lat === lat && zone.address.lng === lng;
       });
@@ -142,8 +138,8 @@ function Map() {
   return (
     <>
       <HeaderGoogle searchPosition={searchPlace}></HeaderGoogle>
-      <MobileDrawer zones={interestZones} />
-      <DesktopDrawer zones={interestZones} />
+      <MobileDrawer zones={interestZones || []} />
+      <DesktopDrawer zones={interestZones || []} />
 
       <GoogleMap
         center={new google.maps.LatLng(center.lat, center.lng)}
@@ -151,7 +147,7 @@ function Map() {
         onLoad={onLoad}
         mapContainerStyle={{ width: '100%', height: 'calc(100vh - 60px)' }}
         onRightClick={addZone}>
-        {interestZones.map((zone) => {
+        {interestZones?.map((zone) => {
           const position = {
             lat: zone.address.lat,
             lng: zone.address.lng,

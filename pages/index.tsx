@@ -33,7 +33,7 @@ const MainApp = () => {
             display: 'flex',
             alignItems: 'center',
           }}>
-          <Box sx={{ position: 'relative', width: '30%', stroke: 'black' }}>
+          <Box sx={{ position: 'relative', width: '30%', stroke: 'black', fill: 'none' }}>
             <UnsterilizedCatIcon />
             <Box
               sx={{

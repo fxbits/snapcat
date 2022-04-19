@@ -8,22 +8,28 @@ import theme from '../styles/theme';
 import { ModalProvider } from '../components/Providers/ModalProvider';
 import CatProvider from '../components/Providers/CatProvider';
 import ZoneProvider from '../components/Providers/ZoneProvider';
+import { SWRConfig } from 'swr';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <UserProvider>
-      <ZoneProvider>
-        <CatProvider>
-          <ModalProvider>
-            <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </MantineProvider>
-          </ModalProvider>
-        </CatProvider>
-      </ZoneProvider>
-    </UserProvider>
+    <SWRConfig
+      value={{
+        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+      }}>
+      <UserProvider>
+        <ZoneProvider>
+          <CatProvider>
+            <ModalProvider>
+              <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </MantineProvider>
+            </ModalProvider>
+          </CatProvider>
+        </ZoneProvider>
+      </UserProvider>
+    </SWRConfig>
   );
 }
 

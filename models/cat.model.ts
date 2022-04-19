@@ -20,4 +20,8 @@ export interface SterilizedCat {
   releaseDate: string;
   volunteerName: string;
 }
+
 export type Cat = UnsterilizedCat | SterilizedCat;
+export interface CatUI extends SterilizedCat {
+  sterilizedStatus: boolean;
+}
