@@ -94,7 +94,7 @@ const SterilizedCat = ({ cat }: Props) => {
             borderRadius: theme.radius.md,
           })}>
           <Image
-            src='/images/placeholder-cat.webp'
+            src='/images/placeholder-cat.png'
             alt='Cat Preview'
             layout='fill'
             objectFit='cover'

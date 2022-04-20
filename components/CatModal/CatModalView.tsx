@@ -94,9 +94,8 @@ export default function CatModalView({
   }, [modal]);
 
   const addImageToCat = (files: any) => {
-    let formData = new FormData();
-    formData.append('images', files[0], files[0].name);
-    setImageFormData(formData);
+    imageFormData.append('images', files[0], files[0].name);
+    setImageFormData(imageFormData);
 
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);

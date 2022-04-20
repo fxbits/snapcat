@@ -86,13 +86,12 @@ const useCatActions = (catId: string) => {
     const body = getBody(values);
 
     await updateCat(zoneId, body, catId);
-    mutate(`/api/interest-zones/${zoneId}`);
-    mutate(`/api/interest-zones/`);
-
-
     if (formBody) {
       AddImages(formBody);
     }
+    mutate(`/api/interest-zones/${zoneId}`);
+    mutate(`/api/interest-zones/`);
+
   };
   const SterilizeCat = async (values: FormValues) => {
     const body = getBody(values);
@@ -108,7 +107,11 @@ const useCatActions = (catId: string) => {
   };
 
   const GetImages = async () => {
-    return await getImages(zoneId, catId);
+    const images = await getImages(zoneId, catId);
+    mutate(`/api/interest-zones/`);
+    mutate(`/api/interest-zones/${zoneId}`);
+    mutate(`/api/interest-zones/${zoneId}/${catId}/images`);
+    return images;
   }
 
   const AddImages = async (formBody: FormData) => {

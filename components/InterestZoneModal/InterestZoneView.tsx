@@ -195,7 +195,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   sx={{ position: 'relative' }}
                   label={
                     <Group sx={{ position: 'relative', height: '40px' }} align='center'>
-                      <Text>Unterilized Cats</Text>
+                      <Text>Unsterilized Cats</Text>
                       <ActionIcon
                         component='div'
                         sx={{ position: 'absolute', right: 0 }}
