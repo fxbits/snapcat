@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: false,
   images: {
     domains: ['lh3.googleusercontent.com'],
+    domains: ['s.gravatar.com'],
   },
 };
 
