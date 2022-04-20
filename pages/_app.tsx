@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ZoneProvider>
           <CatProvider>
             <ModalProvider>
-              <NotificationsProvider autoClose={4000}>
+              <NotificationsProvider autoClose={5000}>
                 <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
                   <Layout>
                     <Component {...pageProps} />

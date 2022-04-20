@@ -14,6 +14,7 @@ import ZoneModalHeader from './InterestZoneHeader';
 import useZoneActions from './hooks/useZoneActions';
 import { useForm } from '@mantine/hooks';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
+import { showNotification } from '@mantine/notifications';
 
 interface Props {
   zone: InterestZone | undefined;
@@ -56,14 +57,29 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
         form={form}
         addZone={() => {
           setModal(modal?.back);
+          showNotification({
+            title: 'Added successfully',
+            message: 'A zone has been added!',
+            color: 'green'
+          })
           AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
         }}
         updateZone={() => {
           UpdateZone(form.values, zone);
+          showNotification({
+            title: 'Edited successfully',
+            message: 'A zone has been edited!',
+            color: 'green'
+          })
           setModal({ ...modal, type: 'VIEW_ZONE' });
         }}
         deleteZone={() => {
           zone && DeleteZone();
+          showNotification({
+            title: 'Deleted successfully',
+            message: 'A zone has been deleted!',
+            color: 'green'
+          })
           setInterestZone(undefined);
           setModal(modal?.back);
         }}
