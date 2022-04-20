@@ -20,7 +20,7 @@ export default function DesktopDrawer({ zones }: Drawer) {
   return (
     <MediaQuery smallerThan='md' styles={{ display: 'none' }}>
       <Paper sx={styles}>
-        <ScrollArea px='md' py='md' sx={{ height: 'calc(100% - 10px)' }}>
+        <ScrollArea px='sm' py='md' sx={{ height: 'calc(100% - 10px)' }}>
           {zones.map((zone) => (
             <InterestZoneElement interestZone={zone} key={zone._id} />
           ))}

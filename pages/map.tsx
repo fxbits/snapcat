@@ -1,7 +1,7 @@
 import { InterestZone } from '../models/zone.model';
 import { InterestZoneProviderContext } from '../components/Providers/ZoneProvider';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { GoogleMap, OverlayView, useJsApiLoader } from '@react-google-maps/api';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -10,11 +10,15 @@ import DesktopDrawer from '../components/Drawer/DesktopDrawer';
 import { ModalContext } from '../components/Providers/ModalProvider';
 
 import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
-import SvgComponentMarker from '../components/Icons/IconMarker';
-import { Box, Center, Text, ThemeIcon } from '@mantine/core';
+import { Text } from '@mantine/core';
 import useSWR from 'swr';
-import { SterilizedCatIcon, UnsterilizedCatIcon } from '../components/Icons/Icons';
-import { useStatusColorMantine } from '../components/hooks/useStatusColor';
+
+import Marker from '../components/Marker/Marker';
+import { useLongPress } from 'react-use';
+
+type i = typeof useLongPress;
+
+interface useLongPressGoogle extends i {}
 
 interface Bounds {
   north: number;
@@ -50,6 +54,7 @@ function Map() {
 
   const onLoad = useCallback((map: google.maps.Map) => {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
+    map.setOptions({ disableDoubleClickZoom: true });
     setMap(map);
     setUsername(user?.name!);
   }, []);
@@ -112,7 +117,18 @@ function Map() {
     });
   };
 
-  const statusColor = useStatusColorMantine;
+  const onLongPress = (e: MouseEvent | TouchEvent) => {
+    if (ref.current === true) return;
+    addZone(e as any as google.maps.MapMouseEvent);
+  };
+
+  const defaultOptions = {
+    isPreventDefault: true,
+    delay: 300,
+  };
+  const longPressEvent = useLongPress(onLongPress, defaultOptions);
+
+  const ref = useRef(false);
   if (!isLoaded) {
     return <></>;
   }
@@ -124,10 +140,17 @@ function Map() {
       <DesktopDrawer zones={interestZones || []} />
 
       <GoogleMap
+        {...longPressEvent}
         zoom={11}
         onLoad={onLoad}
         mapContainerStyle={{ height: 'calc(100vh - 60px)' }}
-        onRightClick={addZone}>
+        onDragStart={() => {
+          ref.current = true;
+        }}
+        onDragEnd={() => {
+          ref.current = false;
+        }}
+        onDblClick={addZone}>
         {interestZones?.map((zone) => {
           const position = {
             lat: zone.address.lat,
@@ -139,20 +162,7 @@ function Map() {
               position={position}
               key={zone._id}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
-              <Center
-                sx={(theme) => ({
-                  width: 60 + zone.noUnsterilizedCats * 10,
-                  borderRadius: '50%',
-                  height: 60 + zone.noUnsterilizedCats * 10,
-                  fill: theme.colors[statusColor[zone.status]][5],
-                  backgroundColor: theme.colors[statusColor[zone.status]][2] + '80',
-                  zIndex: 50,
-                })}
-                onClick={() => displayZoneMarker(position)}>
-                <Box sx={{ width: '50%', height: '50%' }}>
-                  <UnsterilizedCatIcon />
-                </Box>
-              </Center>
+              <Marker zone={zone} displayZoneMarker={() => displayZoneMarker(position)} />
             </OverlayView>
           );
         })}

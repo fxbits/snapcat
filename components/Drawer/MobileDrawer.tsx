@@ -61,16 +61,17 @@ export default function MobileDrawer({ zones }: Drawer) {
               </Text>
             )}
           </Stack>
-          <ScrollArea px='md' py='md' sx={{ height: 'calc(100% - 60px)' }}>
+          <ScrollArea pb='md' sx={{ height: 'calc(100% - 60px)' }}>
             {zones.map((zone) => (
               <InterestZoneElement interestZone={zone} key={zone._id} />
             ))}
           </ScrollArea>
           {index >= 1 && (
             <ActionIcon
-              variant='light'
+              variant='filled'
               size='xl'
               m='xl'
+              radius='xl'
               p='xs'
               color='yellow'
               sx={{ position: 'absolute', bottom: 0, right: 0 }}

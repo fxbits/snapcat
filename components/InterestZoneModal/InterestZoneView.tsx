@@ -116,12 +116,17 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
             {zone && (
               <Accordion
                 sx={(theme) => ({
-                  backgroundColor: theme.colors.yellow[2],
                   borderRadius: theme.radius.md,
                 })}
                 styles={(theme) => ({
                   content: { paddingLeft: 0 },
                   control: { padding: theme.spacing.md },
+                  item: {
+                    marginBottom: theme.spacing.sm,
+                    backgroundColor: theme.colors.yellow[2],
+                    borderRadius: theme.radius.md,
+                    overflow: 'hidden',
+                  },
                 })}
                 initialItem={zone.sterilizedCats.length > 0 ? 0 : undefined}
                 disableIconRotation>
@@ -143,7 +148,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                         variant='filled'
                         component='div'
                         size='lg'
-                        color='green'
+                        color='dark'
                         onClick={() => {
                           setModal({ type: 'ADD_CAT', back: modal });
                           setCat(undefined);
@@ -152,7 +157,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                       </ActionIcon>
                     </Group>
                   }>
-                  <ScrollArea style={{ height: '300px' }}>
+                  <ScrollArea style={{ height: zone?.sterilizedCats.length > 0 ? '300px' : '0px' }}>
                     <Stack sx={{ overflow: 'hidden' }}>
                       {zone?.sterilizedCats.map((cat, index) => (
                         <SterilizedCat key={index} cat={cat} />
@@ -187,7 +192,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                       </ActionIcon>
                     </Group>
                   }>
-                  <ScrollArea style={{ height: '300px' }}>
+                  <ScrollArea
+                    style={{ height: zone?.unsterilizedCats.length > 0 ? '300px' : '0pxs' }}>
                     <Stack sx={{ overflow: 'hidden' }}>
                       {zone?.unsterilizedCats.map((cat, index) => (
                         <UnsterilizedCat key={index} cat={cat} />
