@@ -19,7 +19,8 @@ const ViewDetails = (props: Props) => {
       position='apart'
       align='flex-start'
       sx={(theme) => ({
-        backgroundColor: theme.colors.yellow[2],
+        backgroundColor: theme.colors.yellow[2] + 'd6',
+        backdropFilter: 'blur(15px)',
         borderRadius: theme.radius.md,
       })}>
       <Stack spacing={0}>

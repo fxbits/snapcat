@@ -1,5 +1,6 @@
 import { ActionIcon, Group, Text } from '@mantine/core';
 import { ArrowLeft, BrandStackoverflow, Edit, MedicalCross, Trash } from 'tabler-icons-react';
+import { EditIcon, SaveIcon, ScissorIcon } from '../Icons/Icons';
 import { ModalConfig } from '../Providers/ModalProvider';
 
 export default function CatModalHeader({
@@ -43,21 +44,21 @@ export default function CatModalHeader({
             onClick={() => {
               setModal({ ...modal, type: 'STERILIZE_CAT' });
             }}
-            size='lg'
-            color='green'
+            size='xl'
+            color='dark'
             radius='md'
-            variant='filled'>
-            <MedicalCross size={40} />
+            variant='outline'>
+            <ScissorIcon />
           </ActionIcon>
         )}
         {modal.type === 'VIEW_CAT' && (
           <ActionIcon
             onClick={() => setModal({ ...modal, type: 'EDIT_CAT' })}
-            size='lg'
+            size='xl'
             radius='md'
-            color='indigo'
-            variant='filled'>
-            <Edit size={40} />
+            color='dark'
+            variant='outline'>
+            <EditIcon />
           </ActionIcon>
         )}
 
@@ -67,11 +68,11 @@ export default function CatModalHeader({
               setModal({ ...modal, type: 'VIEW_CAT' });
               modal.type === 'EDIT_CAT' ? updateCat() : sterilizeCat();
             }}
-            size='lg'
+            size='xl'
             radius='md'
-            color='indigo'
-            variant='filled'>
-            <BrandStackoverflow size={40} />
+            color='dark'
+            variant='outline'>
+            <SaveIcon />
           </ActionIcon>
         )}
         {modal.type === 'ADD_CAT' && (
@@ -80,23 +81,24 @@ export default function CatModalHeader({
               setModal(modal.back);
               addCat();
             }}
-            size='lg'
+            size='xl'
+            color='dark'
             radius='md'
-            variant='filled'>
-            <BrandStackoverflow size={40} />
+            variant='outline'>
+            <SaveIcon />
           </ActionIcon>
         )}
 
         {modal.type !== 'ADD_CAT' && (
           <ActionIcon
-            size='lg'
+            size='xl'
             onClick={() => {
               deleteCat();
               setModal(modal.back);
             }}
             radius='md'
-            variant='filled'
-            color='red'>
+            variant='outline'
+            color='dark'>
             <Trash size={40} />
           </ActionIcon>
         )}

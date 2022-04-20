@@ -1,4 +1,4 @@
-import { createStyles, CSSObject, Modal as WindowModal } from '@mantine/core';
+import { Box, createStyles, CSSObject, Modal as WindowModal } from '@mantine/core';
 import React, { useContext, useState } from 'react';
 import CatModalView from '../CatModal/CatModalView';
 import InterestZoneView from '../InterestZoneModal/InterestZoneView';
@@ -6,6 +6,7 @@ import { ModalContext } from '../Providers/ModalProvider';
 
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { CatContext } from '../Providers/CatProvider';
+import { Paws } from '../Icons/Icons';
 
 const useStyles = createStyles((theme) => ({
   manager: {
@@ -68,6 +69,22 @@ export default function ModalManager() {
       {isCat && interestZone && (
         <CatModalView zoneId={interestZone._id} modal={modal} cat={cat} setModal={setModal} />
       )}
+      <Box
+        sx={{ position: 'absolute', top: '40%', left: '25%', zIndex: -1, pointerEvents: 'none' }}>
+        <Paws />
+      </Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '15%',
+          left: '5%',
+          zIndex: -1,
+          scale: 0.5,
+          pointerEvents: 'none',
+        }}>
+        <Paws />
+      </Box>
     </WindowModal>
   );
 }
