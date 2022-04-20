@@ -103,6 +103,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   placeholder='Your adress'
                   label='Adress'
                   required
+                  disabled
                 />
                 <TextInput
                   {...form.getInputProps('volunteerName')}
@@ -122,7 +123,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   {...form.getInputProps('phone')}
                   onChange={(e) => form.setFieldValue('phone', e.currentTarget.value)}
                   icon={<Phone />}
-                  placeholder='0771'
+                  placeholder='0771824601'
                   required
                 />
               </Stack>
