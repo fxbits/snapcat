@@ -44,6 +44,7 @@
     "react-router-dom": "^6.2.2",
     "react-script-hook": "^1.6.0",
     "react-swipeable": "^6.2.1",
+    "react-use": "^17.3.2",
     "swr": "^1.2.2",
     "tabler-icons-react": "^1.45.0",
     "use-places-autocomplete": "^2.0.0"

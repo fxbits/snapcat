@@ -1,11 +1,21 @@
 import React from 'react';
-import { ActionIcon, Button, Group, MediaQuery, Select, Stack, Text, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Group,
+  Select,
+  Stack,
+  Text,
+  Title,
+  useMantineTheme,
+} from '@mantine/core';
 import { InterestZone, Status } from '../../models/zone.model';
 import { ModalConfig } from '../Providers/ModalProvider';
-import { ArrowLeft, BrandStackoverflow, Edit, Plus, Trash } from 'tabler-icons-react';
-import useZoneActions from './hooks/useZoneActions';
 import { FormValues } from './InterestZoneView';
 import { UseForm } from '@mantine/hooks/lib/use-form/use-form';
+import { EditIcon, SaveIcon, TrashIcon } from '../Icons/Icons';
+import { ArrowLeft, Plus } from 'tabler-icons-react';
+
 export default function ZoneModalHeader({
   modal,
   zone,
@@ -23,16 +33,27 @@ export default function ZoneModalHeader({
   deleteZone: () => void;
   form: UseForm<FormValues>;
 }) {
-  const { AddZone } = useZoneActions(zone._id!);
+  const theme = useMantineTheme();
   return (
-    <Group p='md' position='apart' align='center' sx={{ width: '100%' }}>
+    <Group
+      p='md'
+      position='apart'
+      align='center'
+      sx={{ width: '100%', [theme.fn.smallerThan('xs')]: { justifyContent: 'flex-start' } }}>
       <Group spacing='sm' sx={{ height: '100%' }}>
-        <ActionIcon size='xl' onClick={() => setModal(undefined)} variant='filled' color='yellow'>
-          <ArrowLeft size={50} />
-        </ActionIcon>
-        <Title sx={{ fontWeight: '600' }} order={5}>
-          Back
-        </Title>
+        <Button
+          sx={{ paddingLeft: 0, color: 'black' }}
+          color='yellow'
+          size='md'
+          leftIcon={<ArrowLeft size={50} />}
+          onClick={() => setModal(undefined)}
+          variant='subtle'>
+          <Title
+            sx={{ fontWeight: '600', [theme.fn.smallerThan('xs')]: { display: 'none' } }}
+            order={5}>
+            Back
+          </Title>
+        </Button>
       </Group>
       {modal.type === 'VIEW_ZONE' ? (
         <Stack spacing={0} align='center'>
@@ -44,9 +65,32 @@ export default function ZoneModalHeader({
       ) : (
         <Select
           {...form.getInputProps('status')}
+          radius='md'
+          size='md'
+          styles={{
+            input: {
+              backgroundColor: theme.colors.yellow[5],
+              fontSize: theme.fontSizes.md,
+              textTransform: 'uppercase',
+              border: '2px solid black',
+              width: '170px',
+              textAlign: 'center',
+            },
+            dropdown: {
+              border: '2px solid',
+              borderColor: theme.colors.yellow[3],
+            },
+            hovered: {
+              backgroundColor: theme.colors.yellow[1],
+            },
+            selected: {
+              backgroundColor: theme.colors.yellow[2],
+              color: theme.colors.yellow[7],
+            },
+          }}
           onChange={(e) => form.setFieldValue('status', e as Status)}
           data={[
-            { value: Status.TODO, label: 'To Do' },
+            { value: Status.TODO, label: 'Todo' },
             { value: Status.INPROGRESS, label: 'In Progress' },
             { value: Status.DONE, label: 'Done' },
           ]}
@@ -55,36 +99,36 @@ export default function ZoneModalHeader({
       <Group spacing='xs'>
         {modal.type === 'VIEW_ZONE' && (
           <ActionIcon
-            color='indigo'
+            color='dark'
             onClick={() => setModal({ ...modal, type: 'EDIT_ZONE' })}
-            size='lg'
+            size='xl'
             radius='md'
-            variant='filled'>
-            <Edit size={40} />
+            variant='outline'>
+            <EditIcon />
           </ActionIcon>
         )}
         {modal.type === 'EDIT_ZONE' && (
           <ActionIcon
             onClick={() => updateZone()}
-            size='lg'
-            color='indigo'
+            size='xl'
+            color='dark'
             radius='md'
-            variant='filled'>
-            <BrandStackoverflow size={40} />
+            variant='outline'>
+            <SaveIcon />
           </ActionIcon>
         )}
         {modal.type === 'ADD_ZONE' && (
-          <ActionIcon
-            onClick={() => addZone()}
-            size='lg'
-            color='indigo'
-            radius='md'
-            variant='filled'>
+          <ActionIcon onClick={() => addZone()} size='xl' color='dark' radius='md' variant='filled'>
             <Plus size={40} />
           </ActionIcon>
         )}
-        <ActionIcon onClick={() => deleteZone()} size='lg' radius='md' color='red' variant='filled'>
-          <Trash size={40} />
+        <ActionIcon
+          onClick={() => deleteZone()}
+          size='xl'
+          radius='md'
+          color='dark'
+          variant='outline'>
+          <TrashIcon />
         </ActionIcon>
       </Group>
     </Group>

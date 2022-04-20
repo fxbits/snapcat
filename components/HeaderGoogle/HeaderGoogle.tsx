@@ -56,8 +56,7 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
         control={
           <Button
             size='md'
-            variant='outline'
-            color='dark'
+            color='yellow'
             rightIcon={
               <Center sx={{ borderRadius: '50%', overflow: 'hidden' }}>
                 <Image
@@ -68,18 +67,16 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
                 />
               </Center>
             }>
-            <Stack spacing={0} align='center'>
-              <Text size='md' color='dark' inline weight={700}>
-                Welcome
-              </Text>
+            <Group spacing='xs' align='center'>
               <Text
                 size='sm'
+                color='dark'
                 sx={(theme) => ({
                   [theme.fn.smallerThan('md')]: { display: 'none' },
                 })}>
-                {user!.name}
+                Welcome, {user!.name}
               </Text>
-            </Stack>
+            </Group>
           </Button>
         }
         position='bottom'
