@@ -44,10 +44,11 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       status: zone?.status || Status.TODO,
     },
     validationRules: {
-      contact: (value) => value.length > 2,
+      contact: (value) => ((value.length > 2) && (/^[A-Z][a-z]*/.test(value))),
+      phone: (value) => (/^\+407([0-9]{8})$/.test(value))
     },
     errorMessages: {
-      contact: 'This is not working',
+      contact: 'Incorrect name!',
     },
   });
 
@@ -57,22 +58,50 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
         zone={zone || partialZone!}
         form={form}
         addZone={() => {
-          setModal(modal?.back);
-          showNotification({
-            title: 'Added successfully',
-            message: 'A zone has been added!',
-            color: 'green'
-          })
-          AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
+          const allGood = form.validate();
+          
+          ( allGood && 
+            setModal(modal?.back) &&
+            AddZone(form.values, partialZone?.address!, partialZone?.volunteerName) &&
+            showNotification({
+              title: 'Added successfully',
+              message: 'A zone has been added!',
+              color: 'green'
+            })
+          ) 
+          ||
+          ( 
+            !allGood && 
+            showNotification({
+              title: 'Added failed',
+              message: 'You have an error!',
+              color: 'red'
+            })
+          )
+          
         }}
         updateZone={() => {
-          UpdateZone(form.values, zone);
-          showNotification({
-            title: 'Edited successfully',
-            message: 'A zone has been edited!',
-            color: 'green'
-          })
-          setModal({ ...modal, type: 'VIEW_ZONE' });
+          const allGood = form.validate();
+
+          ( allGood && 
+            UpdateZone(form.values, zone) && 
+            setModal({ ...modal, type: 'VIEW_ZONE' }) &&
+            showNotification({
+              title: 'Edited successfully',
+              message: 'A zone has been edited!',
+              color: 'green'
+            })
+          )
+          ||
+          ( 
+            !allGood && 
+            showNotification({
+              title: 'Edited failed',
+              message: 'You have an error!',
+              color: 'red'
+            })
+          )
+
         }}
         deleteZone={() => {
           zone && DeleteZone();
