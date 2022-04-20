@@ -16,6 +16,10 @@ export const unsterilizedCatSchema = new Schema(
         observations: {
             type: String,
             default: ''
+        },
+        images: {
+            type: [String],
+            default: []
         }
     }, 
     {

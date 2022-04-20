@@ -106,10 +106,16 @@ class ZoneService {
     const sterilizedStatus: boolean = await this.validateCat(cat);
 
     if (sterilizedStatus) {
-      const catSchema = new sterilizedCatSchema(cat);
+      const catSchema = new sterilizedCatSchema({
+        ...cat,
+        images: []
+      });
       interestZone.sterilizedCats.push(catSchema);
     } else {
-      const catSchema = new unsterilizedCatSchema(cat);
+      const catSchema = new unsterilizedCatSchema({
+        ...cat,
+        images: []
+      });
       interestZone.noUnsterilizedCats = interestZone.noUnsterilizedCats
         ? interestZone.noUnsterilizedCats + 1
         : 1;
@@ -213,7 +219,7 @@ class ZoneService {
     return interestZone;
   }
 
-  private findCat(interestZone: any, catID: string | string[], sterilizedStatus: boolean): any {
+  findCat(interestZone: any, catID: string | string[], sterilizedStatus: boolean): any {
     if (sterilizedStatus) {
       return interestZone.sterilizedCats.id(catID);
     }
@@ -311,22 +317,24 @@ export class ZoneValidationError {
 }
 
 export enum ZoneError {
-  ZONE = 'MISSING.ZONE',
-  COORDINATES = 'MISSING.COORDINATES',
-  ADDRESS = 'INCORRECT.ADDRESS',
-  NO_UNSTERILIZED_CATS = 'MISSING.NUMBER',
-  STATUS = 'INCORRECT.STATUS',
-  CONTACT_PERSON = 'INCORRECT.PERSON',
-  VOLUNTEER_NAME = 'MISSING.VOLUNTEERNAME',
-  CAT = 'MISSING.CAT',
-  HOSPITALIZATION_DATE = 'INCORRECT.HOSPITALIZATIONDATE',
-  REALEASE_DATE = 'INCORRECT.RELEASEDATE',
-  GENDER = 'INCORRECT.GENDER',
-  CAT_VOLUNTEER = 'MISSING.VOLUNTEER',
-  OBSERVATIONS = 'MISSING.OBSERVATIONS',
-  CAT_TYPE = 'INCORRECT.CAT_TYPE',
-  CAT_NOT_FOUND = 'NOT_FOUND.CAT',
-  ZONE_NOT_FOUND = 'NOT_FOUND.ZONE',
+    ZONE = 'MISSING.ZONE',
+    COORDINATES = 'MISSING.COORDINATES',
+    ADDRESS = 'INCORRECT.ADDRESS',
+    NO_UNSTERILIZED_CATS = 'MISSING.NUMBER',
+    STATUS = 'INCORRECT.STATUS', 
+    CONTACT_PERSON = 'INCORRECT.PERSON',
+    VOLUNTEER_NAME = 'MISSING.VOLUNTEERNAME',
+    CAT = 'MISSING.CAT', 
+    HOSPITALIZATION_DATE = 'INCORRECT.HOSPITALIZATIONDATE',
+    REALEASE_DATE = 'INCORRECT.RELEASEDATE',
+    GENDER = 'INCORRECT.GENDER',
+    CAT_VOLUNTEER = 'MISSING.VOLUNTEER',
+    OBSERVATIONS = 'MISSING.OBSERVATIONS',
+    CAT_TYPE = 'INCORRECT.CAT_TYPE',
+    CAT_NOT_FOUND = 'NOT_FOUND.CAT',
+    ZONE_NOT_FOUND = 'NOT_FOUND.ZONE',
+    MAXIMUM_IMAGES = 'MAXIMUM_NUMBER.IMAGES',
+    IMAGE_NOT_FOUND = 'INCORRECT.IMAGE_ID'
 }
 
 export const zoneService = new ZoneService();

@@ -28,6 +28,10 @@ export const sterilizedCatSchema = new Schema(
         volunteerName: {
             type: String,
             default: ''
+        },
+        images: {
+            type: [String],
+            default: []
         }
     }, 
     {
