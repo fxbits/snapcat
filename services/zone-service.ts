@@ -250,7 +250,7 @@ class ZoneService {
     if (body.status === Status.DONE && body.noUnsterilizedCats > 0)
       throw new ZoneValidationError(400, ZoneError.STATUS);
     if (!body?.contactPerson?.name) throw new ZoneValidationError(400, ZoneError.CONTACT_PERSON);
-    if (!/^\+407([0-9]{8})$/.test(body?.contactPerson?.phone))
+    if (!/^07([0-9]{8})$/.test(body?.contactPerson?.phone))
       throw new ZoneValidationError(400, ZoneError.CONTACT_PERSON);
   }
 
@@ -263,7 +263,7 @@ class ZoneService {
     if (!Object.values(Status).includes(body?.status))
       throw new ZoneValidationError(400, ZoneError.STATUS);
     if (!body?.contactPerson?.name) throw new ZoneValidationError(400, ZoneError.CONTACT_PERSON);
-    if (!/^\+407([0-9]{8})$/.test(body?.contactPerson?.phone))
+    if (!/^07([0-9]{8})$/.test(body?.contactPerson?.phone))
       throw new ZoneValidationError(400, ZoneError.CONTACT_PERSON);
     if (body.status === Status.INPROGRESS && !body?.volunteerName)
       throw new ZoneValidationError(400, ZoneError.VOLUNTEER_NAME);
