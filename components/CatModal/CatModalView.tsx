@@ -24,7 +24,8 @@ import { useEffect, useState } from 'react';
 const useStyles = createStyles((theme) => ({
   modal: {
     height: '100%',
-    backgroundColor: theme.colors.yellow[3],
+    backgroundColor: theme.colors.yellow[2] + 'd6',
+    backdropFilter: 'blur(15px)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'stretch',
@@ -65,8 +66,7 @@ export default function CatModalView({
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,
-      observations:
-        'Enter here any observations, notes, that might help identify the cat more accurately.',
+      observations: '',
       mediaLinks: [],
       ...(cat ?? {}),
       volunteerName: (cat as SterilizedCat)?.volunteerName || '',
@@ -79,17 +79,15 @@ export default function CatModalView({
   useEffect(() => {
     if (modal.type !== 'ADD_CAT') {
       GetImages().then((resp) => setExistingImages(resp));
-    }
-    else setExistingImages([]);
+    } else setExistingImages([]);
     setImageFormData(new FormData());
-  }, [])
+  }, []);
 
   useEffect(() => {
     modal.type === 'STERILIZE_CAT' && form.setFieldValue('sterilizedStatus', 'sterilized');
     if (modal.type !== 'ADD_CAT') {
       GetImages().then((resp) => setExistingImages(resp));
-    }
-    else setExistingImages([]);
+    } else setExistingImages([]);
     setImageFormData(new FormData());
   }, [modal]);
 
@@ -101,17 +99,19 @@ export default function CatModalView({
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = () => {
-        const binaryStr = reader.result as string;
-        setExistingImages([...existingImages, binaryStr]);
-      }
-  }
+      const binaryStr = reader.result as string;
+      setExistingImages([...existingImages, binaryStr]);
+    };
+  };
 
   const disabled = !(
     modal.type === 'ADD_CAT' ||
     modal.type === 'EDIT_CAT' ||
     modal.type === 'STERILIZE_CAT'
   );
-  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages } = useCatActions(cat?._id!);
+  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages } = useCatActions(
+    cat?._id!
+  );
   return (
     <>
       <CatModalHeader
@@ -124,18 +124,16 @@ export default function CatModalView({
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>
         <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>
-            {
-             existingImages.map((item: string, index) =>
-              {
-                const imageString = item.includes('data:') ? item : `data:image/png;base64,${item}`
-                return (
-                  <Grid.Col sm={6} lg={6} key={index}>
-                    <Box
-                      sx={{
-                      position: 'relative',
-                      borderRadius: theme.radius.lg,
-                      overflow: 'hidden',
-                    }}>
+          {existingImages.map((item: string, index) => {
+            const imageString = item.includes('data:') ? item : `data:image/png;base64,${item}`;
+            return (
+              <Grid.Col sm={6} lg={6} key={index}>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    borderRadius: theme.radius.lg,
+                    overflow: 'hidden',
+                  }}>
                   <Image
                     src={imageString}
                     width={300}
@@ -143,33 +141,33 @@ export default function CatModalView({
                     alt='Cat Picture'
                     objectFit='contain'
                   />
-                  </Box>
-                </Grid.Col>);
-              })
-            }
-            {existingImages.length < 3 && (
+                </Box>
+              </Grid.Col>
+            );
+          })}
+          {existingImages.length < 3 && (
             <Grid.Col sm={6} lg={6}>
               <Dropzone
-              sx={{
-                aspectRatio: '1',
-                width: '100%',
-                borderColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
-                borderRadius: theme.radius.lg,
-                backgroundColor: !disabled ? theme.colors.green[2] : theme.colors.gray[3],
-                '&:hover': {
-                  backgroundColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
-                },
-              }}
-              disabled={disabled}
-              onDrop={(files) => addImageToCat(files)}
-              onReject={() => alert('Imaginea este prea mare.')}
-              maxSize={MAX_SIZE}
-              multiple={false}
-              accept={IMAGE_MIME_TYPE}>
-              {(status) => dropzoneChildren(status, theme)}
-            </Dropzone>
-            </Grid.Col>)}
-          
+                sx={{
+                  aspectRatio: '1',
+                  width: '100%',
+                  borderColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
+                  borderRadius: theme.radius.lg,
+                  backgroundColor: !disabled ? theme.colors.yellow[1] : theme.colors.gray[3],
+                  '&:hover': {
+                    backgroundColor: !disabled ? theme.colors.yellow[2] : theme.colors.gray[3],
+                  },
+                }}
+                disabled={disabled}
+                onDrop={(files) => addImageToCat(files)}
+                onReject={() => alert('Imaginea este prea mare.')}
+                maxSize={MAX_SIZE}
+                multiple={false}
+                accept={IMAGE_MIME_TYPE}>
+                {(status) => dropzoneChildren(status, theme)}
+              </Dropzone>
+            </Grid.Col>
+          )}
         </Grid>
         <Stack sx={{ height: '100%', width: '100%', flex: 1 }} justify='center'>
           <SegmentedControl
@@ -194,6 +192,7 @@ export default function CatModalView({
           <Textarea
             disabled={disabled}
             minRows={6}
+            placeholder='Enter here any observations, notes, that might help identify the cat more accurately.'
             {...form.getInputProps('observations')}
             onChange={(e) => form.setFieldValue('observations', e.currentTarget.value)}
             label='Observations'

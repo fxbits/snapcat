@@ -47,17 +47,19 @@ function Map() {
     libraries,
   });
 
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const [username, setUsername] = useState<string>('');
   const [map, setMap] = useState<google.maps.Map>();
   const { data: interestZones } = useSWR<InterestZone[]>('/api/interest-zones/');
 
-  const onLoad = useCallback((map: google.maps.Map) => {
+  const onLoad = (map: google.maps.Map) => {
     map.panTo(new google.maps.LatLng(46.7554537, 23.5671444));
     map.setOptions({ disableDoubleClickZoom: true });
+    map.setCenter(center);
+    map.setZoom(11);
     setMap(map);
     setUsername(user?.name!);
-  }, []);
+  };
 
   const { setInterestZone, setPartialInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);

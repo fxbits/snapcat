@@ -1,6 +1,6 @@
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
-import { Box, Grid, Group, Text, useMantineTheme, Button, Stack } from '@mantine/core';
+import { Box, Grid, Group, Text, useMantineTheme, Button, Stack, ThemeIcon } from '@mantine/core';
 import { SterilizedCatIcon, UnsterilizedCatIcon } from '../components/Icons/Icons';
 import Image from 'next/image';
 import { Logout, Map, Signature } from 'tabler-icons-react';
@@ -34,7 +34,12 @@ const MainApp = () => {
             alignItems: 'center',
           }}>
           <Box sx={{ position: 'relative', width: '30%', stroke: 'black', fill: 'none' }}>
-            <UnsterilizedCatIcon />
+            <ThemeIcon
+              variant='filled'
+              sx={{ backgroundColor: 'transparent', width: '100%', height: '100%' }}>
+              <UnsterilizedCatIcon />
+            </ThemeIcon>
+
             <Box
               sx={{
                 position: 'absolute',
@@ -45,14 +50,19 @@ const MainApp = () => {
                 width: '80%',
                 height: '100%',
               }}>
-              <SterilizedCatIcon />
+              <ThemeIcon
+                variant='filled'
+                sx={{ backgroundColor: 'transparent', width: '100%', height: '100%' }}>
+                <SterilizedCatIcon />
+              </ThemeIcon>
             </Box>
           </Box>
           <Text
+            mt='lg'
             sx={{
               fontSize: '50px',
               [theme.fn.largerThan('md')]: {
-                fontSize: '150px',
+                fontSize: '125px',
               },
               fontWeight: '600',
             }}

@@ -10,7 +10,7 @@ interface Drawer {
 }
 export default function MobileDrawer({ zones }: Drawer) {
   const [index, setIndex] = useState(0);
-  const drawerStates = ['60px', '60%', '100%'];
+  const drawerStates = ['60px', '60%', 'calc(100% - 60px)'];
 
   const handleChange = (e: SwipeEventData) => {
     switch (e.dir) {
@@ -43,7 +43,7 @@ export default function MobileDrawer({ zones }: Drawer) {
             transitionTimingFunction: 'ease',
           })}>
           <Stack
-            sx={{ width: '100%', gap: 0, height: '60px' }}
+            sx={{ width: '100%', gap: 0, height: index === 2 ? '0px' : '60px' }}
             {...handler}
             align='center'
             justify='center'>

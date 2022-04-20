@@ -61,8 +61,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
           showNotification({
             title: 'Added successfully',
             message: 'A zone has been added!',
-            color: 'green'
-          })
+            color: 'green',
+          });
           AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
         }}
         updateZone={() => {
@@ -70,8 +70,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
           showNotification({
             title: 'Edited successfully',
             message: 'A zone has been edited!',
-            color: 'green'
-          })
+            color: 'green',
+          });
           setModal({ ...modal, type: 'VIEW_ZONE' });
         }}
         deleteZone={() => {
@@ -79,8 +79,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
           showNotification({
             title: 'Deleted successfully',
             message: 'A zone has been deleted!',
-            color: 'green'
-          })
+            color: 'green',
+          });
           setInterestZone(undefined);
           setModal(modal?.back);
         }}
@@ -94,7 +94,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
               <Stack
                 p='md'
                 sx={(theme) => ({
-                  backgroundColor: theme.colors.yellow[2],
+                  backgroundColor: theme.colors.yellow[2] + 'd6',
+                  backdropFilter: 'blur(15px)',
                   borderRadius: theme.radius.md,
                 })}>
                 <TextInput
@@ -141,7 +142,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   control: { padding: theme.spacing.md },
                   item: {
                     marginBottom: theme.spacing.sm,
-                    backgroundColor: theme.colors.yellow[2],
+                    backgroundColor: theme.colors.yellow[2] + 'd6',
+                    backdropFilter: 'blur(15px)',
                     borderRadius: theme.radius.md,
                     overflow: 'hidden',
                   },
@@ -195,7 +197,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   sx={{ position: 'relative' }}
                   label={
                     <Group sx={{ position: 'relative', height: '40px' }} align='center'>
-                      <Text>Unterilized Cats</Text>
+                      <Text>Unsterilized Cats</Text>
                       <ActionIcon
                         component='div'
                         sx={{ position: 'absolute', right: 0 }}
