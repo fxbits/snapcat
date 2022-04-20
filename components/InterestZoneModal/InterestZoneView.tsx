@@ -34,6 +34,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
 
+  /// TODO: Use transaltions
   const form = useForm<FormValues>({
     initialValues: {
       addressName: zone?.address?.name || partialZone?.address?.name || '',
