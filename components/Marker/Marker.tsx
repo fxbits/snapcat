@@ -7,7 +7,7 @@ import { UnsterilizedCatIcon } from '../Icons/Icons';
 
 const variantsCircle: Variants = {
   initial: { scale: 0 },
-  animate: { scale: 5, opacity: 1 },
+  animate: { scale: 3, opacity: 1, transition: { duration: 0.2 } },
 };
 const variantsOutline: Variants = {
   initial: { scale: 1, opacity: 0 },
