@@ -19,7 +19,7 @@ import { useForm } from '@mantine/hooks';
 import CatModalHeader from './CatModalHeader';
 import { useSWRConfig } from 'swr';
 import useCatActions from './useCatActions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -46,7 +46,7 @@ export interface FormValues {
   releaseDate?: Date;
 }
 
-const MAX_SIZE = 3 * 1024 ** 2;
+const MAX_SIZE = 1 * 1024 ** 2;
 
 export default function CatModalView({
   cat,
@@ -60,6 +60,8 @@ export default function CatModalView({
 }) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,
@@ -75,49 +77,82 @@ export default function CatModalView({
   });
 
   useEffect(() => {
+    if (modal.type !== 'ADD_CAT') {
+      GetImages().then((resp) => setExistingImages(resp));
+    }
+    else setExistingImages([]);
+    setImageFormData(new FormData());
+  }, [])
+
+  useEffect(() => {
     modal.type === 'STERILIZE_CAT' && form.setFieldValue('sterilizedStatus', 'sterilized');
+    if (modal.type !== 'ADD_CAT') {
+      GetImages().then((resp) => setExistingImages(resp));
+    }
+    else setExistingImages([]);
+    setImageFormData(new FormData());
   }, [modal]);
+
+  const addImageToCat = (files: any) => {
+    let formData = new FormData();
+    formData.append('images', files[0], files[0].name);
+    setImageFormData(formData);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = () => {
+        const binaryStr = reader.result as string;
+        setExistingImages([...existingImages, binaryStr]);
+      }
+  }
 
   const disabled = !(
     modal.type === 'ADD_CAT' ||
     modal.type === 'EDIT_CAT' ||
     modal.type === 'STERILIZE_CAT'
   );
-  const { AddCat, UpdateCat, DeleteCat, SterilizeCat } = useCatActions(cat?._id!);
+  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages } = useCatActions(cat?._id!);
   return (
     <>
       <CatModalHeader
         modal={modal}
         setModal={setModal}
         addCat={() => AddCat(form.values)}
-        updateCat={() => UpdateCat(form.values)}
+        updateCat={() => UpdateCat(form.values, imageFormData)}
         deleteCat={() => DeleteCat()}
         sterilizeCat={() => SterilizeCat(form.values)}
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>
         <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>
-          <Grid.Col sm={6} lg={6}>
-            <Box
+            {
+             existingImages.map((item: string, index) =>
+              {
+                const imageString = item.includes('data:') ? item : `data:image/png;base64,${item}`
+                return (
+                  <Grid.Col sm={6} lg={6} key={index}>
+                    <Box
+                      sx={{
+                      position: 'relative',
+                      borderRadius: theme.radius.lg,
+                      overflow: 'hidden',
+                    }}>
+                  <Image
+                    src={imageString}
+                    width={300}
+                    height={300}
+                    alt='Cat Picture'
+                    objectFit='contain'
+                  />
+                  </Box>
+                </Grid.Col>);
+              })
+            }
+            {existingImages.length < 3 && (
+            <Grid.Col sm={6} lg={6}>
+              <Dropzone
               sx={{
+                aspectRatio: '1',
                 width: '100%',
-                height: '30vh',
-                position: 'relative',
-                borderRadius: theme.radius.lg,
-                overflow: 'hidden',
-              }}>
-              <Image
-                src='/images/placeholder-cat.webp'
-                layout='fill'
-                alt='Cat Picture'
-                objectFit='cover'
-              />
-            </Box>
-          </Grid.Col>
-          <Grid.Col sm={6} lg={6}>
-            <Dropzone
-              sx={{
-                width: '100%',
-                height: '30vh',
                 borderColor: !disabled ? theme.colors.green[3] : theme.colors.gray[3],
                 borderRadius: theme.radius.lg,
                 backgroundColor: !disabled ? theme.colors.green[2] : theme.colors.gray[3],
@@ -126,13 +161,15 @@ export default function CatModalView({
                 },
               }}
               disabled={disabled}
-              onDrop={() => {}}
-              //TODO: add image upload
+              onDrop={(files) => addImageToCat(files)}
+              onReject={() => alert('Imaginea este prea mare.')}
               maxSize={MAX_SIZE}
+              multiple={false}
               accept={IMAGE_MIME_TYPE}>
               {(status) => dropzoneChildren(status, theme)}
             </Dropzone>
-          </Grid.Col>
+            </Grid.Col>)}
+          
         </Grid>
         <Stack sx={{ height: '100%', width: '100%', flex: 1 }} justify='center'>
           <SegmentedControl
