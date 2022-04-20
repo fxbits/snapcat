@@ -108,9 +108,8 @@ function Map() {
     geocoder.geocode({ address, bounds: CLUJ_NAPOCA_BOUNDS }, (results: any, status: any) => {
       if (status === 'OK' && results) {
         markerSearch.setPosition(results[0].geometry.location);
-        markerSearch.setMap(map as any);
         map!.setCenter(markerSearch.getPosition() as any);
-        map!.setZoom(16);
+        map!.setZoom(18);
       } else {
         alert('Nu exista locatia data');
       }

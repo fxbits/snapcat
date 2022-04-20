@@ -51,6 +51,7 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
             setAddressName(e.target.value);
           }}
         />
+
       </Group>
       <Menu
         control={
