@@ -1,3 +1,4 @@
+import { showNotification } from '@mantine/notifications';
 import axios from 'axios';
 import { useContext } from 'react';
 import { useSWRConfig } from 'swr';
@@ -13,34 +14,69 @@ interface Address {
 const URL = '/api/interest-zones/';
 
 const addZone = async (zone: Partial<InterestZone>) => {
-  const response = await axios.post(URL, {
-    address: {
-      name: zone?.address?.name,
-      lat: zone?.address?.lat,
-      lng: zone?.address?.lng,
-    },
-    noUnsterilizedCats: zone.unsterilizedCats ?? 0,
-    status: zone.status,
-    contactPerson: {
-      phone: zone.contactPerson?.phone,
-      name: zone.contactPerson?.name,
-    },
-    volunteerName: zone.volunteerName,
-    observations: '',
-    unsterilizedCats: [],
-    sterilizedCats: [],
+  let body = {...zone};
+  body.observations = '';
+  body.unsterilizedCats = [];
+  body.sterilizedCats = [];
+
+  await axios.post(URL, body)
+  .then((res) => {
+    showNotification({
+      title: 'Added successfully',
+      message: 'A zone has been added!',
+      color: 'green'
+    })
+    return res.status;
+  })
+  .catch((err) => {
+    showNotification({
+      title: 'Server error',
+      message: err.response.data.message,
+      color: 'red'
+    })
+    return err.response.status;
   });
-  return response.data;
+  
 };
 
 const updateZone = async (zoneId: string, zone: Partial<InterestZone>) => {
-  const response = await axios.put(URL + zoneId, zone);
-  return response.data;
+  await axios.put(URL + zoneId, zone)
+  .then((res) => {
+    showNotification({
+      title: 'Edited successfully',
+      message: 'A zone has been edited!',
+      color: 'green'
+    })
+    return res.status;
+  })
+  .catch((err) => {
+    showNotification({
+      title: 'Server error',
+      message: err.response.data.message,
+      color: 'red'
+    })
+    return err.response.status;
+  });
 };
 
 const deleteZone = async (zoneId: string) => {
-  const response = await axios.delete(URL + zoneId);
-  return response.data;
+  await axios.delete(URL + zoneId)
+  .then((res) => {
+    showNotification({
+      title: 'Deleted successfully',
+      message: 'A zone has been deleted!',
+      color: 'green'
+    })
+    return res.status;
+  })
+  .catch((err) => {
+    showNotification({
+      title: 'Server error',
+      message: err.response.data.message,
+      color: 'red'
+    })
+    return err.response.status;
+  });
 };
 
 const useZoneActions = (zoneId: string) => {
@@ -81,21 +117,27 @@ const useZoneActions = (zoneId: string) => {
 
   const AddZone = async (values: FormValues, address: Address, volunteerName?: string) => {
     const body = getBody(values, address, volunteerName);
-    await addZone(body);
+    const response = await addZone(body);
     mutate(`/api/interest-zones/`);
+
+    return response;
   };
 
   const UpdateZone = async (values: FormValues, zone: InterestZone | undefined) => {
     const body = getBody(values, undefined, undefined, zone);
-    await updateZone(zoneId, body);
+    const response = await updateZone(zoneId, body);
 
     mutate(`/api/interest-zones/${zoneId}`);
     mutate(`/api/interest-zones/`);
+
+    return response;
   };
 
   const DeleteZone = async () => {
-    await deleteZone(zoneId);
+    const response = await deleteZone(zoneId);
     mutate(`/api/interest-zones/`);
+
+    return response;
   };
 
   return { AddZone, UpdateZone, DeleteZone };

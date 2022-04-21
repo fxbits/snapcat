@@ -44,11 +44,12 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       status: zone?.status || Status.TODO,
     },
     validationRules: {
-      contact: (value) => ((value.length > 2) && (/^[A-Z][a-z]*/.test(value))),
-      phone: (value) => (/^\+407([0-9]{8})$/.test(value))
+      // contact: (value) => ((value.length > 2) && (/^[A-Z][a-z]*/.test(value))),
+      phone: (value) => (/^07([0-9]{8})$/.test(value))
     },
     errorMessages: {
       contact: 'Incorrect name!',
+      phone: 'Incorrect phone number!',
     },
   });
 
@@ -57,59 +58,27 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       <ZoneModalHeader
         zone={zone || partialZone!}
         form={form}
-        addZone={() => {
-          const allGood = form.validate();
-          
-          ( allGood && 
-            setModal(modal?.back) &&
-            AddZone(form.values, partialZone?.address!, partialZone?.volunteerName) &&
-            showNotification({
-              title: 'Added successfully',
-              message: 'A zone has been added!',
-              color: 'green'
-            })
-          ) 
-          ||
-          ( 
-            !allGood && 
-            showNotification({
-              title: 'Added failed',
-              message: 'You have an error!',
-              color: 'red'
-            })
-          )
+        addZone={ async () => {
+          form.validate();
+
+          AddZone(form.values, partialZone?.address!, partialZone?.volunteerName)
+
+          /// TODO handle status 200 for setModal 
+          setModal(modal?.back)
           
         }}
-        updateZone={() => {
-          const allGood = form.validate();
+        updateZone={async () => {
+          form.validate(); 
 
-          ( allGood && 
-            UpdateZone(form.values, zone) && 
-            setModal({ ...modal, type: 'VIEW_ZONE' }) &&
-            showNotification({
-              title: 'Edited successfully',
-              message: 'A zone has been edited!',
-              color: 'green'
-            })
-          )
-          ||
-          ( 
-            !allGood && 
-            showNotification({
-              title: 'Edited failed',
-              message: 'You have an error!',
-              color: 'red'
-            })
-          )
+          UpdateZone(form.values, zone)
 
+          /// TODO handle status 200 for setModal 
+          setModal(modal?.back)
         }}
-        deleteZone={() => {
-          zone && DeleteZone();
-          showNotification({
-            title: 'Deleted successfully',
-            message: 'A zone has been deleted!',
-            color: 'green',
-          });
+        deleteZone={async () => {
+          zone && DeleteZone()
+          
+          /// TODO handle status 200 for setModal and setInterestZone
           setInterestZone(undefined);
           setModal(modal?.back);
         }}
