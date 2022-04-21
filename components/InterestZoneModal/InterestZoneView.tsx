@@ -62,6 +62,9 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
           form.validate();
 
           AddZone(form.values, partialZone?.address!, partialZone?.volunteerName)
+          // .then((status) => {
+          //   status === 200 &&  setModal(modal?.back)
+          // })
 
           /// TODO handle status 200 for setModal 
           setModal(modal?.back)
