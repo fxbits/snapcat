@@ -105,14 +105,15 @@ class ZoneService {
     }
     const sterilizedStatus: boolean = await this.validateCat(cat);
 
+    let catSchema = undefined;
     if (sterilizedStatus) {
-      const catSchema = new sterilizedCatSchema({
+      catSchema = new sterilizedCatSchema({
         ...cat,
         images: []
       });
       interestZone.sterilizedCats.push(catSchema);
     } else {
-      const catSchema = new unsterilizedCatSchema({
+      catSchema = new unsterilizedCatSchema({
         ...cat,
         images: []
       });
@@ -122,7 +123,8 @@ class ZoneService {
       interestZone.unsterilizedCats.push(catSchema);
     }
 
-    return await interestZone.save();
+    await interestZone.save();
+    return catSchema;
   }
 
   async deleteZone(zoneID: string | string[]) {
