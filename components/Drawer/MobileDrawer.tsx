@@ -4,6 +4,7 @@ import { SwipeEventData, useSwipeable } from 'react-swipeable';
 import { Compass, Map } from 'tabler-icons-react';
 import { InterestZone } from '../../models/zone.model';
 import InterestZoneElement from '../InterestZoneElement/InterestZoneElement';
+import FilterMenu from '../FilterMenu/FilterMenu';
 
 interface Drawer {
   zones: InterestZone[];
@@ -28,6 +29,7 @@ export default function MobileDrawer({ zones }: Drawer) {
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
+  const [filteredZones, setFilteredZones] = useState(zones);
 
   return (
     <MediaQuery largerThan='md' styles={{ display: 'none' }}>
@@ -61,8 +63,9 @@ export default function MobileDrawer({ zones }: Drawer) {
               </Text>
             )}
           </Stack>
+          <FilterMenu zones={zones} setZones={setFilteredZones} />
           <ScrollArea pb='md' sx={{ height: 'calc(100% - 60px)' }}>
-            {zones.map((zone) => (
+            {filteredZones.map((zone) => (
               <InterestZoneElement interestZone={zone} key={zone._id} />
             ))}
           </ScrollArea>
