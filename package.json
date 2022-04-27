@@ -52,7 +52,8 @@
     "sharp": "^0.30.3",
     "swr": "^1.2.2",
     "tabler-icons-react": "^1.45.0",
-    "use-places-autocomplete": "^2.0.0"
+    "use-places-autocomplete": "^2.0.0",
+    "use-supercluster": "^0.4.0"
   },
   "devDependencies": {
     "@types/formidable": "^2.0.4",

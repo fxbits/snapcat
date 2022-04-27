@@ -15,7 +15,6 @@ import useSWR from 'swr';
 import CatMarker from '../components/Marker/Marker';
 import { useLongPress } from 'react-use';
 import useCluster from '../components/hooks/useCluster';
-import Map from '../components/Map';
 
 type i = typeof useLongPress;
 
@@ -40,7 +39,8 @@ const CLUJ_NAPOCA_BOUNDS: Bounds = {
   east: parseFloat(process.env.NEXT_PUBLIC_EAST!),
 };
 
-function MapPage() {
+const libraries: 'places'[] = ['places'];
+function Map() {
   const { user } = useUser();
   const [username, setUsername] = useState<string>('');
   const mapRef = React.useRef<google.maps.Map | undefined>();
@@ -137,12 +137,71 @@ function MapPage() {
 
   return (
     <>
-      <HeaderGoogle searchPosition={searchPlace}></HeaderGoogle>
-      <MobileDrawer zones={interestZones || []} />
-      <DesktopDrawer zones={interestZones || []} />
-      <Map />
+      <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_APP_GOOGLE_MAPS_API_KEY!}>
+        <GoogleMap
+          {...longPressEvent}
+          zoom={11}
+          onLoad={onLoad}
+          onZoomChanged={onZoomChanged}
+          onBoundsChanged={onBoundsChanged}
+          mapContainerStyle={{ height: 'calc(100vh - 60px)' }}
+          onDragStart={() => {
+            ref.current = true;
+          }}
+          onDragEnd={() => {
+            ref.current = false;
+          }}
+          onDblClick={addZone}>
+          {clusters?.map((cluster) => {
+            const [longitude, latitude] = cluster.geometry.coordinates;
+            const { properties } = cluster;
+
+            const position = {
+              lat: latitude,
+              lng: longitude,
+            };
+
+            if ('cluster' in properties) {
+              const { point_count: pointCount } = properties;
+              if (properties.cluster)
+                return (
+                  <Marker
+                    key={`cluster-${cluster.id}`}
+                    position={{ lat: latitude, lng: longitude }}
+                    label={{ text: `${pointCount}` }}
+                  />
+                );
+            }
+            return (
+              <OverlayView
+                position={position}
+                key={properties.zone._id}
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
+                <CatMarker
+                  zone={properties.zone}
+                  displayZoneMarker={() => displayZoneMarker(position)}
+                />
+              </OverlayView>
+            );
+          })}
+        </GoogleMap>
+      </LoadScript>
+      <Text
+        sx={(theme) => ({
+          [theme.fn.smallerThan('md')]: {
+            position: 'absolute',
+            bottom: '60px',
+            left: 'calc(50% - 172px / 2)',
+          },
+          [theme.fn.largerThan('md')]: {
+            position: 'absolute',
+            bottom: '0px',
+            left: 'calc(50% - 172px / 2)',
+          },
+        })}>
+        Made with &#10084; by fxbits
+      </Text>
     </>
   );
 }
-
-export default withPageAuthRequired(MapPage);
+export default Map;
