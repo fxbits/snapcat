@@ -28,6 +28,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.2",
     "@react-google-maps/api": "^2.7.0",
+    "@types/supercluster": "^7.1.0",
     "axios": "^0.26.1",
     "bson": "^4.6.2",
     "crs-dropdown-container": "^0.0.13",

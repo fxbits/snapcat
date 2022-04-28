@@ -16,16 +16,12 @@ import { useReducer, useState } from 'react';
 import Link from 'next/link';
 
 interface Props {
-  searchPosition: (address: string) => void;
+  setSearchAdress: (searchAdress: string) => void;
 }
 
-const HeaderGoogle = ({ searchPosition }: Props) => {
+const HeaderGoogle = ({ setSearchAdress }: Props) => {
   const { user } = useUser();
   const [addressName, setAddressName] = useState<string>('');
-
-  const searchPlace = (): void => {
-    searchPosition(addressName);
-  };
 
   const theme = useMantineTheme();
 
@@ -38,20 +34,21 @@ const HeaderGoogle = ({ searchPosition }: Props) => {
       sx={{ backgroundColor: theme.colors.yellow[6], height: '60px' }}>
       <Group noWrap align='center' justify-content='space-between'>
         <Image src='/icon/header-icon.svg' width={36} height={46} alt='Logo'></Image>
-        <TextInput
-          type='search'
-          placeholder='Search'
-          required
-          rightSection={
-            <ActionIcon>
-              <Search onClick={searchPlace} />
-            </ActionIcon>
-          }
-          onChange={(e) => {
-            setAddressName(e.target.value);
-          }}
-        />
-
+        <form onSubmit={() => setSearchAdress(addressName)}>
+          <TextInput
+            type='search'
+            placeholder='Search'
+            required
+            rightSection={
+              <ActionIcon>
+                <Search onClick={() => setSearchAdress(addressName)} />
+              </ActionIcon>
+            }
+            onChange={(e) => {
+              setAddressName(e.target.value);
+            }}
+          />
+        </form>
       </Group>
       <Menu
         control={
