@@ -30,6 +30,7 @@ import {
   Trash,
 } from 'tabler-icons-react';
 import useCatActions from '../CatModal/useCatActions';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   cat?: SterilizedCat;
@@ -39,6 +40,7 @@ const SterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { DeleteCat } = useCatActions(cat?._id!);
+  const { t } = useTranslation('common');
   const theme = useMantineTheme();
 
   const handleChange = useCallback(
@@ -109,7 +111,7 @@ const SterilizedCat = ({ cat }: Props) => {
           </Group>
           <Text lineClamp={3}>
             <Text component='span' weight={600} color='green'>
-              NOTE:{' '}
+            {t('components.modalManager.interestZoneModal.cat.note')}:{' '}
             </Text>
             {cat?.observations}
           </Text>

@@ -15,6 +15,7 @@ import useZoneActions from './hooks/useZoneActions';
 import { useForm } from '@mantine/hooks';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { showNotification } from '@mantine/notifications';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   zone: InterestZone | undefined;
@@ -33,6 +34,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { setCat } = useContext(CatContext);
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
+  const { t } = useTranslation('common');
 
   /// TODO: Use transaltions
   const form = useForm<FormValues>({
@@ -102,7 +104,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   {...form.getInputProps('addressName')}
                   onChange={(e) => form.setFieldValue('addressName', e.currentTarget.value)}
                   placeholder='Your adress'
-                  label='Adress'
+                  label={t('components.interestZoneView.detailsForm.address')}
                   required
                   disabled
                 />
@@ -110,14 +112,14 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   {...form.getInputProps('volunteerName')}
                   onChange={(e) => form.setFieldValue('volunteerName', e.currentTarget.value)}
                   placeholder='My volunteer'
-                  label='Volunteer'
+                  label={t('components.interestZoneView.detailsForm.volunteer')}
                   required
                 />
                 <TextInput
                   {...form.getInputProps('contact')}
                   onChange={(e) => form.setFieldValue('contact', e.currentTarget.value)}
                   placeholder='Contact'
-                  label='Contact'
+                  label={t('components.interestZoneView.detailsForm.contactPerson')}
                   required
                 />
                 <TextInput
@@ -162,7 +164,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   }
                   label={
                     <Group sx={{ position: 'relative', height: '40px' }} align='center'>
-                      <Text>Sterilized Cats</Text>
+                      <Text>{t('components.interestZoneView.interestZoneView.catsSterilized')}</Text>
                       <ActionIcon
                         sx={{ position: 'absolute', right: 0 }}
                         variant='filled'
@@ -197,7 +199,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   sx={{ position: 'relative' }}
                   label={
                     <Group sx={{ position: 'relative', height: '40px' }} align='center'>
-                      <Text>Unsterilized Cats</Text>
+                      <Text>{t('components.interestZoneView.interestZoneView.catsUnsterilized')}</Text>
                       <ActionIcon
                         component='div'
                         sx={{ position: 'absolute', right: 0 }}
@@ -228,7 +230,6 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
         </Grid>
       </Box>
     </>
-  );
-};
+  )};
 
 export default InterestZoneView;

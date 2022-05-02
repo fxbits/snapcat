@@ -20,6 +20,7 @@ import { motion } from 'framer-motion';
 
 import { Edit, GenderFemale, GenderMale, QuestionMark, Scissors, Trash } from 'tabler-icons-react';
 import useCatActions from '../CatModal/useCatActions';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   cat?: UnsterilizedCat;
@@ -28,7 +29,7 @@ interface Props {
 const UnsterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
-
+  const { t } = useTranslation('common');
   const theme = useMantineTheme();
   const { DeleteCat } = useCatActions(cat?._id!);
 
@@ -77,7 +78,7 @@ const UnsterilizedCat = ({ cat }: Props) => {
         </Center>
 
         <Box
-          sx={(theme) => ({
+          sx={(theme: any) => ({
             width: '100px',
             aspectRatio: '1',
             position: 'relative',
@@ -94,7 +95,7 @@ const UnsterilizedCat = ({ cat }: Props) => {
         <Stack spacing={0} justify='flex-start' sx={{ height: '100%', flex: 1 }}>
           <Text lineClamp={3}>
             <Text component='span' weight={600} color='green'>
-              NOTE:{' '}
+              {t('components.modalManager.interestZoneModal.cat.note')}:{' '}
             </Text>
             {cat?.observations}
           </Text>

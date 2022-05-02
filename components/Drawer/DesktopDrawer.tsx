@@ -17,7 +17,7 @@ const styles: CSSObject = {
   display: 'flex',
   flexDirection: 'column',
   width: '500px',
-  zIndex: '200',
+  zIndex: 200,
 };
 
 export default function DesktopDrawer({ zones }: Drawer) {

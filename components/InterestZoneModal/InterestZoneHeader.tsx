@@ -16,6 +16,7 @@ import { UseForm } from '@mantine/hooks/lib/use-form/use-form';
 import { EditIcon, SaveIcon, TrashIcon } from '../Icons/Icons';
 import { ArrowLeft, Plus } from 'tabler-icons-react';
 
+import { useTranslation } from 'next-i18next';
 export default function ZoneModalHeader({
   modal,
   zone,
@@ -34,6 +35,7 @@ export default function ZoneModalHeader({
   form: UseForm<FormValues>;
 }) {
   const theme = useMantineTheme();
+  const { t } = useTranslation('common');
   return (
     <Group
       p='md'
@@ -49,9 +51,9 @@ export default function ZoneModalHeader({
           onClick={() => setModal(undefined)}
           variant='subtle'>
           <Title
-            sx={{ fontWeight: '600', [theme.fn.smallerThan('xs')]: { display: 'none' } }}
+            sx={{ fontWeight: 600, [theme.fn.smallerThan('xs')]: { display: 'none' } }}
             order={5}>
-            Back
+            {t('components.modalManager.interestZoneModal.back')}
           </Title>
         </Button>
       </Group>
@@ -59,7 +61,7 @@ export default function ZoneModalHeader({
         <Stack spacing={0} align='center'>
           <Text size='sm'>Status</Text>
           <Text size='lg' inline sx={{ textTransform: 'uppercase' }}>
-            {zone?.status}
+            {t(`${zone?.status}`)}
           </Text>
         </Stack>
       ) : (
@@ -90,11 +92,11 @@ export default function ZoneModalHeader({
           }}
           onChange={(e) => form.setFieldValue('status', e as Status)}
           data={[
-            { value: Status.TODO, label: 'Todo' },
-            { value: Status.INPROGRESS, label: 'In Progress' },
-            { value: Status.DONE, label: 'Done' },
+            { value: Status.TODO, label: t('To Do') },
+            { value: Status.INPROGRESS, label: t('In Progress') },
+            { value: Status.DONE, label: t('Done') },
           ]}
-          defaultValue={zone?.status}></Select>
+          defaultValue={t(`${zone?.status}`)}></Select>
       )}
       <Group spacing='xs'>
         {modal.type === 'VIEW_ZONE' && (

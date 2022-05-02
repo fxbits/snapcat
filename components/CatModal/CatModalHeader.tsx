@@ -2,6 +2,7 @@ import { ActionIcon, Group, Text } from '@mantine/core';
 import { ArrowLeft, BrandStackoverflow, Edit, MedicalCross, Trash } from 'tabler-icons-react';
 import { EditIcon, SaveIcon, ScissorIcon } from '../Icons/Icons';
 import { ModalConfig } from '../Providers/ModalProvider';
+import { useTranslation } from 'next-i18next';
 
 export default function CatModalHeader({
   modal,
@@ -18,6 +19,7 @@ export default function CatModalHeader({
   deleteCat: () => void;
   sterilizeCat: () => void;
 }) {
+  const { t } = useTranslation('common');
   return (
     <Group
       p='md'
@@ -34,9 +36,9 @@ export default function CatModalHeader({
         color='yellow'>
         <ArrowLeft size={50} />
       </ActionIcon>
-      {modal.type === 'ADD_CAT' && <Text>ADD CAT</Text>}
-      {modal.type === 'VIEW_CAT' && <Text>VIEW CAT</Text>}
-      {modal.type === 'EDIT_CAT' && <Text>EDIT CAT</Text>}
+      {modal.type === 'ADD_CAT' && <Text>{t('components.catModal.catModalHeader.addCat')}</Text>}
+      {modal.type === 'VIEW_CAT' && <Text>{t('components.catModal.catModalHeader.viewCat')}</Text>}
+      {modal.type === 'EDIT_CAT' && <Text>{t('components.catModal.catModalHeader.editCat')}</Text>}
 
       <Group spacing='xs'>
         {modal.type === 'VIEW_CAT' && (

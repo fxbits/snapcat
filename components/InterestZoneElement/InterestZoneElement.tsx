@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ModalContext } from '../Providers/ModalProvider';
 import useAdressName from '../hooks/useAdress';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   interestZone: InterestZone;
@@ -36,6 +37,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
   const { classes } = useStyles();
   const { address, noUnsterilizedCats, status, sterilizedCats, unsterilizedCats, volunteerName } =
     interestZone;
+  const { t } = useTranslation('common');
 
   const statusColor: Record<Status, string> = {
     [Status.DONE]: '#B0EF8F',
@@ -87,14 +89,14 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           {volunteerName && (
             <Text mt='md' color='gray'>
               {' '}
-              Volunteer{' '}
+              {t('components.interestZoneOverview.interestZoneElement.volunteer')}{' '}
             </Text>
           )}
           {volunteerName && <Text> {volunteerName} </Text>}
           {!volunteerName && (
             <Button mt='md' color='dark' variant='outline' className={classes.button}>
               {' '}
-              ASSIGN TO ME{' '}
+              {t('components.interestZoneOverview.interestZoneElement.assignToMe')}{' '}
             </Button>
           )}
         </Box>
@@ -103,7 +105,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
             weight={500}
             mb='xs'
             sx={{ background: statusColor[status], textAlign: 'center', borderRadius: '7px' }}>
-            {status}
+            {t(`${status}`)}
           </Text>
           <Box>
             <Image
@@ -112,7 +114,8 @@ const InterestZoneElement = ({ interestZone }: Props) => {
               height='70px'
               alt='cat-icon'></Image>
           </Box>
-          <Text color='gray'>around {noUnsterilizedCats ?? 0} cats</Text>
+          <Text color='gray'>{t('components.interestZoneOverview.interestZoneElement.around')} {noUnsterilizedCats ?? 0}{' '}
+           {t('components.interestZoneOverview.interestZoneElement.cats')}</Text>
         </Stack>
       </Group>
     </Container>
