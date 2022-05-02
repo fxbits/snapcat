@@ -47,7 +47,7 @@ export interface FormValues {
   releaseDate?: Date;
 }
 
-const MAX_SIZE = 1 * 1024 ** 2;
+const MAX_SIZE = 2 * 1024 ** 2;
 
 export default function CatModalView({
   cat,
@@ -116,7 +116,7 @@ export default function CatModalView({
       <CatModalHeader
         modal={modal}
         setModal={setModal}
-        addCat={() => AddCat(form.values)}
+        addCat={() => AddCat(form.values, imageFormData)}
         updateCat={() => UpdateCat(form.values, imageFormData)}
         deleteCat={() => DeleteCat()}
         sterilizeCat={() => SterilizeCat(form.values)}
