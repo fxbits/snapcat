@@ -25,14 +25,14 @@ export default function useMapActions() {
   const { interestZones } = useInterestZones();
   const mapRef = useRef<google.maps.Map>();
 
-  const searchOnMap = (address: string): void => {
+  const searchOnMap = (cityAddress: string): void => {
     const map = mapRef.current;
     if (!map) return;
 
     const geocoder = new google.maps.Geocoder();
     const markerSearch = new google.maps.Marker();
 
-    address = `${address}, ${process.env.NEXT_PUBLIC_CITY_LOCATION}`;
+    const address = `${cityAddress}, ${process.env.NEXT_PUBLIC_CITY_LOCATION}`;
 
     geocoder.geocode({ address, bounds: CLUJ_NAPOCA_BOUNDS }, (results: any, status: any) => {
       if (status === 'OK' && results) {
