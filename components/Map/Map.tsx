@@ -16,7 +16,7 @@ function Map({ searchAdress }: { searchAdress: string | undefined }) {
 
   useEffect(() => {
     if (searchAdress) searchOnMap(searchAdress);
-  }, [searchAdress, searchOnMap]);
+  }, [searchAdress]);
 
   const onLongPress = (e: MouseEvent | TouchEvent) => {
     if (ref.current === true) return;
@@ -60,7 +60,7 @@ function Map({ searchAdress }: { searchAdress: string | undefined }) {
             ref.current = false;
           }}
           onDblClick={addInterestZone}>
-          {clusters?.map((cluster) => {
+          {clusters?.map((cluster: any) => {
             const [longitude, latitude] = cluster.geometry.coordinates;
             const { properties } = cluster;
             const position = {

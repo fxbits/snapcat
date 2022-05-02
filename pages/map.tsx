@@ -24,7 +24,7 @@ function MapPage() {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common']))
+      ...(await serverSideTranslations(locale, ['common', 'errors']))
     }
   };
 }

@@ -114,8 +114,8 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
                     label={t('components.headerGoogle.language')}
                     required     
                 >
-                  <Radio value="ro" label={t('components.headerGoogle.romanian')} />
-                  <Radio value="en" label={t('components.headerGoogle.english')} />
+                  <Radio value='ro' label={t('components.headerGoogle.romanian')} />
+                  <Radio value='en' label={t('components.headerGoogle.english')} />
                 </RadioGroup>
           </Group>
           
