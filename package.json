@@ -28,6 +28,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.2",
     "@react-google-maps/api": "^2.7.0",
+    "@types/supercluster": "^7.1.0",
     "axios": "^0.26.1",
     "bson": "^4.6.2",
     "crs-dropdown-container": "^0.0.13",
@@ -52,7 +53,8 @@
     "sharp": "^0.30.3",
     "swr": "^1.2.2",
     "tabler-icons-react": "^1.45.0",
-    "use-places-autocomplete": "^2.0.0"
+    "use-places-autocomplete": "^2.0.0",
+    "use-supercluster": "^0.4.0"
   },
   "devDependencies": {
     "@types/formidable": "^2.0.4",

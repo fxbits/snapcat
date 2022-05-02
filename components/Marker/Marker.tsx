@@ -64,9 +64,9 @@ export default function Marker({
         custom={theme.colors[statusColor[zone.status]][5]}
         sx={{
           position: 'relative',
-          width: 50 + zone.noUnsterilizedCats * 10,
+          width: 50 + zone.noUnsterilizedCats * 5,
           borderRadius: '50%',
-          height: 50 + zone.noUnsterilizedCats * 10,
+          height: 50 + zone.noUnsterilizedCats * 5,
           background: theme.colors[statusColor[zone.status]][2] + '50',
           cursor: 'pointer',
           zIndex: 50,
