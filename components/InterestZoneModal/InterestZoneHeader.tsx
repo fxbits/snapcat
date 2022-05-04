@@ -149,8 +149,12 @@ export default function ZoneModalHeader({
       </Group>
       <Collapse in={confirmationVisible}  transitionDuration={500} transitionTimingFunction='ease'>
         <Stack sx={{backgroundColor: '#C393B0', width: '100%', marginTop: '2px'}} spacing='xs'>
-          {!deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>Are you sure you want to discard your changes?</Text>)}
-          {deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>Are you sure you want to delete this zone?</Text>)}
+          {!deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>
+          {t('components.modalManager.interestZoneModal.confirmation.discardMessage')}
+          </Text>)}
+          {deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>
+          {t('components.modalManager.interestZoneModal.confirmation.deleteMessage')}
+          </Text>)}
           <Group align='center' position='center' pb='md'>
               <Button 
                 onClick={
@@ -162,7 +166,7 @@ export default function ZoneModalHeader({
                 radius='md' 
                 variant='outline' 
                 sx={{color: '#FFFFFF', borderColor: '#FFFFFF', fontSize: '14px', width: '140px'}}>
-                  Cancel
+                   {t('components.modalManager.interestZoneModal.confirmation.cancel')}
               </Button>
               <Button 
                 onClick={
@@ -176,7 +180,7 @@ export default function ZoneModalHeader({
                 radius='md' 
                 variant='outline' 
                 sx={{color: '#FFFFFF', borderColor: '#FFFFFF', fontSize: '14px', width: '140px'}}>
-                  Yes
+                  {t('components.modalManager.interestZoneModal.confirmation.yes')}
               </Button>
           </Group>
         </Stack>

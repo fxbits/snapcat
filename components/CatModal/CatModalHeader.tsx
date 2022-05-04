@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Collapse, Group, Stack, Text } from '@mantine/core';
 import { useState } from 'react';
-import { ArrowLeft, BrandStackoverflow, Edit, MedicalCross, Trash } from 'tabler-icons-react';
+import { ArrowLeft, Trash } from 'tabler-icons-react';
 import { EditIcon, SaveIcon, ScissorIcon } from '../Icons/Icons';
 import { ModalConfig } from '../Providers/ModalProvider';
 import { useTranslation } from 'next-i18next';
@@ -123,8 +123,12 @@ export default function CatModalHeader({
       </Group>
       <Collapse in={confirmationVisible}  transitionDuration={500} transitionTimingFunction='ease'>
         <Stack sx={{backgroundColor: '#C393B0', width: '100%', marginTop: '2px'}} spacing='xs'>
-          {!deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>Are you sure you want to discard your changes?</Text>)}
-          {deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>Are you sure you want to delete this cat?</Text>)}
+          {!deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>
+            {t('components.catModal.catModalHeader.confirmation.discardMessage')}
+            </Text>)}
+          {deletePressed && (<Text align='center' color='white' size='xs' mt='sm'>
+            {t('components.catModal.catModalHeader.confirmation.deleteMessage')}
+          </Text>)}
           <Group align='center' position='center' pb='md'>
               <Button 
                 onClick={
@@ -136,12 +140,11 @@ export default function CatModalHeader({
                 radius='md' 
                 variant='outline' 
                 sx={{color: '#FFFFFF', borderColor: '#FFFFFF', fontSize: '14px', width: '140px'}}>
-                  Cancel
+                  {t('components.catModal.catModalHeader.confirmation.cancel')}
               </Button>
               <Button 
                 onClick={
                   () => {
-                    // TODO handle deletion
                     if (deletePressed) {
                       deleteCat();
                     }
@@ -151,7 +154,7 @@ export default function CatModalHeader({
                 radius='md' 
                 variant='outline' 
                 sx={{color: '#FFFFFF', borderColor: '#FFFFFF', fontSize: '14px', width: '140px'}}>
-                  Yes
+                  {t('components.catModal.catModalHeader.confirmation.yes')}
               </Button>
           </Group>
         </Stack>

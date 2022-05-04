@@ -9,7 +9,13 @@
             "catModalHeader":{
                 "addCat":"ADD CAT",
                 "viewCat": "VIEW CAT",
-                "editCat": "EDIT CAT"
+                "editCat": "EDIT CAT",
+                "confirmation": {
+                    "discardMessage": "Are you sure you want to discard your changes?",
+                    "deleteMessage": "Are you sure you want to delete this cat?",
+                    "cancel": "Cancel",
+                    "yes": "Yes"
+                }
             },
             "catModalView":{
                 "female": "Female",
@@ -85,6 +91,12 @@
                 "back": "Back",
                 "cat": {
                     "note": "NOTE"
+                },
+                "confirmation": {
+                    "discardMessage": "Are you sure you want to discard your changes?",
+                    "deleteMessage": "Are you sure you want to delete this zone?",
+                    "cancel": "Cancel",
+                    "yes": "Yes"
                 }
             }
         },
