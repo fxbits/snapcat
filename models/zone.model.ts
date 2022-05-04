@@ -1,9 +1,9 @@
 import { SterilizedCat, UnsterilizedCat } from './cat.model';
 
 export enum Status {
-  TODO = 'To Do',
-  DONE = 'Done',
-  INPROGRESS = 'In Progress',
+  TODO = 'todo',
+  DONE = 'done',
+  INPROGRESS = 'inProgress',
 }
 
 export interface Address {

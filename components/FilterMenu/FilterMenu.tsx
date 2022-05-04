@@ -19,9 +19,9 @@ export default function FilterMenu({
   }, [status, zones, setZones]);
 
   const data: Array<SelectItem> = [
-      {value: Status.TODO, label: t('To Do')},
-      {value: Status.INPROGRESS, label: t('In Progress')},
-      {value: Status.DONE, label: t('Done')},
+      {value: Status.TODO, label: t(`status.${Status.TODO}`)},
+      {value: Status.INPROGRESS, label: t(`status.${Status.INPROGRESS}`)},
+      {value: Status.DONE, label: t(`status.${Status.DONE}`)},
       {value: 'All', label: t('components.filterMenu.all')}
     ];
   

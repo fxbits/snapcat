@@ -1,7 +1,9 @@
 {
-    "To Do": "DE FĂCUT",
-    "In Progress": "ÎN PROGRES",
-    "Done": "TERMINAT",
+    "status": {
+        "todo": "DE FĂCUT",
+        "inProgress": "ÎN PROGRES",
+        "done": "TERMINAT"
+    },
     "components":{
         "catModal":{
             "catModalHeader":{
@@ -60,7 +62,9 @@
                 "contactPerson": "Persoană de contact",
                 "phoneNumber": "Număr de telefon",
                 "observations": "Observații",
-                "volunteer": "Voluntar"
+                "volunteer": "Voluntar",
+                "volunteerPlaceholder": "Andrei",
+                "addressPlaceholder": "21 Decembrie 1989"
             },
             "interestZoneView":{
                 "catsSterilized": "Pisici sterilizate",

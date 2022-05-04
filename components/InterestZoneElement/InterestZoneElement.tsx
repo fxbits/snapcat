@@ -105,7 +105,7 @@ const InterestZoneElement = ({ interestZone }: Props) => {
             weight={500}
             mb='xs'
             sx={{ background: statusColor[status], textAlign: 'center', borderRadius: '7px' }}>
-            {t(`${status}`)}
+            {t(`status.${status}`)}
           </Text>
           <Box>
             <Image

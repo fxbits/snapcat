@@ -1,7 +1,9 @@
 {
-    "To Do": "TODO",
-    "In Progress": "IN PROGRESS",
-    "Done": "DONE",
+    "status": {
+        "todo": "TODO",
+        "inProgress": "IN PROGRESS",
+        "done": "DONE"
+    },
     "components":{
         "catModal":{
             "catModalHeader":{
@@ -60,7 +62,9 @@
                 "contactPerson": "Contact person",
                 "phoneNumber": "Phone Number",
                 "observations": "Observations",
-                "volunteer": "Volunteer"
+                "volunteer": "Volunteer",
+                "volunteerPlaceholder": "Jane Doe",
+                "addressPlaceholder": "December 21 1989"
             },
             "interestZoneView":{
                 "catsSterilized": "Sterilized Cats",

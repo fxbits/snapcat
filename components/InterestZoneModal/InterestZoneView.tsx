@@ -103,7 +103,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                 <TextInput
                   {...form.getInputProps('addressName')}
                   onChange={(e) => form.setFieldValue('addressName', e.currentTarget.value)}
-                  placeholder='Your adress'
+                  placeholder={t('components.interestZoneView.detailsForm.addressPlaceholder')}
                   label={t('components.interestZoneView.detailsForm.address')}
                   required
                   disabled
@@ -111,7 +111,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                 <TextInput
                   {...form.getInputProps('volunteerName')}
                   onChange={(e) => form.setFieldValue('volunteerName', e.currentTarget.value)}
-                  placeholder='My volunteer'
+                  placeholder={t('components.interestZoneView.detailsForm.volunteerPlaceholder')}
                   label={t('components.interestZoneView.detailsForm.volunteer')}
                   required
                 />

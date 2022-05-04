@@ -61,7 +61,7 @@ export default function ZoneModalHeader({
         <Stack spacing={0} align='center'>
           <Text size='sm'>Status</Text>
           <Text size='lg' inline sx={{ textTransform: 'uppercase' }}>
-            {t(`${zone?.status}`)}
+            {t(`status.${zone?.status}`)}
           </Text>
         </Stack>
       ) : (
@@ -92,11 +92,11 @@ export default function ZoneModalHeader({
           }}
           onChange={(e) => form.setFieldValue('status', e as Status)}
           data={[
-            { value: Status.TODO, label: t('To Do') },
-            { value: Status.INPROGRESS, label: t('In Progress') },
-            { value: Status.DONE, label: t('Done') },
+            { value: Status.TODO, label: t(`status.${Status.TODO}`) },
+            { value: Status.INPROGRESS, label: t(`status.${Status.INPROGRESS}`) },
+            { value: Status.DONE, label: t(`status.${Status.DONE}`) },
           ]}
-          defaultValue={t(`${zone?.status}`)}></Select>
+          defaultValue={t(`status.${zone?.status}`)}></Select>
       )}
       <Group spacing='xs'>
         {modal.type === 'VIEW_ZONE' && (
