@@ -7,11 +7,14 @@ import { Logout, Map, Signature } from 'tabler-icons-react';
 import MovingBox from '../components/Homepage/MovingBox';
 import UserContainer from '../components/Homepage/UserContainer';
 import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 const MainApp = () => {
   const { user } = useUser();
   const router = useRouter();
   const theme = useMantineTheme();
+  const { t } = useTranslation('common');
   return (
     <Grid
       sx={{
@@ -64,7 +67,7 @@ const MainApp = () => {
               [theme.fn.largerThan('md')]: {
                 fontSize: '125px',
               },
-              fontWeight: '600',
+              fontWeight: 600,
             }}
             inline>
             Snapcat
@@ -80,7 +83,7 @@ const MainApp = () => {
                 disabled={user === undefined}
                 onClick={() => user !== undefined && router.push('/map')}
                 leftIcon={<Map size={50} />}>
-                Open Map
+                {t('pages.index.open')}
               </Button>
               {user ? (
                 <>
@@ -91,7 +94,7 @@ const MainApp = () => {
                       color='red'
                       component='a'
                       leftIcon={<Logout size={50} />}>
-                      Logout
+                      {t('pages.index.logout')}
                     </Button>
                   </Link>
                 </>
@@ -103,7 +106,7 @@ const MainApp = () => {
                     size='lg'
                     component='a'
                     leftIcon={<Signature size={50} />}>
-                    Login
+                    {t('pages.index.login')}
                   </Button>
                 </Link>
               )}
@@ -139,5 +142,13 @@ const MainApp = () => {
     </Grid>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common']))
+    }
+  };
+}
 
 export default MainApp;

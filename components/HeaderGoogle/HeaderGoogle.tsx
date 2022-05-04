@@ -4,6 +4,8 @@ import {
   Center,
   Group,
   Menu,
+  Radio,
+  RadioGroup,
   Stack,
   Text,
   TextInput,
@@ -12,16 +14,29 @@ import {
 import { Search } from 'tabler-icons-react';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0';
-import { useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
+import { Router, useRouter } from "next/router";
 
 interface Props {
   setSearchAdress: (searchAdress: string) => void;
 }
 
 const HeaderGoogle = ({ setSearchAdress }: Props) => {
+  const { i18n } = useTranslation();
   const { user } = useUser();
   const [addressName, setAddressName] = useState<string>('');
+  const [value, setValue] = useState(i18n.language);
+  const router = useRouter();
+
+  const { t } = useTranslation('common');
+
+  const switchLanguage = () => {
+    const val = i18n.language === 'ro' ? 'en' : 'ro';
+    const {pathname,asPath}=router;
+    router.push({pathname},asPath,{locale:val});
+  }
 
   const theme = useMantineTheme();
 
@@ -37,7 +52,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
         <form onSubmit={() => setSearchAdress(addressName)}>
           <TextInput
             type='search'
-            placeholder='Search'
+            placeholder={t('components.headerGoogle.search')}
             required
             rightSection={
               <ActionIcon>
@@ -72,7 +87,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
                 sx={(theme) => ({
                   [theme.fn.smallerThan('md')]: { display: 'none' },
                 })}>
-                Welcome, {user!.name}
+                {t('components.headerGoogle.welcome')}, {user!.name}
               </Text>
             </Group>
           </Button>
@@ -88,10 +103,22 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
         })}>
         <Stack align='center' sx={{ backgroundColor: '#FFDB3C' }}>
           <Group direction='column' sx={{ fontWeight: 'bold' }}>
-            <Link href=''>Profile</Link>
-            <Link href='/api/auth/logout'>Logout</Link>
+            <Link href=''>{t('components.headerGoogle.profile')}</Link>
+            <Link href='/api/auth/logout'>{t('components.headerGoogle.logout')}</Link>
           </Group>
-          <Group position='apart'></Group>
+          <Group position='apart'>
+          <RadioGroup
+                    value={value}
+                    onChange={switchLanguage}
+                    color='orange'
+                    label={t('components.headerGoogle.language')}
+                    required     
+                >
+                  <Radio value='ro' label={t('components.headerGoogle.romanian')} />
+                  <Radio value='en' label={t('components.headerGoogle.english')} />
+                </RadioGroup>
+          </Group>
+          
         </Stack>
       </Menu>
     </Group>

@@ -1,4 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0';
+import { useTranslation } from 'next-i18next';
 import { useContext, useRef } from 'react';
 import { InterestZone } from '../../../models/zone.model';
 import useInterestZones from '../../hooks/useInterestZones';
@@ -19,6 +20,7 @@ const CLUJ_NAPOCA_BOUNDS: Bounds = {
 };
 
 export default function useMapActions() {
+  const { t } = useTranslation('errors');
   const { user } = useUser();
   const { setInterestZone, setPartialInterestZone } = useContext(InterestZoneProviderContext);
   const { setModal } = useContext(ModalContext);
@@ -26,6 +28,7 @@ export default function useMapActions() {
   const mapRef = useRef<google.maps.Map>();
 
   const searchOnMap = (cityAddress: string): void => {
+
     const map = mapRef.current;
     if (!map) return;
 
@@ -40,7 +43,7 @@ export default function useMapActions() {
         map.setCenter(markerSearch.getPosition() as any);
         map.setZoom(18);
       } else {
-        alert('Nu exista locatia data');
+        alert(t('locationNotFound'));
       }
     });
   };

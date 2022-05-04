@@ -6,6 +6,7 @@ import HeaderGoogle from '../components/HeaderGoogle/HeaderGoogle';
 import Map from '../components/Map/Map';
 import useInterestZones from '../components/hooks/useInterestZones';
 import { useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 function MapPage() {
   const { interestZones } = useInterestZones();
@@ -18,6 +19,14 @@ function MapPage() {
       <Map searchAdress={searchAdress} />
     </>
   );
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'errors']))
+    }
+  };
 }
 
 export default withPageAuthRequired(MapPage);

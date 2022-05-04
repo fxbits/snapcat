@@ -10,6 +10,8 @@ import CatProvider from '../components/Providers/CatProvider';
 import ZoneProvider from '../components/Providers/ZoneProvider';
 import { SWRConfig } from 'swr';
 import { NotificationsProvider } from '@mantine/notifications';
+import { appWithTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -36,4 +38,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

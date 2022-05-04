@@ -1,0 +1,103 @@
+{
+    "status": {
+        "todo": "TODO",
+        "inProgress": "IN PROGRESS",
+        "done": "DONE"
+    },
+    "components":{
+        "catModal":{
+            "catModalHeader":{
+                "addCat":"ADD CAT",
+                "viewCat": "VIEW CAT",
+                "editCat": "EDIT CAT"
+            },
+            "catModalView":{
+                "female": "Female",
+                "male": "Male",
+                "sterilized": "Sterilized",
+                "unsterilized": "Unsterilized",
+                "observations": "Observations",
+                "yourName": "Your name",
+                "volunteer": "Volunteer",
+                "pickData": "Pick data",
+                "admitted": "Admitted",
+                "release": "Relese",
+                "observationsPlaceholder": "Enter here any observations, notes, that might help identify the cat more accurately."
+            }
+        },
+        "drawer":{
+            "mobileDrawer":{
+                "zones": "Zones"
+            }
+        },
+
+        "headerGoogle":{
+            "welcome": "Welcome",
+            "logout": "Logout",
+            "profile": "Profile",
+            "search": "Search",
+            "language": "Select your favorite language",
+            "romanian": "Romanian",
+            "english": "English"
+        },
+        "interestZoneAdd":{
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "interestZoneOverview":{
+            "interestZoneElement":{
+                "volunteer": "Volunteer",
+                "assignToMe": "ASSIGN TO ME",
+                "around": "around",
+                "cats": "cats"
+            }
+        },
+        "interestZoneView":{
+            "detailsForm":{
+                "address": "Address",
+                "latitude": "Latitude",
+                "longitude": "Longitude",
+                "nrCatsUnsterilized": "Number of unsterilized cats",
+                "nrCatsSterilized": "Number of sterilized cats",
+                "contactPerson": "Contact person",
+                "phoneNumber": "Phone Number",
+                "observations": "Observations",
+                "volunteer": "Volunteer",
+                "volunteerPlaceholder": "Jane Doe",
+                "addressPlaceholder": "December 21 1989"
+            },
+            "interestZoneView":{
+                "catsSterilized": "Sterilized Cats",
+                "catsUnsterilized": "Unsterilized Cats"
+            },
+            "sterilizedCatList":{
+                "observations": "Observations"
+            },
+            "unsterilizedCatList":{
+                "observations": "Observations"
+            },
+            "viewDetails":{
+                "volunteer": "Volunteer"
+            }
+        },
+        "modalManager":{
+            "interestZoneModal":{
+                "back": "Back",
+                "cat": {
+                    "note": "NOTE"
+                }
+            }
+        },
+        "filterMenu": {
+            "all": "ALL"
+        }      
+    },
+    "pages":{
+        "index":{
+            "open": "Open Map",
+            "logout": "Logout",
+            "login": "Login"
+        }
+    }
+
+}

@@ -3,6 +3,7 @@ import { Phone } from 'tabler-icons-react';
 import { Box, Group, Stack, Container, Text, useMantineTheme } from '@mantine/core';
 import Image from 'next/image';
 import useAdressName from '../hooks/useAdress';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   zone?: Partial<InterestZone>;
@@ -12,6 +13,7 @@ const ViewDetails = (props: Props) => {
   const theme = useMantineTheme();
   const newAdress = useAdressName(props.zone?.address!);
 
+  const { t } = useTranslation('common');
   return (
     <Group
       p='md'
@@ -55,8 +57,8 @@ const ViewDetails = (props: Props) => {
             </Text>
           </Group>
         </Group>
-        <Text weight={500} mt='md'>
-          Volunteer{' '}
+        <Text mt='md' color='gray'>
+        {t('components.interestZoneView.viewDetails.volunteer')}{' '}
         </Text>
         {props.zone?.volunteerName ? (
           <Text size='sm'> {props.zone?.volunteerName} </Text>

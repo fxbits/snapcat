@@ -20,6 +20,7 @@ import CatModalHeader from './CatModalHeader';
 import { useSWRConfig } from 'swr';
 import useCatActions from './useCatActions';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -63,6 +64,7 @@ export default function CatModalView({
   const theme = useMantineTheme();
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
+  const { t } = useTranslation('common');
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,
@@ -175,8 +177,8 @@ export default function CatModalView({
             {...form.getInputProps('gender')}
             onChange={(e) => form.setFieldValue('gender', e as Gender)}
             data={[
-              { label: 'Female', value: 'female' },
-              { label: 'Male', value: 'male' },
+              { label: t('components.catModal.catModalView.female'), value: 'female' },
+              { label: t('components.catModal.catModalView.male'), value: 'male' },
             ]}
           />
           <SegmentedControl
@@ -184,17 +186,17 @@ export default function CatModalView({
             {...form.getInputProps('sterilizedStatus')}
             onChange={(e) => form.setFieldValue('sterilizedStatus', e as SterializeStatus)}
             data={[
-              { label: 'Sterilized', value: 'sterilized' },
-              { label: 'Unsterilized', value: 'unsterilized' },
+              { label: t('components.catModal.catModalView.sterilized'), value: 'sterilized' },
+              { label: t('components.catModal.catModalView.unsterilized'), value: 'unsterilized' },
             ]}
           />
           <Textarea
             disabled={disabled}
             minRows={6}
-            placeholder='Enter here any observations, notes, that might help identify the cat more accurately.'
+            placeholder={t('components.catModal.catModalView.observationsPlaceholder')}
             {...form.getInputProps('observations')}
             onChange={(e) => form.setFieldValue('observations', e.currentTarget.value)}
-            label='Observations'
+            label={t('components.catModal.catModalView.observations')}
           />
           {form.values.sterilizedStatus === 'sterilized' && (
             <>
@@ -202,8 +204,8 @@ export default function CatModalView({
                 {...form.getInputProps('volunteerName')}
                 onChange={(e) => form.setFieldValue('volunteerName', e.currentTarget.value)}
                 disabled={disabled}
-                placeholder='Your name'
-                label='Volunteer'
+                placeholder={t('components.catModal.catModalView.yourName')}
+                label={t('components.catModal.catModalView.volunteer')}
                 required
               />
               <Group mt='xs' grow>
@@ -211,17 +213,17 @@ export default function CatModalView({
                   {...form.getInputProps('hospitalizationDate')}
                   onChange={(e) => form.setFieldValue('hospitalizationDate', e || new Date())}
                   disabled={disabled}
-                  placeholder='Pick date'
+                  placeholder={t('components.catModal.catModalView.pickData')}
                   required
-                  label='Admitted'
+                  label={t('components.catModal.catModalView.admitted')}
                 />
                 <DatePicker
                   {...form.getInputProps('releaseDate')}
                   onChange={(e) => form.setFieldValue('releaseDate', e || new Date())}
                   disabled={disabled}
-                  placeholder='Pick date'
+                  placeholder={t('components.catModal.catModalView.pickData')}
                   required
-                  label='Release'
+                  label={t('components.catModal.catModalView.release')}
                 />
               </Group>
             </>

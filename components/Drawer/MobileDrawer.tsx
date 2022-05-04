@@ -5,6 +5,7 @@ import { Compass, Map } from 'tabler-icons-react';
 import { InterestZone } from '../../models/zone.model';
 import InterestZoneElement from '../InterestZoneElement/InterestZoneElement';
 import FilterMenu from '../FilterMenu/FilterMenu';
+import { useTranslation } from 'next-i18next';
 
 interface Drawer {
   zones: InterestZone[];
@@ -12,6 +13,7 @@ interface Drawer {
 export default function MobileDrawer({ zones }: Drawer) {
   const [index, setIndex] = useState(0);
   const drawerStates = ['60px', '60%', 'calc(100% - 60px)'];
+  const { t } = useTranslation('common');
 
   const handleChange = (e: SwipeEventData) => {
     switch (e.dir) {
@@ -59,7 +61,7 @@ export default function MobileDrawer({ zones }: Drawer) {
             />
             {index === 0 && (
               <Text size='lg' color='gray'>
-                {zones.length} zones
+                {zones.length} {t('components.drawer.mobileDrawer.zones')}
               </Text>
             )}
           </Stack>

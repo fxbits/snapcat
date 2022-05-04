@@ -1,0 +1,103 @@
+{
+    "status": {
+        "todo": "DE FĂCUT",
+        "inProgress": "ÎN PROGRES",
+        "done": "TERMINAT"
+    },
+    "components":{
+        "catModal":{
+            "catModalHeader":{
+                "addCat":"ADAUGARE PISICĂ",
+                "viewCat": "VIZUALIZARE PISICĂ",
+                "editCat": "EDITARE PISICĂ"
+            },
+            "catModalView":{
+                "female": "Femelă",
+                "male": "Mascul",
+                "sterilized": "Sterilizat",
+                "unsterilized": "Nesterilizat",
+                "observations": "Observații",
+                "yourName": "Numele dumneavoastră",
+                "volunteer": "Voluntar",
+                "pickData": "Alege-ți data",
+                "admitted": "Internare",
+                "release": "Externare",
+                "observationsPlaceholder": "Introduceți aici orice observații, note, care ar putea ajuta la identificarea mai precisă a pisicii."
+            }
+        },
+        "drawer":{
+            "mobileDrawer":{
+                "zones": "Zone"
+            }
+        },
+
+        "headerGoogle":{
+            "welcome": "Bine ați venit",
+            "logout": "Delogare",
+            "profile": "Profil",
+            "search": "Căutare",
+            "language": "Selectează limba favorită",
+            "romanian": "Română",
+            "english": "Engleză"
+        },
+        "interestZoneAdd":{
+            "save": "Salvare",
+            "cancel": "Anulare"
+        },
+        "interestZoneOverview":{
+            "interestZoneElement":{
+                "volunteer": "Voluntar",
+                "assignToMe": "ATRIBUIRE",
+                "around": "aproximativ",
+                "cats": "pisici"
+            }
+        },
+        "interestZoneView":{
+            "detailsForm":{
+                "address": "Adresă",
+                "latitude": "Latitudine",
+                "longitude": "Longitudine",
+                "nrCatsUnsterilized": "Număr de pisici nesterilizate",
+                "nrCatsSterilized": "Număr de pisici sterilizate",
+                "contactPerson": "Persoană de contact",
+                "phoneNumber": "Număr de telefon",
+                "observations": "Observații",
+                "volunteer": "Voluntar",
+                "volunteerPlaceholder": "Andrei",
+                "addressPlaceholder": "21 Decembrie 1989"
+            },
+            "interestZoneView":{
+                "catsSterilized": "Pisici sterilizate",
+                "catsUnsterilized": "Pisici nesterilizate"
+            },
+            "sterilizedCatList":{
+                "observations": "Observații"
+            },
+            "unsterilizedCatList":{
+                "observations": "Observații"
+            },
+            "viewDetails":{
+                "volunteer": "Voluntar"
+            }
+        },
+        "modalManager":{
+            "interestZoneModal":{
+                "back": "Înapoi",
+                "cat": {
+                    "note": "OBS"
+                }
+            }
+        },
+        "filterMenu": {
+            "all": "TOATE"
+        }         
+    },
+    "pages":{
+        "index":{
+            "open": "Deschide harta",
+            "logout": "Delogare",
+            "login": "Logare"
+        }
+    }
+
+}
