@@ -15,6 +15,7 @@ const MainApp = () => {
   const router = useRouter();
   const theme = useMantineTheme();
   const { t } = useTranslation('common');
+  
   return (
     <Grid
       sx={{
@@ -87,7 +88,7 @@ const MainApp = () => {
               </Button>
               {user ? (
                 <>
-                  <Link href='/api/auth/logout' passHref>
+                  <Link href='/api/auth/logout' locale='default' passHref>
                     <Button
                       variant='filled'
                       size='lg'
@@ -99,7 +100,7 @@ const MainApp = () => {
                   </Link>
                 </>
               ) : (
-                <Link href='/api/auth/login' passHref>
+                <Link href='/api/auth/login' locale='default' passHref>
                   <Button
                     variant='filled'
                     color='red'

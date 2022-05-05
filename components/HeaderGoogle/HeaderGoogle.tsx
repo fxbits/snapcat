@@ -31,6 +31,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
   const router = useRouter();
 
   const { t } = useTranslation('common');
+  
 
   const switchLanguage = () => {
     const val = i18n.language === 'ro' ? 'en' : 'ro';
@@ -104,7 +105,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
         <Stack align='center' sx={{ backgroundColor: '#FFDB3C' }}>
           <Group direction='column' sx={{ fontWeight: 'bold' }}>
             <Link href=''>{t('components.headerGoogle.profile')}</Link>
-            <Link href='/api/auth/logout'>{t('components.headerGoogle.logout')}</Link>
+            <Link href='/api/auth/logout' locale='default'>{t('components.headerGoogle.logout')}</Link>
           </Group>
           <Group position='apart'>
           <RadioGroup
