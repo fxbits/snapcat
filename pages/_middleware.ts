@@ -9,9 +9,9 @@ export function middleware(request: NextRequest) {
         request.nextUrl.locale === 'default';
 
     if (shouldHandleLocale) {
-        const url = request.nextUrl.clone()
+        const url = request.nextUrl.clone();
         url.pathname = `/ro${request.nextUrl.pathname}`
-        return NextResponse.redirect(url)
+        return NextResponse.redirect(url);
     }
     return undefined
 }
