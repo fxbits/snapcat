@@ -31,6 +31,7 @@ import {
 } from 'tabler-icons-react';
 import useCatActions from '../CatModal/useCatActions';
 import { useTranslation } from 'next-i18next';
+import { showNotification } from '@mantine/notifications';
 
 interface Props {
   cat?: SterilizedCat;
@@ -40,7 +41,7 @@ const SterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { DeleteCat } = useCatActions(cat?._id!);
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'errors']);
   const theme = useMantineTheme();
 
   const handleChange = useCallback(
@@ -152,7 +153,22 @@ const SterilizedCat = ({ cat }: Props) => {
         </ActionIcon>
         <ActionIcon
           sx={{ height: '100%' }}
-          onClick={() => DeleteCat()}
+          onClick={async () => {
+            try{
+              await DeleteCat();
+              showNotification({
+                title: t('components.catModal.catModalHeader.notification.title.deletion', {ns: 'common'}),
+                message: t('components.catModal.catModalHeader.notification.message.deletion', {ns: 'common'}),
+                color: 'green',
+              });
+            } catch(error: any) {
+              showNotification({
+                title: t('notificationTitle.catDeletion', {ns: 'errors'}),
+                message: t(error.response.data.message, {ns: 'errors'}),
+                color: 'red',
+              });
+            }
+          }}
           color='red'
           variant='filled'>
           <Trash />
