@@ -132,20 +132,23 @@ export default function CatModalView({
         modal={modal}
         setModal={setModal}
         addCat={() => {
-          if (!form.validate()) return;
+          if (!form.validate()) return true;
           AddCat(form.values, imageFormData);
           setModal(modal.back);
+          return false;
         }}
         updateCat={() => {
-          if (!form.validate()) return;
+          if (!form.validate()) return true;
           UpdateCat(form.values, imageFormData);
           setModal({ ...modal, type: 'VIEW_CAT' });
+          return false;
         }}
         deleteCat={() => DeleteCat()}
         sterilizeCat={() => {
-          if (!form.validate()) return;
+          if (!form.validate()) return true;
           SterilizeCat(form.values);
           setModal({ ...modal, type: 'VIEW_CAT' });
+          return false;
         }}
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>

@@ -16,10 +16,10 @@ export default function CatModalHeader({
 }: {
   modal: ModalConfig;
   setModal: (modal: ModalConfig | undefined) => void;
-  addCat: () => void;
-  updateCat: () => void;
+  addCat: () => boolean;
+  updateCat: () => boolean;
   deleteCat: () => void;
-  sterilizeCat: () => void;
+  sterilizeCat: () => boolean;
 }) {
   const [confirmationVisible, setConfirmationVisible] = useState<boolean>(false);
   const [deletePressed, setDeletePressed] = useState<boolean>(false);
@@ -82,9 +82,9 @@ export default function CatModalHeader({
               <ActionIcon
                 onClick={async () => {
                   setDeletePressed(false);
-                  setModal({ ...modal, type: 'VIEW_CAT' });
                   try {
-                    modal.type === 'EDIT_CAT' ? await updateCat() : await sterilizeCat();
+                    const errorStatus = modal.type === 'EDIT_CAT' ? await updateCat() : await sterilizeCat();
+                    if (errorStatus) return;
                     showNotification({
                       title: t('components.catModal.catModalHeader.notification.title.update', {ns: 'common'}),
                       message: t('components.catModal.catModalHeader.notification.message.update', {ns: 'common'}),
@@ -109,9 +109,9 @@ export default function CatModalHeader({
               <ActionIcon
                 onClick={async () => {
                   setDeletePressed(false);
-                  setModal(modal.back);
                   try{
-                    await addCat();
+                    const errorStatus = await addCat();
+                    if (errorStatus) return;
                     showNotification({
                       title: t('components.catModal.catModalHeader.notification.title.addition', {ns: 'common'}),
                       message: t('components.catModal.catModalHeader.notification.message.addition', {ns: 'common'}),
@@ -171,19 +171,21 @@ export default function CatModalHeader({
                 </Button>
                 <Button 
                   onClick={async () => {
-                    try{
-                      await deleteCat();
-                      showNotification({
-                        title: t('components.catModal.catModalHeader.notification.title.deletion', {ns: 'common'}),
-                        message: t('components.catModal.catModalHeader.notification.message.deletion', {ns: 'common'}),
-                        color: 'green',
-                      });
-                    } catch(error: any) {
-                      showNotification({
-                        title: t('notificationTitle.catDeletion', {ns: 'errors'}),
-                        message: t(error.response.data.message, {ns: 'errors'}),
-                        color: 'red',
-                      });
+                    if (deletePressed) {
+                      try{
+                        await deleteCat();
+                        showNotification({
+                          title: t('components.catModal.catModalHeader.notification.title.deletion', {ns: 'common'}),
+                          message: t('components.catModal.catModalHeader.notification.message.deletion', {ns: 'common'}),
+                          color: 'green',
+                        });
+                      } catch(error: any) {
+                        showNotification({
+                          title: t('notificationTitle.catDeletion', {ns: 'errors'}),
+                          message: t(error.response.data.message, {ns: 'errors'}),
+                          color: 'red',
+                        });
+                      }
                     }
                     setModal(modal.back);
                   }}
