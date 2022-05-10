@@ -12,7 +12,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import Image from 'next/image';
-import { MouseEvent, useCallback, useContext } from 'react';
+import { MouseEvent, useCallback, useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../Providers/ModalProvider';
 import { CatContext } from '../Providers/CatProvider';
 
@@ -40,9 +40,10 @@ interface Props {
 const SterilizedCat = ({ cat }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
-  const { DeleteCat } = useCatActions(cat?._id!);
+  const { DeleteCat, GetImages } = useCatActions(cat?._id!);
   const { t } = useTranslation(['common', 'errors']);
   const theme = useMantineTheme();
+  const [displayImage, setDisplayImage] = useState<string>('/images/placeholder-cat.png');
 
   const handleChange = useCallback(
     (e: MouseEvent) => {
@@ -51,6 +52,15 @@ const SterilizedCat = ({ cat }: Props) => {
     },
     [setModal, cat, setCat]
   );
+
+  useEffect(() => {
+      setDisplayImage('/images/placeholder-cat.png');
+      GetImages().then((resp) => {
+        if (resp.length > 0) {
+          setDisplayImage(`data:image/png;base64,${resp[0]}`)
+        }
+      });
+  }, []);
 
   return (
     <Box
@@ -97,7 +107,7 @@ const SterilizedCat = ({ cat }: Props) => {
             borderRadius: theme.radius.md,
           })}>
           <Image
-            src='/images/placeholder-cat.png'
+            src={displayImage}
             alt='Cat Preview'
             layout='fill'
             objectFit='cover'
