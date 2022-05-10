@@ -8,7 +8,8 @@ import {
   Text,
   Title,
   useMantineTheme,
-  Collapse
+  Collapse,
+  CSSObject
 } from '@mantine/core';
 import { InterestZone, Status } from '../../models/zone.model';
 import { ModalConfig } from '../Providers/ModalProvider';
@@ -16,8 +17,9 @@ import { FormValues } from './InterestZoneView';
 import { UseForm } from '@mantine/hooks/lib/use-form/use-form';
 import { EditIcon, SaveIcon, TrashIcon } from '../Icons/Icons';
 import { ArrowLeft, Plus } from 'tabler-icons-react';
-
 import { useTranslation } from 'next-i18next';
+import { BaseSelectStylesNames } from '@mantine/core/lib/components/Select/types';
+
 export default function ZoneModalHeader({
   modal,
   zone,
@@ -39,6 +41,29 @@ export default function ZoneModalHeader({
   const [deletePressed, setDeletePressed] = useState<boolean>(false);
   const theme = useMantineTheme();
   const { t } = useTranslation('common');
+
+  const styles: Partial<Record<BaseSelectStylesNames, CSSObject>> = {
+    input: {
+      backgroundColor: theme.colors.yellow[5],
+      fontSize: theme.fontSizes.md,
+      textTransform: 'uppercase',
+      border: '2px solid black',
+      width: '170px',
+      textAlign: 'center',
+    },
+    dropdown: {
+      border: '2px solid',
+      borderColor: theme.colors.yellow[3],
+    },
+    hovered: {
+      backgroundColor: theme.colors.yellow[1],
+    },
+    selected: {
+      backgroundColor: theme.colors.yellow[2],
+      color: theme.colors.yellow[7],
+    },
+  }
+  
   return (
     <>
       <Group
@@ -54,10 +79,11 @@ export default function ZoneModalHeader({
             leftIcon={<ArrowLeft size={50} />}
             onClick={() => {
               if (modal.type === 'VIEW_ZONE') {
-                setDeletePressed(false);
                 setModal(undefined);
               }
-              else setConfirmationVisible(true);
+              else {
+                setConfirmationVisible(true);
+              }
             }}
             variant='subtle'>
             <Title
@@ -79,27 +105,7 @@ export default function ZoneModalHeader({
             {...form.getInputProps('status')}
             radius='md'
             size='md'
-            styles={{
-              input: {
-                backgroundColor: theme.colors.yellow[5],
-                fontSize: theme.fontSizes.md,
-                textTransform: 'uppercase',
-                border: '2px solid black',
-                width: '170px',
-                textAlign: 'center',
-              },
-              dropdown: {
-                border: '2px solid',
-                borderColor: theme.colors.yellow[3],
-              },
-              hovered: {
-                backgroundColor: theme.colors.yellow[1],
-              },
-              selected: {
-                backgroundColor: theme.colors.yellow[2],
-                color: theme.colors.yellow[7],
-              },
-            }}
+            styles={styles}
             onChange={(e) => form.setFieldValue('status', e as Status)}
             data={[
               { value: Status.TODO, label: t(`status.${Status.TODO}`) },

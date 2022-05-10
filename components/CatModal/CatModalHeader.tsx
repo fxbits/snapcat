@@ -36,9 +36,11 @@ export default function CatModalHeader({
         <ActionIcon
           onClick={() => {
             if (modal.type === 'VIEW_CAT') {
-              (modal.back ? setModal(modal.back) : setModal(undefined))
+              setModal(modal.back);
             }
-            else setConfirmationVisible(true);
+            else {
+              setConfirmationVisible(true);
+            }
           }}
           variant='filled'
           size='xl'
@@ -148,7 +150,7 @@ export default function CatModalHeader({
                     if (deletePressed) {
                       deleteCat();
                     }
-                    (modal.back ? setModal(modal.back) : setModal(undefined))
+                    setModal(modal.back);
                   }
                 }
                 radius='md' 
