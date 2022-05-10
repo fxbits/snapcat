@@ -35,7 +35,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
   const { t } = useTranslation('common');
-  const nameRegex = /^[\p{Letter} ]+$/gu
+  const nameRegex = /^[\p{Letter} -]+$/gu
   
   /// TODO: Use transaltions
   const form = useForm<FormValues>({

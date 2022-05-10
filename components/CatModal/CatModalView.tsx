@@ -65,7 +65,7 @@ export default function CatModalView({
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
   const { t } = useTranslation('common');
-  const nameRegex = /^[\p{Letter} ]+$/gu
+  const nameRegex = /^[\p{Letter} -]+$/gu
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,

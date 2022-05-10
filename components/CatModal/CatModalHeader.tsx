@@ -82,7 +82,6 @@ export default function CatModalHeader({
             <ActionIcon
               onClick={() => {
                 setDeletePressed(false);
-                setModal({ ...modal, type: 'VIEW_CAT' });
                 modal.type === 'EDIT_CAT' ? updateCat() : sterilizeCat();
               }}
               size='xl'
