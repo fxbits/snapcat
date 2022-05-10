@@ -25,32 +25,31 @@ export default function CatModalHeader({
   const [deletePressed, setDeletePressed] = useState<boolean>(false);
   return (
     <>
-      <Group
-        p='md'
-        position='apart'
-        align='center'
-        sx={{
-          width: '100%',
-          borderRadius: '15px',
-        }}>
-        <ActionIcon
-          onClick={() => {
-            if (modal.type === 'VIEW_CAT') {
-              setModal(modal.back);
-            }
-            else {
-              setConfirmationVisible(true);
-            }
-          }}
-          variant='filled'
-          size='xl'
-          color='yellow'>
-          <ArrowLeft size={50} />
-        </ActionIcon>
-        {modal.type === 'ADD_CAT' && <Text>{t('components.catModal.catModalHeader.addCat')}</Text>}
-        {modal.type === 'VIEW_CAT' && <Text>{t('components.catModal.catModalHeader.viewCat')}</Text>}
-        {modal.type === 'EDIT_CAT' && <Text>{t('components.catModal.catModalHeader.editCat')}</Text>}
-
+    <Group
+      p='md'
+      position='apart'
+      align='center'
+      sx={{
+        width: '100%',
+        borderRadius: '15px',
+      }}>
+      <ActionIcon
+        onClick={() => {
+          if (modal.type === 'VIEW_CAT') {
+            setModal(modal.back);
+          }
+          else {
+            setConfirmationVisible(true);
+          }
+        }}
+        variant='filled'
+        size='xl'
+        color='yellow'>
+        <ArrowLeft size={50} />
+      </ActionIcon>
+      {modal.type === 'ADD_CAT' && <Text>{t('components.catModal.catModalHeader.addCat')}</Text>}
+      {modal.type === 'VIEW_CAT' && <Text>{t('components.catModal.catModalHeader.viewCat')}</Text>}
+      {modal.type === 'EDIT_CAT' && <Text>{t('components.catModal.catModalHeader.editCat')}</Text>}
         <Group spacing='xs'>
           {modal.type === 'VIEW_CAT' && (
             <ActionIcon

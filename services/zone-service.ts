@@ -293,9 +293,7 @@ class ZoneService {
     if (!cat) throw new ZoneValidationError(400, ZoneError.CAT);
     if (!Object.values(Gender).includes(cat?.gender))
       throw new ZoneValidationError(400, ZoneError.GENDER);
-    if (cat?.mediaLinks?.length === 0 && !cat.observations)
-      throw new ZoneValidationError(400, ZoneError.OBSERVATIONS);
-    if (!cat.observations) throw new ZoneValidationError(400, ZoneError.OBSERVATIONS);
+    // TODO: add image list not empty or observations not empty condition for validation
   }
 }
 
