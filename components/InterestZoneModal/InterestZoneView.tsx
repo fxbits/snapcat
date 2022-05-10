@@ -2,7 +2,7 @@ import { InterestZone, Status } from '../../models/zone.model';
 import SterilizedCat from './SterilizedCat';
 import UnsterilizedCat from './UnsterilizedCat';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ActionIcon, Box, Grid, Group, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
 import { Accordion } from '@mantine/core';
 import InterestZoneDetails from './InterestZoneDetails';
@@ -35,7 +35,8 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { setInterestZone } = useContext(InterestZoneProviderContext);
   const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
   const { t } = useTranslation('common');
-
+  const nameRegex = /^[\p{Letter} -]+$/gu
+  
   /// TODO: Use transaltions
   const form = useForm<FormValues>({
     initialValues: {
@@ -46,11 +47,17 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       status: zone?.status || Status.TODO,
     },
     validationRules: {
-      contact: (value) => value.length > 2,
+      contact: (value) => value.length > 2 && (nameRegex.test(value)),
+      phone: (value) => (/^07([0-9]{8})$/.test(value)),
+      volunteerName: (value) => value.length > 2,
+      status: (value) => value !== Status.DONE || value === Status.DONE && zone?.noUnsterilizedCats! === 0,
     },
     errorMessages: {
-      contact: 'This is not working',
-    },
+      contact: t('components.interestZoneView.validations.contact'),
+      phone: t('components.interestZoneView.validations.phone'),
+      status: t('components.interestZoneView.validations.status'),
+      volunteerName: t('components.interestZoneView.validations.volunteerName'),
+    }
   });
 
   return (
@@ -59,29 +66,45 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
         zone={zone || partialZone!}
         form={form}
         addZone={() => {
+          if (!form.validate()) return;
           setModal(modal?.back);
           showNotification({
-            title: 'Added successfully',
-            message: 'A zone has been added!',
+            title: 'Created successfully',
+            message: 'A zone has been created!',
             color: 'green',
           });
           AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
         }}
         updateZone={() => {
-          UpdateZone(form.values, zone);
-          showNotification({
-            title: 'Edited successfully',
-            message: 'A zone has been edited!',
-            color: 'green',
-          });
+          if (!form.validate()) return;
+          UpdateZone(form.values, zone).then((res) => {
+            showNotification({
+              title: 'Edited successfully',
+              message: 'A zone has been edited!',
+              color: 'green',
+            });
+          }).catch((err) => {
+            showNotification({
+              title: 'Operation unsuccessful',
+              message: err.message,
+              color: 'red',
+            });
+          })
           setModal({ ...modal, type: 'VIEW_ZONE' });
         }}
         deleteZone={() => {
-          zone && DeleteZone();
-          showNotification({
-            title: 'Deleted successfully',
-            message: 'A zone has been deleted!',
-            color: 'green',
+          zone && DeleteZone().then((res) => {
+            showNotification({
+              title: 'Deleted successfully',
+              message: 'A zone has been deleted!',
+              color: 'green',
+            });
+          }).catch((err) => {
+            showNotification({
+              title: 'Operation unsuccessful',
+              message: err.message,
+              color: 'red',
+            });
           });
           setInterestZone(undefined);
           setModal(modal?.back);

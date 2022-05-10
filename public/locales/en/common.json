@@ -28,7 +28,13 @@
                 "pickData": "Pick data",
                 "admitted": "Admitted",
                 "release": "Relese",
-                "observationsPlaceholder": "Enter here any observations, notes, that might help identify the cat more accurately."
+                "observationsPlaceholder": "Enter here any observations, notes, that might help identify the cat more accurately.",
+                "validations": {
+                    "observations": "Missing observations!",
+                    "hospitalizationDate": "Incorrect hospitalization date!",
+                    "releaseDate": "Incorrect release date!",
+                    "volunteerName": "Incorrect volunteer name!"
+                }
             }
         },
         "drawer":{
@@ -84,6 +90,12 @@
             },
             "viewDetails":{
                 "volunteer": "Volunteer"
+            },
+            "validations": {
+                "contact": "Incorrect contact person name!",
+                "phone": "Incorrect phone number!",
+                "status": "Incorrect status!",
+                "volunteerName": "Incorrect volunteer name!"
             }
         },
         "modalManager":{

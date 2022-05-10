@@ -65,17 +65,30 @@ export default function CatModalView({
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
   const { t } = useTranslation('common');
+  const nameRegex = /^[\p{Letter} -]+$/gu
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,
       observations: '',
-      mediaLinks: [],
+      mediaLinks: existingImages,
       ...(cat ?? {}),
       volunteerName: (cat as SterilizedCat)?.volunteerName || '',
       hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || Date.now()),
       releaseDate: new Date((cat as SterilizedCat)?.releaseDate || Date.now()),
       sterilizedStatus: (cat as SterilizedCat)?.releaseDate ? 'sterilized' : 'unsterilized',
     },
+    validationRules: {
+      observations: (value) => value.length > 0 || value.length === 0 && existingImages.length > 0,
+      hospitalizationDate: (value, other) => value ? value! <= other?.releaseDate! || value! <= new Date() : true,
+      releaseDate: (value, other) => value ? value! <= new Date() && other?.hospitalizationDate! <= value! : true,
+      volunteerName: (value, other) => other?.sterilizedStatus === 'sterilized' ? (nameRegex.test(value!)) : true
+    },
+    errorMessages: {
+      observations: t('components.catModal.catModalView.validations.observations'),
+      hospitalizationDate: t('components.catModal.catModalView.validations.hospitalizationDate'),
+      releaseDate: t('components.catModal.catModalView.validations.releaseDate'),
+      volunteerName: t('components.catModal.catModalView.validations.volunteerName')
+    }
   });
 
   useEffect(() => {
@@ -118,10 +131,22 @@ export default function CatModalView({
       <CatModalHeader
         modal={modal}
         setModal={setModal}
-        addCat={() => AddCat(form.values, imageFormData)}
-        updateCat={() => UpdateCat(form.values, imageFormData)}
+        addCat={() => {
+          if (!form.validate()) return;
+          AddCat(form.values, imageFormData);
+          setModal(modal.back);
+        }}
+        updateCat={() => {
+          if (!form.validate()) return;
+          UpdateCat(form.values, imageFormData);
+          setModal({ ...modal, type: 'VIEW_CAT' });
+        }}
         deleteCat={() => DeleteCat()}
-        sterilizeCat={() => SterilizeCat(form.values)}
+        sterilizeCat={() => {
+          if (!form.validate()) return;
+          SterilizeCat(form.values);
+          setModal({ ...modal, type: 'VIEW_CAT' });
+        }}
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>
         <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>

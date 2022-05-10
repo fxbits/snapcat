@@ -28,7 +28,13 @@
                 "pickData": "Alege-ți data",
                 "admitted": "Internare",
                 "release": "Externare",
-                "observationsPlaceholder": "Introduceți aici orice observații, note, care ar putea ajuta la identificarea mai precisă a pisicii."
+                "observationsPlaceholder": "Introduceți aici orice observații, note, care ar putea ajuta la identificarea mai precisă a pisicii.",
+                "validations": {
+                    "observations": "Observații lipsă!",
+                    "hospitalizationDate": "Data internării incorectă!",
+                    "releaseDate": "Data externării incorectă!",
+                    "volunteerName": "Numele voluntarului incorect!"
+                }
             }
         },
         "drawer":{
@@ -84,6 +90,12 @@
             },
             "viewDetails":{
                 "volunteer": "Voluntar"
+            },
+            "validations": {
+                "contact": "Numele persoanei de contact incorect!",
+                "phone": "Număr de telefon incorect!",
+                "status": "Status incorect!",
+                "volunteerName": "Numele voluntarului incorect!"
             }
         },
         "modalManager":{

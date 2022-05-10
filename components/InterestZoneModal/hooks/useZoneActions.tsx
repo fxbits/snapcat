@@ -81,7 +81,8 @@ const useZoneActions = (zoneId: string) => {
 
   const AddZone = async (values: FormValues, address: Address, volunteerName?: string) => {
     const body = getBody(values, address, volunteerName);
-    await addZone(body);
+    const data = await addZone(body);
+    mutate(`/api/interest-zones/${data._id}`);
     mutate(`/api/interest-zones/`);
   };
 
