@@ -9,7 +9,13 @@
             "catModalHeader":{
                 "addCat":"ADAUGARE PISICĂ",
                 "viewCat": "VIZUALIZARE PISICĂ",
-                "editCat": "EDITARE PISICĂ"
+                "editCat": "EDITARE PISICĂ",
+                "confirmation": {
+                    "discardMessage": "Sunteți sigur că doriți să renunțați la schimbări?",
+                    "deleteMessage": "Sunteți sigur că doriți să ștergeți pisica?",
+                    "cancel": "Anulează",
+                    "yes": "Da"
+                }
             },
             "catModalView":{
                 "female": "Femelă",
@@ -85,6 +91,12 @@
                 "back": "Înapoi",
                 "cat": {
                     "note": "OBS"
+                },
+                "confirmation": {
+                    "discardMessage": "Sunteți sigur că doriți să renunțați la schimbări?",
+                    "deleteMessage": "Sunteți sigur că doriți să ștergeți zona?",
+                    "cancel": "Anulează",
+                    "yes": "Da"
                 }
             }
         },

@@ -15,10 +15,12 @@ const useStyles = createStyles((theme) => ({
       width: '100%',
       minHeight: '100vh',
       borderRadius: '0px',
+      padding: 0,
       [theme.fn.largerThan('md')]: {
         width: '65%',
         minHeight: '650px',
         borderRadius: '15px',
+        padding: '20px'
       },
     },
     '& .mantine-Modal-body': {
