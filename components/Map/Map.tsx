@@ -8,14 +8,19 @@ import useCluster from '../hooks/useCluster';
 import useMapActions from './hooks/useMapActions';
 import MarkerGroup from '../MarkerGroup/MarkerGroup';
 
-function Map({ searchAdress }: { searchAdress: string | undefined }) {
+function Map({ searchAdress, setSearchAddress }: { searchAdress: string | undefined, setSearchAddress: (searchAdress: string | undefined) => void } ) {
   const ref = useRef(false);
 
   const { addInterestZone, mapRef, displayZoneMarker, onLoad, searchOnMap } = useMapActions();
   const { clusters, supercluster, setZoom, setBounds } = useCluster();
 
   useEffect(() => {
-    if (searchAdress) searchOnMap(searchAdress);
+    if (searchAdress) {
+      const searchResult = searchOnMap(searchAdress);
+      if (!searchResult) {
+        setSearchAddress(undefined);
+      }
+    }
   }, [searchAdress]);
 
   const onLongPress = (e: MouseEvent | TouchEvent) => {

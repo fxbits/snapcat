@@ -28,7 +28,7 @@ export default function useMapActions() {
   const { interestZones } = useInterestZones();
   const mapRef = useRef<google.maps.Map>();
 
-  const searchOnMap = (cityAddress: string): void => {
+  const searchOnMap = (cityAddress: string): boolean | undefined => {
 
     const map = mapRef.current;
     if (!map) return;
@@ -43,12 +43,14 @@ export default function useMapActions() {
         markerSearch.setPosition(results[0].geometry.location);
         map.setCenter(markerSearch.getPosition() as any);
         map.setZoom(18);
+        return true;
       } else {
         showNotification({
           title: t('notFound.location'),
           message: `${t('notFound.address')}${cityAddress}.`,
           color: 'red',
         });
+        return false;
       }
     });
   };
