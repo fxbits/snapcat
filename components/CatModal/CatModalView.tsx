@@ -22,6 +22,7 @@ import useCatActions from './useCatActions';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
+import { showNotification } from '@mantine/notifications';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -125,7 +126,7 @@ export default function CatModalView({
       setExistingImages([...existingImages, binaryStr]);
     };
   };
-  const initialSterilizedStatus = modal.initialSterilizedStatus;
+
   const disabled = !(
     modal.type === 'ADD_CAT' ||
     modal.type === 'EDIT_CAT' ||
@@ -134,6 +135,7 @@ export default function CatModalView({
   const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages } = useCatActions(
     cat?._id!
   );
+
   return (
     <>
       <CatModalHeader
@@ -155,8 +157,8 @@ export default function CatModalView({
         deleteCat={() => DeleteCat()}
         sterilizeCat={() => {
           if (!form.validate()) return true;
-          SterilizeCat(form.values);
-          setModal({ ...modal, type: 'VIEW_CAT' });
+          SterilizeCat(form.values, imageFormData);
+          setModal(modal.back);
           return false;
         }}
       />
@@ -198,7 +200,13 @@ export default function CatModalView({
                 }}
                 disabled={disabled}
                 onDrop={(files) => addImageToCat(files)}
-                onReject={() => alert('Imaginea este prea mare.')}
+                onReject={() => 
+                  showNotification({
+                    title: t('notificationTitle.imageUpload', {ns: 'errors'}),
+                    message: t('incorrect.imageSize', {ns: 'errors'}),
+                    color: 'red',
+                  })
+                }
                 maxSize={MAX_SIZE}
                 multiple={false}
                 accept={IMAGE_MIME_TYPE}>

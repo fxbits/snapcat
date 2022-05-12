@@ -6,7 +6,7 @@
         "volunteerName": "Volunteer name is missing.",
         "cat": "Cat is missing.",
         "volunteer": "Assigned volunteer is missing.",
-        "observations": "Observations are missing."
+        "observations": "Observations/images are missing."
     },
     "incorrect": {
         "address": "Address is incorrect.",
@@ -16,7 +16,8 @@
         "releaseDate": "Release date is incorrect.",
         "gender": "Cat gender is incorrect.",
         "catType": "Cat type is incorrect.",
-        "images": "Too many images."
+        "images": "Too many images.",
+        "imageSize": "Image size is too large."
     },
     "notFound": {
         "location": "Location not found.",
@@ -31,6 +32,7 @@
         "catDeletion": "Cat could not be deleted",
         "zoneUpdate": "Zone could not be updated",
         "zoneAddition": "Zone could not be added",
-        "zoneDeletion": "Zone could not be deleted"
+        "zoneDeletion": "Zone could not be deleted",
+        "imageUpload": "Image could not be uploaded"
     }
 }

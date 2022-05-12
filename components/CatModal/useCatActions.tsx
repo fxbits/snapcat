@@ -87,7 +87,6 @@ const useCatActions = (catId: string) => {
     await updateCat(zoneId, body, catId);
     if (formBody) {
       AddImages(formBody);
-      mutate(`/api/interest-zones/${zoneId}/${catId}/images`);  
     }
 
     mutate(`${URL}${zoneId}/${catId}/images`);
@@ -116,8 +115,12 @@ const useCatActions = (catId: string) => {
   };
 
   const GetImages = async () => {
-    const images = await getImages(zoneId, catId);
-    return images;
+    try {
+      const images = await getImages(zoneId, catId);
+      return images;
+    } catch(error: any) {
+      return [];
+    }
   }
 
   const AddImages = async (formBody: FormData, catID?: string) => {
@@ -126,7 +129,7 @@ const useCatActions = (catId: string) => {
     } else {
       await addImages(zoneId, catId, formBody);
     }
-    mutate(`${URL}${zoneId}/${catID ?? catId}/images`);
+    mutate(`${URL}${zoneId}/${catId ?? catID}/images`);
     mutate(`${URL}${zoneId}`);
     mutate(URL);
   }

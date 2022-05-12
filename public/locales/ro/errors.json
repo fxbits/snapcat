@@ -6,7 +6,7 @@
         "volunteerName": "Numele voluntarului lipsește.",
         "cat": "Pisica lipsește.",
         "volunteer": "Voluntarul responsabil lipsește.",
-        "observations": "Observațiile lipsesc."
+        "observations": "Observații sau poze lipsesc."
     },
     "incorrect": {
         "address": "Adresa este incorectă.",
@@ -16,7 +16,8 @@
         "releaseDate": "Data externării este incorectă.",
         "gender": "Sexul pisicii este incorect.",
         "catType": "Tipul pisicii este incorect.",
-        "images": "Prea multe imagini."
+        "images": "Prea multe imagini.",
+        "imageSize": "Dimensiunea imaginii este prea mare."
     },
     "notFound": {
         "location": "Locația nu a fost găsită.",
@@ -31,6 +32,7 @@
         "catDeletion": "Pisica nu a putut fi ștearsă",
         "zoneUpdate": "Zona nu a putut fi acutalizată",
         "zoneAddition": "Zona nu a putut fi creată",
-        "zoneDeletion": "Zona nu a putut fi ștearsă" 
+        "zoneDeletion": "Zona nu a putut fi ștearsă",
+        "imageUpload": "Imaginea nu a putut fi încărcată" 
     }
 }
