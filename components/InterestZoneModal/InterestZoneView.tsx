@@ -33,11 +33,10 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { modal, setModal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { setInterestZone } = useContext(InterestZoneProviderContext);
-  const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);
-  const { t } = useTranslation('common');
-  const nameRegex = /^[\p{Letter} -]+$/gu
-  
-  /// TODO: Use transaltions
+  const { AddZone, UpdateZone, DeleteZone } = useZoneActions(zone?._id!);;
+  const nameRegex = /^[\p{Letter} -]+$/gu;
+  const { t } = useTranslation(['common', 'errors']);
+
   const form = useForm<FormValues>({
     initialValues: {
       addressName: zone?.address?.name || partialZone?.address?.name || '',
@@ -65,49 +64,59 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       <ZoneModalHeader
         zone={zone || partialZone!}
         form={form}
-        addZone={() => {
+        addZone={async () => {
           if (!form.validate()) return;
-          setModal(modal?.back);
-          showNotification({
-            title: 'Created successfully',
-            message: 'A zone has been created!',
-            color: 'green',
-          });
-          AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
-        }}
-        updateZone={() => {
-          if (!form.validate()) return;
-          UpdateZone(form.values, zone).then((res) => {
+          try {
+            await AddZone(form.values, partialZone?.address!, partialZone?.volunteerName);
             showNotification({
-              title: 'Edited successfully',
-              message: 'A zone has been edited!',
+              title: t('components.interestZoneView.notification.title.addition'),
+              message: t('components.interestZoneView.notification.message.addition'),
               color: 'green',
             });
-          }).catch((err) => {
+            setModal(modal?.back);
+          } catch(error: any) {
             showNotification({
-              title: 'Operation unsuccessful',
-              message: err.message,
+              title: t('notificationTitle.zoneAddition', {ns: 'errors'}),
+              message: t(error.response.data.message, {ns: 'errors'}),
               color: 'red',
             });
-          })
-          setModal({ ...modal, type: 'VIEW_ZONE' });
+          }
         }}
-        deleteZone={() => {
-          zone && DeleteZone().then((res) => {
+        updateZone={async () => {
+          if (!form.validate()) return;
+          try {
+            await UpdateZone(form.values, zone);
             showNotification({
-              title: 'Deleted successfully',
-              message: 'A zone has been deleted!',
+              title: t('components.interestZoneView.notification.title.update'),
+              message: t('components.interestZoneView.notification.message.update'),
               color: 'green',
             });
-          }).catch((err) => {
+            setModal({ ...modal, type: 'VIEW_ZONE' });
+          } catch(error: any) {
             showNotification({
-              title: 'Operation unsuccessful',
-              message: err.message,
+              title: t('notificationTitle.zoneUpdate', {ns: 'errors'}),
+              message: t(error.response.data.message, {ns: 'errors'}),
               color: 'red',
             });
-          });
-          setInterestZone(undefined);
-          setModal(modal?.back);
+          }
+        }}
+        deleteZone={async () => {
+          try {
+            zone && await DeleteZone();
+            showNotification({
+              title: t('components.interestZoneView.notification.title.deletion'),
+              message: t('components.interestZoneView.notification.message.deletion'),
+              color: 'green',
+            });
+            setInterestZone(undefined);
+            setModal(modal?.back);
+          } catch(error: any) {
+            showNotification({
+              title: t('notificationTitle.zoneDeletion', {ns: 'errors'}),
+              message: t(error.response.data.message, {ns: 'errors'}),
+              color: 'red',
+            });
+          }
         }}
         modal={modal!}
         setModal={setModal}

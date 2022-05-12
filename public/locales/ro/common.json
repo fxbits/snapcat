@@ -15,6 +15,18 @@
                     "deleteMessage": "Sunteți sigur că doriți să ștergeți pisica?",
                     "cancel": "Anulează",
                     "yes": "Da"
+                },
+                "notification": {
+                    "title": {
+                        "update": "Pisică actualizată cu succes",
+                        "addition": "Pisică adăugată cu succes",
+                        "deletion": "Pisică ștearsă cu succes"
+                    },
+                    "message": {
+                        "update": "Detaliile pisicii au fost actualizate!",
+                        "addition": "O nouă pisică a fost adăugată!",
+                        "deletion": "Pisica a fost ștearsă din zona de interes!"
+                    }
                 }
             },
             "catModalView":{
@@ -96,6 +108,18 @@
                 "phone": "Număr de telefon incorect!",
                 "status": "Status incorect!",
                 "volunteerName": "Numele voluntarului incorect!"
+            },
+            "notification": {
+                "title": {
+                    "update": "Zonă actualizată cu succes",
+                    "addition": "Zonă creată cu succes",
+                    "deletion": "Zonă ștearsă cu succes"
+                },
+                "message": {
+                    "update": "Detaliile zonei au fost actualizate!",
+                    "addition": "O nouă zonă a fost creată!",
+                    "deletion": "Zona a fost ștearsă!"
+                }
             }
         },
         "modalManager":{

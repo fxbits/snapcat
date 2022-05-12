@@ -1,4 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0';
+import { showNotification } from '@mantine/notifications';
 import { useTranslation } from 'next-i18next';
 import { useContext, useRef } from 'react';
 import { InterestZone } from '../../../models/zone.model';
@@ -27,7 +28,7 @@ export default function useMapActions() {
   const { interestZones } = useInterestZones();
   const mapRef = useRef<google.maps.Map>();
 
-  const searchOnMap = (cityAddress: string): void => {
+  const searchOnMap = (cityAddress: string): boolean | undefined => {
 
     const map = mapRef.current;
     if (!map) return;
@@ -42,8 +43,14 @@ export default function useMapActions() {
         markerSearch.setPosition(results[0].geometry.location);
         map.setCenter(markerSearch.getPosition() as any);
         map.setZoom(18);
+        return true;
       } else {
-        alert(t('locationNotFound'));
+        showNotification({
+          title: t('notFound.location'),
+          message: `${t('notFound.address')}${cityAddress}.`,
+          color: 'red',
+        });
+        return false;
       }
     });
   };

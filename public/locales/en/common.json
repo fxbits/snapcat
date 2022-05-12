@@ -15,6 +15,18 @@
                     "deleteMessage": "Are you sure you want to delete this cat?",
                     "cancel": "Cancel",
                     "yes": "Yes"
+                },
+                "notification": {
+                    "title": {
+                        "update": "Cat updated succesfully",
+                        "addition": "Cat added succesfully",
+                        "deletion": "Cat deleted succesfully"
+                    },
+                    "message": {
+                        "update": "Cat details have been updated!",
+                        "addition": "A new cat has been added!",
+                        "deletion": "The cat has been deleted from the interest zone!"
+                    }
                 }
             },
             "catModalView":{
@@ -96,6 +108,18 @@
                 "phone": "Incorrect phone number!",
                 "status": "Incorrect status!",
                 "volunteerName": "Incorrect volunteer name!"
+            },
+            "notification": {
+                "title": {
+                    "update": "Zone updated succesfully",
+                    "addition": "Zone created succesfully",
+                    "deletion": "Zone deleted succesfully"
+                },
+                "message": {
+                    "update": "Zone details have been updated!",
+                    "addition": "A new zone has been created!",
+                    "deletion": "The zone has been deleted!"
+                }
             }
         },
         "modalManager":{

@@ -1,3 +1,36 @@
 {
-    "locationNotFound": "Locatia nu a fost gasita."
+    "missing": {
+        "zone": "Zona de interes lipsește.",
+        "coordinates": "Coordonatele zonei lipsesc.",
+        "number": "Numărul pisicilor nesterilizate lipsește.",
+        "volunteerName": "Numele voluntarului lipsește.",
+        "cat": "Pisica lipsește.",
+        "volunteer": "Voluntarul responsabil lipsește.",
+        "observations": "Observațiile lipsesc."
+    },
+    "incorrect": {
+        "address": "Adresa este incorectă.",
+        "status": "Statusul zonei este incorect.",
+        "person": "Datele persoanei de contact sunt incorecte sau lipsesc.",
+        "hospitalizationDate": "Data internării este incorectă.",
+        "releaseDate": "Data externării este incorectă.",
+        "gender": "Sexul pisicii este incorect.",
+        "catType": "Tipul pisicii este incorect.",
+        "images": "Prea multe imagini."
+    },
+    "notFound": {
+        "location": "Locația nu a fost găsită.",
+        "imageID": "Imaginea nu a fost găsită.",
+        "zone": "Zona de interes nu a fost găsită.",
+        "cat": "Pisica nu a fost găsită.",
+        "address": "Nu s-au găsit locații pentru "
+    },
+    "notificationTitle": {
+        "catUpdate": "Pisica nu a putut fi actualizată",
+        "catAddition": "Pisica nu a putut fi adăugată",
+        "catDeletion": "Pisica nu a putut fi ștearsă",
+        "zoneUpdate": "Zona nu a putut fi acutalizată",
+        "zoneAddition": "Zona nu a putut fi creată",
+        "zoneDeletion": "Zona nu a putut fi ștearsă" 
+    }
 }

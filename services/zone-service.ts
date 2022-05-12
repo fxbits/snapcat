@@ -317,24 +317,24 @@ export class ZoneValidationError {
 }
 
 export enum ZoneError {
-    ZONE = 'MISSING.ZONE',
-    COORDINATES = 'MISSING.COORDINATES',
-    ADDRESS = 'INCORRECT.ADDRESS',
-    NO_UNSTERILIZED_CATS = 'MISSING.NUMBER',
-    STATUS = 'INCORRECT.STATUS', 
-    CONTACT_PERSON = 'INCORRECT.PERSON',
-    VOLUNTEER_NAME = 'MISSING.VOLUNTEERNAME',
-    CAT = 'MISSING.CAT', 
-    HOSPITALIZATION_DATE = 'INCORRECT.HOSPITALIZATIONDATE',
-    REALEASE_DATE = 'INCORRECT.RELEASEDATE',
-    GENDER = 'INCORRECT.GENDER',
-    CAT_VOLUNTEER = 'MISSING.VOLUNTEER',
-    OBSERVATIONS = 'MISSING.OBSERVATIONS',
-    CAT_TYPE = 'INCORRECT.CAT_TYPE',
-    CAT_NOT_FOUND = 'NOT_FOUND.CAT',
-    ZONE_NOT_FOUND = 'NOT_FOUND.ZONE',
-    MAXIMUM_IMAGES = 'MAXIMUM_NUMBER.IMAGES',
-    IMAGE_NOT_FOUND = 'INCORRECT.IMAGE_ID'
+    ZONE = 'missing.zone',
+    COORDINATES = 'missing.coordinates',
+    ADDRESS = 'incorrect.address',
+    NO_UNSTERILIZED_CATS = 'missing.number',
+    STATUS = 'incorrect.status', 
+    CONTACT_PERSON = 'incorrect.person',
+    VOLUNTEER_NAME = 'missing.volunteerName',
+    CAT = 'missing.cat', 
+    HOSPITALIZATION_DATE = 'incorrect.hospitalizationDate',
+    REALEASE_DATE = 'incorrect.releaseDate',
+    GENDER = 'incorrect.gender',
+    CAT_VOLUNTEER = 'missing.volunteer',
+    OBSERVATIONS = 'missing.observations',
+    CAT_TYPE = 'incorrect.catType',
+    CAT_NOT_FOUND = 'notFound.cat',
+    ZONE_NOT_FOUND = 'notFound.zone',
+    MAXIMUM_IMAGES = 'incorrect.images',
+    IMAGE_NOT_FOUND = 'notFound.imageID'
 }
 
 export const zoneService = new ZoneService();

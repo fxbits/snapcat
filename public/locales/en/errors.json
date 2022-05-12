@@ -1,3 +1,36 @@
 {
-    "locationNotFound": "Location not found."
+    "missing": {
+        "zone": "Zone is missing.",
+        "coordinates": "Zone coordinates are missing.",
+        "number": "Number of unsterilized cats is missing.",
+        "volunteerName": "Volunteer name is missing.",
+        "cat": "Cat is missing.",
+        "volunteer": "Assigned volunteer is missing.",
+        "observations": "Observations are missing."
+    },
+    "incorrect": {
+        "address": "Address is incorrect.",
+        "status": "Status is incorrect.",
+        "person": "Contact person details are incorrect or missing.",
+        "hospitalizationDate": "Hospitaliztion date is incorrect.",
+        "releaseDate": "Release date is incorrect.",
+        "gender": "Cat gender is incorrect.",
+        "catType": "Cat type is incorrect.",
+        "images": "Too many images."
+    },
+    "notFound": {
+        "location": "Location not found.",
+        "imageID": "Image not found.",
+        "zone": "Zone not found.",
+        "cat": "Cat not found.",
+        "address": "Could not find locations for "
+    },
+    "notificationTitle": {
+        "catUpdate": "Cat could not be updated",
+        "catAddition": "Cat could not be added",
+        "catDeletion": "Cat could not be deleted",
+        "zoneUpdate": "Zone could not be updated",
+        "zoneAddition": "Zone could not be added",
+        "zoneDeletion": "Zone could not be deleted"
+    }
 }

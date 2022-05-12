@@ -10,13 +10,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 function MapPage() {
   const { interestZones } = useInterestZones();
-  const [searchAdress, setSeachAdress] = useState<string>();
+  const [searchAdress, setSearchAddress] = useState<string>();
   return (
     <>
-      <HeaderGoogle setSearchAdress={setSeachAdress}></HeaderGoogle>
+      <HeaderGoogle setSearchAdress={setSearchAddress}></HeaderGoogle>
       <MobileDrawer zones={interestZones || []} />
       <DesktopDrawer zones={interestZones || []} />
-      <Map searchAdress={searchAdress} />
+      <Map searchAdress={searchAdress}  setSearchAddress={setSearchAddress} />
     </>
   );
 }
