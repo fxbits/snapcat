@@ -21,18 +21,24 @@ import { motion } from 'framer-motion';
 import { Edit, GenderFemale, GenderMale, QuestionMark, Scissors, Trash } from 'tabler-icons-react';
 import useCatActions from '../CatModal/useCatActions';
 import { useTranslation } from 'next-i18next';
+import { showNotification } from '@mantine/notifications';
+import useSWR from 'swr';
 
 interface Props {
-  cat?: UnsterilizedCat;
+  cat?: UnsterilizedCat,
+  zoneID: string
 }
 
-const UnsterilizedCat = ({ cat }: Props) => {
+const UnsterilizedCat = ({ cat, zoneID }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { t } = useTranslation('common');
   const theme = useMantineTheme();
   const { DeleteCat, GetImages } = useCatActions(cat?._id!);
   const [displayImage, setDisplayImage] = useState<string>('/images/placeholder-cat.png');
+  const { data } = useSWR<any[]>(
+    cat?._id ? `/api/interest-zones/${zoneID}/${cat._id!}/images` : null
+  );
 
   const handleChange = useCallback(
     (e: MouseEvent) => {
@@ -49,7 +55,7 @@ const UnsterilizedCat = ({ cat }: Props) => {
         setDisplayImage(`data:image/png;base64,${resp[0]}`)
       }
     });
-  }, []);
+  }, [data]);
 
   return (
     <Box
@@ -139,7 +145,22 @@ const UnsterilizedCat = ({ cat }: Props) => {
           sx={{ height: '100%' }}
           color='red'
           variant='filled'
-          onClick={() => DeleteCat()}>
+          onClick={async () => {
+            try{
+              await DeleteCat();
+              showNotification({
+                title: t('components.catModal.catModalHeader.notification.title.deletion', {ns: 'common'}),
+                message: t('components.catModal.catModalHeader.notification.message.deletion', {ns: 'common'}),
+                color: 'green',
+              });
+            } catch(error: any) {
+              showNotification({
+                title: t('notificationTitle.catDeletion', {ns: 'errors'}),
+                message: t(error.response.data.message, {ns: 'errors'}),
+                color: 'red',
+              });
+            }
+          }}>
           <Trash />
         </ActionIcon>
       </Group>

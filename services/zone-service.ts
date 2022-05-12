@@ -7,7 +7,6 @@ import sterilizedCatSchema from '../data/sterilizedcat.schema';
 import { Gender, SterilizedCat, UnsterilizedCat } from '../models/cat.model';
 
 import { connect } from 'mongoose';
-import { release } from 'os';
 
 class ZoneService {
   constructor() {
@@ -108,14 +107,12 @@ class ZoneService {
     let catSchema = undefined;
     if (sterilizedStatus) {
       catSchema = new sterilizedCatSchema({
-        ...cat,
-        images: []
+        ...cat
       });
       interestZone.sterilizedCats.push(catSchema);
     } else {
       catSchema = new unsterilizedCatSchema({
-        ...cat,
-        images: []
+        ...cat
       });
       interestZone.noUnsterilizedCats = interestZone.noUnsterilizedCats
         ? interestZone.noUnsterilizedCats + 1
@@ -213,12 +210,12 @@ class ZoneService {
       throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
     }
 
-    await this.addCatToZone(zoneID, { sterilizedStatus: true, ...newCat }, interestZone);
+    const sterilizedCat = await this.addCatToZone(zoneID, { ...newCat, sterilizedStatus: true, images: cat.images }, interestZone);
 
     cat.remove();
     interestZone.noUnsterilizedCats--;
     await interestZone.save();
-    return interestZone;
+    return sterilizedCat;
   }
 
   findCat(interestZone: any, catID: string | string[], sterilizedStatus: boolean): any {

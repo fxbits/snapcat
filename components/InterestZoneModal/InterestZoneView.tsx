@@ -204,7 +204,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                         size='lg'
                         color='dark'
                         onClick={() => {
-                          setModal({ type: 'ADD_CAT', back: modal });
+                          setModal({ type: 'ADD_CAT', back: modal, initialSterilizedStatus: true });
                           setCat(undefined);
                         }}>
                         <Plus />
@@ -214,7 +214,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   <ScrollArea style={{ height: zone?.sterilizedCats.length > 0 ? '300px' : '0px' }}>
                     <Stack sx={{ overflow: 'hidden' }}>
                       {zone?.sterilizedCats.map((cat, index) => (
-                        <SterilizedCat key={index} cat={cat} />
+                        <SterilizedCat key={index} cat={cat} zoneID={zone._id} />
                       ))}
                     </Stack>
                   </ScrollArea>
@@ -239,7 +239,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                         color='dark'
                         size='lg'
                         onClick={() => {
-                          setModal({ type: 'ADD_CAT', back: modal });
+                          setModal({ type: 'ADD_CAT', back: modal, initialSterilizedStatus: false });
                           setCat(undefined);
                         }}>
                         <Plus />
@@ -250,7 +250,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                     style={{ height: zone?.unsterilizedCats.length > 0 ? '300px' : '0pxs' }}>
                     <Stack sx={{ overflow: 'hidden' }}>
                       {zone?.unsterilizedCats.map((cat, index) => (
-                        <UnsterilizedCat key={index} cat={cat} />
+                        <UnsterilizedCat key={index} cat={cat} zoneID={zone._id}/>
                       ))}
                     </Stack>
                   </ScrollArea>

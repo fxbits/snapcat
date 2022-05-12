@@ -32,18 +32,23 @@ import {
 import useCatActions from '../CatModal/useCatActions';
 import { useTranslation } from 'next-i18next';
 import { showNotification } from '@mantine/notifications';
+import useSWR from 'swr';
 
 interface Props {
-  cat?: SterilizedCat;
+  cat?: SterilizedCat,
+  zoneID: string
 }
 
-const SterilizedCat = ({ cat }: Props) => {
+const SterilizedCat = ({ cat, zoneID }: Props) => {
   const { setModal, modal } = useContext(ModalContext);
   const { setCat } = useContext(CatContext);
   const { DeleteCat, GetImages } = useCatActions(cat?._id!);
   const { t } = useTranslation(['common', 'errors']);
   const theme = useMantineTheme();
   const [displayImage, setDisplayImage] = useState<string>('/images/placeholder-cat.png');
+  const { data } = useSWR<any[]>(
+    cat?._id ? `/api/interest-zones/${zoneID}/${cat._id!}/images` : null
+  );
 
   const handleChange = useCallback(
     (e: MouseEvent) => {
@@ -60,7 +65,7 @@ const SterilizedCat = ({ cat }: Props) => {
           setDisplayImage(`data:image/png;base64,${resp[0]}`)
         }
       });
-  }, []);
+  }, [data]);
 
   return (
     <Box

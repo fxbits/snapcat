@@ -17,10 +17,12 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { dropzoneChildren } from './Dropzone/Dropzone';
 import { useForm } from '@mantine/hooks';
 import CatModalHeader from './CatModalHeader';
-import { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 import useCatActions from './useCatActions';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
+import { showNotification } from '@mantine/notifications';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -66,6 +68,10 @@ export default function CatModalView({
   const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
   const { t } = useTranslation('common');
   const nameRegex = /^[\p{Letter} -]+$/gu
+  const { interestZone } = useContext(InterestZoneProviderContext);
+  const { data, error } = useSWR<any[]>(
+    cat?._id ? `/api/interest-zones/${interestZone?._id}/${cat._id!}/images` : null
+  );
   const form = useForm<FormValues>({
     initialValues: {
       gender: Gender.UNKNOWN,
@@ -94,7 +100,10 @@ export default function CatModalView({
   useEffect(() => {
     if (modal.type !== 'ADD_CAT') {
       GetImages().then((resp) => setExistingImages(resp));
-    } else setExistingImages([]);
+    } else {
+      setExistingImages([]);
+      form.setFieldValue('sterilizedStatus', modal.initialSterilizedStatus ? 'sterilized' : 'unsterilized')
+    }
     setImageFormData(new FormData());
   }, []);
 
@@ -104,7 +113,7 @@ export default function CatModalView({
       GetImages().then((resp) => setExistingImages(resp));
     } else setExistingImages([]);
     setImageFormData(new FormData());
-  }, [modal]);
+  }, [modal, data]);
 
   const addImageToCat = (files: any) => {
     imageFormData.append('images', files[0], files[0].name);
@@ -123,13 +132,15 @@ export default function CatModalView({
     modal.type === 'EDIT_CAT' ||
     modal.type === 'STERILIZE_CAT'
   );
-  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages } = useCatActions(
+  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages } = useCatActions(
     cat?._id!
   );
+
   return (
     <>
       <CatModalHeader
         modal={modal}
+        isSterilized={(cat as SterilizedCat)?.volunteerName !== undefined}
         setModal={setModal}
         addCat={() => {
           if (!form.validate()) return true;
@@ -146,8 +157,8 @@ export default function CatModalView({
         deleteCat={() => DeleteCat()}
         sterilizeCat={() => {
           if (!form.validate()) return true;
-          SterilizeCat(form.values);
-          setModal({ ...modal, type: 'VIEW_CAT' });
+          SterilizeCat(form.values, imageFormData);
+          setModal(modal.back);
           return false;
         }}
       />
@@ -189,7 +200,13 @@ export default function CatModalView({
                 }}
                 disabled={disabled}
                 onDrop={(files) => addImageToCat(files)}
-                onReject={() => alert('Imaginea este prea mare.')}
+                onReject={() => 
+                  showNotification({
+                    title: t('notificationTitle.imageUpload', {ns: 'errors'}),
+                    message: t('incorrect.imageSize', {ns: 'errors'}),
+                    color: 'red',
+                  })
+                }
                 maxSize={MAX_SIZE}
                 multiple={false}
                 accept={IMAGE_MIME_TYPE}>
