@@ -204,7 +204,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                         size='lg'
                         color='dark'
                         onClick={() => {
-                          setModal({ type: 'ADD_CAT', back: modal });
+                          setModal({ type: 'ADD_CAT', back: modal, initialSterilizedStatus: true });
                           setCat(undefined);
                         }}>
                         <Plus />
@@ -239,7 +239,7 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                         color='dark'
                         size='lg'
                         onClick={() => {
-                          setModal({ type: 'ADD_CAT', back: modal });
+                          setModal({ type: 'ADD_CAT', back: modal, initialSterilizedStatus: false });
                           setCat(undefined);
                         }}>
                         <Plus />

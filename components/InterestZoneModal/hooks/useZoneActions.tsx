@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useContext } from 'react';
 import { useSWRConfig } from 'swr';
 import { InterestZone, Status } from '../../../models/zone.model';
 import { FormValues } from '../InterestZoneView';
@@ -82,21 +81,21 @@ const useZoneActions = (zoneId: string) => {
   const AddZone = async (values: FormValues, address: Address, volunteerName?: string) => {
     const body = getBody(values, address, volunteerName);
     const data = await addZone(body);
-    mutate(`/api/interest-zones/${data._id}`);
-    mutate(`/api/interest-zones/`);
+
+    mutate(URL);
   };
 
   const UpdateZone = async (values: FormValues, zone: InterestZone | undefined) => {
     const body = getBody(values, undefined, undefined, zone);
     await updateZone(zoneId, body);
 
-    mutate(`/api/interest-zones/${zoneId}`);
-    mutate(`/api/interest-zones/`);
+    mutate(`${URL}${zoneId}`);
+    mutate(URL);
   };
 
   const DeleteZone = async () => {
     await deleteZone(zoneId);
-    mutate(`/api/interest-zones/`);
+    mutate(URL);
   };
 
   return { AddZone, UpdateZone, DeleteZone };

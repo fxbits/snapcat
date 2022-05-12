@@ -10,6 +10,7 @@ export type ModalConfig = {
     | 'ADD_ZONE'
     | 'EDIT_ZONE';
   back?: ModalConfig | undefined;
+  initialSterilizedStatus?: boolean;
 };
 
 export interface ContextModal {

@@ -20,8 +20,8 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
             break;
         case 'POST':
             try{
-                const newZone = await zoneService.addCatToZone(req.query.id, req.body);
-                res.json(newZone);
+                const newCat = await zoneService.addCatToZone(req.query.id, req.body);
+                res.json(newCat);
             } catch (error: any) {
                 if (error instanceof ZoneValidationError) {
                     res.status(error.getStatus()).json({message: error.getErrorCode()});
