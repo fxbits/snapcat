@@ -86,6 +86,7 @@ const useCatActions = (catId: string) => {
     await updateCat(zoneId, body, catId);
     if (formBody) {
       AddImages(formBody);
+      mutate(`/api/interest-zones/${zoneId}/${catId}/images`);  
     }
     mutate(`/api/interest-zones/${zoneId}`);
     mutate(`/api/interest-zones/`);
