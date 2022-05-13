@@ -88,6 +88,24 @@ class ImageService {
 
         return imageBuffers;
     }
+
+    async deleteImage(imageID: string | string[], zoneID?: string | string[], catID?: string | string[]): Promise<void> {
+        if (zoneID && catID) {
+            let interestZone = await zoneService.findById(zoneID);
+        
+            let cat = zoneService.findCat(interestZone, catID, true);
+            if (!cat) { 
+                cat = zoneService.findCat(interestZone, catID, false);
+                if (!cat) {
+                    throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
+                }
+            }
+            cat.images.filter((item: string) => item !== imageID);
+            await interestZone.save();
+        }
+
+        await imageSchema.deleteOne({ _id: imageID });
+    }
 }
 
 export const imageService = new ImageService();

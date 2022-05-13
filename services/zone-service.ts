@@ -7,6 +7,7 @@ import sterilizedCatSchema from '../data/sterilizedcat.schema';
 import { Gender, SterilizedCat, UnsterilizedCat } from '../models/cat.model';
 
 import { connect } from 'mongoose';
+import { imageService } from './image-service';
 
 class ZoneService {
   constructor() {
@@ -135,6 +136,8 @@ class ZoneService {
       return 1;
     }
 
+    await this.deleteCatsImages(interestZone);
+
     return await zoneSchema.deleteOne({ _id: zoneID });
   }
 
@@ -157,6 +160,21 @@ class ZoneService {
     return interestZone;
   }
 
+  private async deleteCatImages(cat: any): Promise<void> {
+    for (let image of cat.images) {
+      await imageService.deleteImage(image);
+    }
+  }
+
+  private async deleteCatsImages(interestZone: InterestZone): Promise<void> {
+    for (let cat of interestZone.sterilizedCats) {
+      await this.deleteCatImages(cat);
+    }
+    for (let cat of interestZone.unsterilizedCats) {
+      await this.deleteCatImages(cat);
+    }
+  }
+
   async deleteCat(zoneID: string | string[], catID: string | string[]): Promise<number> {
     const interestZone = await this.findById(zoneID);
     let cat = this.findCat(interestZone, catID, true);
@@ -171,6 +189,7 @@ class ZoneService {
       throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
     }
 
+    this.deleteCatImages(cat);
     cat.remove();
     interestZone.save();
     return 1;
