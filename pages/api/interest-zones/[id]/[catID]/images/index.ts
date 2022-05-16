@@ -39,9 +39,9 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 apiRoute.post(async (req: any, res: any) => {
     try{
-        await imageService.addImages(req.query.id, req.query.catID, req.files);
+        const images = await imageService.addImages(req.query.id, req.query.catID, req.files);
         
-        res.json({files: req.files});
+        res.json({imageIDS: images});
       } catch(error: any) {
         if (error instanceof ZoneValidationError) {
             res.status(error.getStatus()).json({message: error.getErrorCode()});

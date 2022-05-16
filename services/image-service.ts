@@ -67,6 +67,7 @@ class ImageService {
         }
    
         await interestZone.save();
+        return cat.images;
     }
 
     async getImages(zoneID: string | string[], catID: string | string[]):Promise<any> {

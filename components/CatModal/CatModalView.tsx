@@ -50,7 +50,7 @@ export interface FormValues {
   releaseDate?: Date;
 }
 
-const MAX_SIZE = 2 * 1024 ** 2;
+const MAX_SIZE = 16 * 1024 ** 2;
 
 export default function CatModalView({
   cat,
@@ -115,12 +115,14 @@ export default function CatModalView({
     setImageFormData(new FormData());
   }, [modal, data]);
 
-  const addImageToCat = (files: any) => {
-    imageFormData.append('images', files[0], files[0].name);
+  const addImageToCat = async (files: any) => {
+    const compressedFile = await CompressImage(files[0]);
+
+    imageFormData.append('images', compressedFile, compressedFile.name);
     setImageFormData(imageFormData);
 
     const reader = new FileReader();
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(compressedFile);
     reader.onload = () => {
       const binaryStr = reader.result as string;
       setExistingImages([...existingImages, binaryStr]);
@@ -132,7 +134,7 @@ export default function CatModalView({
     modal.type === 'EDIT_CAT' ||
     modal.type === 'STERILIZE_CAT'
   );
-  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages } = useCatActions(
+  const { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, CompressImage } = useCatActions(
     cat?._id!
   );
 
