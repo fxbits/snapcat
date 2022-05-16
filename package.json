@@ -30,6 +30,7 @@
     "@react-google-maps/api": "^2.7.0",
     "@types/supercluster": "^7.1.0",
     "axios": "^0.26.1",
+    "browser-image-compression": "^2.0.0",
     "bson": "^4.6.2",
     "crs-dropdown-container": "^0.0.13",
     "framer-motion": "^6.3.0",

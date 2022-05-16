@@ -54,7 +54,7 @@ export default function CatModalHeader({
         {modal.type === 'VIEW_CAT' && <Text>{t('components.catModal.catModalHeader.viewCat', {ns: 'common'})}</Text>}
         {modal.type === 'EDIT_CAT' && <Text>{t('components.catModal.catModalHeader.editCat', {ns: 'common'})}</Text>}
           <Group spacing='xs'>
-            {modal.type === 'VIEW_CAT' && (
+            {modal.type === 'VIEW_CAT' &&  !isSterilized && (
               <ActionIcon
                 onClick={() => {
                   setDeletePressed(false);
@@ -67,101 +67,88 @@ export default function CatModalHeader({
                 <ScissorIcon />
               </ActionIcon>
             )}
-          {modal.type === 'VIEW_CAT' &&  !isSterilized && (
-            <ActionIcon
-              onClick={() => {
-                setDeletePressed(false);
-                setModal({ ...modal, type: 'STERILIZE_CAT' });
-              }}
-              size='xl'
-              color='dark'
-              radius='md'
-              variant='outline'>
-              <ScissorIcon />
-            </ActionIcon>
-          )}
-          {modal.type === 'VIEW_CAT' && (
-            <ActionIcon
-              onClick={() => {
-                setDeletePressed(false);
-                setModal({ ...modal, type: 'EDIT_CAT' })}
-              }
-              size='xl'
-              radius='md'
-              color='dark'
-              variant='outline'>
-              <EditIcon />
-            </ActionIcon>
-          )}
+            {modal.type === 'VIEW_CAT' && (
+              <ActionIcon
+                onClick={() => {
+                  setDeletePressed(false);
+                  setModal({ ...modal, type: 'EDIT_CAT' })}
+                }
+                size='xl'
+                radius='md'
+                color='dark'
+                variant='outline'>
+                <EditIcon />
+              </ActionIcon>
+            )}
 
-          {(modal.type === 'EDIT_CAT' || modal.type === 'STERILIZE_CAT') && (
-            <ActionIcon
-            onClick={async () => {
-              setDeletePressed(false);
-              try {
-                const errorStatus = modal.type === 'EDIT_CAT' ? await updateCat() : await sterilizeCat();
-                if (errorStatus) return;
-                showNotification({
-                  title: t('components.catModal.catModalHeader.notification.title.update', {ns: 'common'}),
-                  message: t('components.catModal.catModalHeader.notification.message.update', {ns: 'common'}),
-                  color: 'green',
-                });
-              } catch(error: any) {
-                showNotification({
-                  title: t('notificationTitle.catUpdate', {ns: 'errors'}),
-                  message: t(error.response.data.message, {ns: 'errors'}),
-                  color: 'red',
-                });
-              }
-            }}
-              size='xl'
-              radius='md'
-              color='dark'
-              variant='outline'>
-              <SaveIcon />
-            </ActionIcon>
-          )}
-          {modal.type === 'ADD_CAT' && (
-            <ActionIcon
-            onClick={async () => {
-              setDeletePressed(false);
-              try{
-                const errorStatus = await addCat();
-                if (errorStatus) return;
-                showNotification({
-                  title: t('components.catModal.catModalHeader.notification.title.addition', {ns: 'common'}),
-                  message: t('components.catModal.catModalHeader.notification.message.addition', {ns: 'common'}),
-                  color: 'green',
-                });
-              } catch(error: any) {
-                showNotification({
-                  title: t('notificationTitle.catAddition', {ns: 'errors'}),
-                  message: t(error.response.data.message, {ns: 'errors'}),
-                  color: 'red',
-                });
-              }
-            }}
-              size='xl'
-              color='dark'
-              radius='md'
-              variant='outline'>
-              <SaveIcon />
-            </ActionIcon>
-          )}
-
-          {modal.type !== 'ADD_CAT' && (
-            <ActionIcon
-              size='xl'
-              onClick={() => {
-                setDeletePressed(true);
-                setConfirmationVisible(true);
+            {(modal.type === 'EDIT_CAT' || modal.type === 'STERILIZE_CAT') && (
+              <ActionIcon
+              onClick={async () => {
+                setDeletePressed(false);
+                try {
+                  const errorStatus = modal.type === 'EDIT_CAT' ? await updateCat() : await sterilizeCat();
+                  if (errorStatus) return;
+                  showNotification({
+                    title: t('components.catModal.catModalHeader.notification.title.update', {ns: 'common'}),
+                    message: t('components.catModal.catModalHeader.notification.message.update', {ns: 'common'}),
+                    color: 'green',
+                  });
+                } catch(error: any) {
+                  showNotification({
+                    title: t('notificationTitle.catUpdate', {ns: 'errors'}),
+                    message: t(error.response.data.message, {ns: 'errors'}),
+                    color: 'red',
+                  });
+                }
               }}
-              radius='md'
-              variant='outline'
-              color='dark'>
-              <Trash size={40} />
-            </ActionIcon>
-          )}
+                size='xl'
+                radius='md'
+                color='dark'
+                variant='outline'>
+                <SaveIcon />
+              </ActionIcon>
+            )}
+            {modal.type === 'ADD_CAT' && (
+              <ActionIcon
+              onClick={async () => {
+                setDeletePressed(false);
+                try{
+                  const errorStatus = await addCat();
+                  if (errorStatus) return;
+                  showNotification({
+                    title: t('components.catModal.catModalHeader.notification.title.addition', {ns: 'common'}),
+                    message: t('components.catModal.catModalHeader.notification.message.addition', {ns: 'common'}),
+                    color: 'green',
+                  });
+                } catch(error: any) {
+                  showNotification({
+                    title: t('notificationTitle.catAddition', {ns: 'errors'}),
+                    message: t(error.response.data.message, {ns: 'errors'}),
+                    color: 'red',
+                  });
+                }
+              }}
+                size='xl'
+                color='dark'
+                radius='md'
+                variant='outline'>
+                <SaveIcon />
+              </ActionIcon>
+            )}
+
+            {modal.type !== 'ADD_CAT' && (
+              <ActionIcon
+                size='xl'
+                onClick={() => {
+                  setDeletePressed(true);
+                  setConfirmationVisible(true);
+                }}
+                radius='md'
+                variant='outline'
+                color='dark'>
+                <Trash size={40} />
+              </ActionIcon>
+            )}
         </Group>
       </Group>
       <Collapse in={confirmationVisible}  transitionDuration={500} transitionTimingFunction='ease'>

@@ -42,7 +42,7 @@
                 "release": "Relese",
                 "observationsPlaceholder": "Enter here any observations, notes, that might help identify the cat more accurately.",
                 "validations": {
-                    "observations": "Missing observations!",
+                    "observations": "Missing observations/pictures!",
                     "hospitalizationDate": "Incorrect hospitalization date!",
                     "releaseDate": "Incorrect release date!",
                     "volunteerName": "Incorrect volunteer name!"

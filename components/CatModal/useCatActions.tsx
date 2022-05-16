@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { useContext } from 'react';
 import { useSWRConfig } from 'swr';
+import imageCompression from 'browser-image-compression';
 import BSON from 'bson';
 import { CatUI } from '../../models/cat.model';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { FormValues } from './CatModalView';
 
 const URL = '/api/interest-zones/';
+const MAX_SIZE_MB_PICTURE = 1;
 
 const addCatToZone = async (zoneId: string, cat: Partial<CatUI>) => {
   const response = await axios.post(URL + zoneId, cat);
@@ -73,12 +75,13 @@ const useCatActions = (catId: string) => {
     const body = getBody(values);
     const cat = await addCatToZone(zoneId, body);
 
-    if (formBody) {
-      await AddImages(formBody, cat._id);
-    }
-
     mutate(`${URL}${zoneId}`);
     mutate(URL);
+    
+    if (formBody) {
+      await AddImages(formBody, cat._id);
+      mutate(`${URL}${zoneId}/${cat._id}/images`);
+    }
   };
 
   const UpdateCat = async (values: FormValues, formBody?: FormData) => {
@@ -88,8 +91,7 @@ const useCatActions = (catId: string) => {
     if (formBody) {
       AddImages(formBody);
     }
-
-    mutate(`${URL}${zoneId}/${catId}/images`);
+    
     mutate(`${URL}${zoneId}`);
     mutate(URL);
   };
@@ -102,8 +104,7 @@ const useCatActions = (catId: string) => {
     if (formBody) {
       AddImages(formBody, sterilizedCat._id);
     }
-    
-    mutate(`${URL}${zoneId}/${sterilizedCat._id}/images`);
+
     mutate(`${URL}${zoneId}`);
     mutate(URL);
   };
@@ -130,10 +131,16 @@ const useCatActions = (catId: string) => {
       await addImages(zoneId, catId, formBody);
     }
     mutate(`${URL}${zoneId}/${catId ?? catID}/images`);
-    mutate(`${URL}${zoneId}`);
-    mutate(URL);
   }
 
-  return { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages };
+  const CompressImage = async (file: File): Promise<File> =>  {
+    const options = {
+      maxSizeMB: MAX_SIZE_MB_PICTURE
+    }
+
+    return await imageCompression(file, options);
+  }
+
+  return { AddCat, UpdateCat, DeleteCat, SterilizeCat, GetImages, AddImages, CompressImage };
 };
 export default useCatActions;

@@ -42,7 +42,7 @@
                 "release": "Externare",
                 "observationsPlaceholder": "Introduceți aici orice observații, note, care ar putea ajuta la identificarea mai precisă a pisicii.",
                 "validations": {
-                    "observations": "Observații lipsă!",
+                    "observations": "Observații/poze lipsă!",
                     "hospitalizationDate": "Data internării incorectă!",
                     "releaseDate": "Data externării incorectă!",
                     "volunteerName": "Numele voluntarului incorect!"
