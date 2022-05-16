@@ -43,7 +43,7 @@ class ImageService {
         return image._id;
     }
 
-    async addImages(zoneID: string | string[], catID: string | string[], files: any[]) {        
+    async addImages(zoneID: string | string[], catID: string | string[], files: any[]): Promise<string[]> {        
         let interestZone = await zoneService.findById(zoneID);
 
         let cat = zoneService.findCat(interestZone, catID, true);

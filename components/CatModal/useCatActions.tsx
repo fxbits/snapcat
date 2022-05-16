@@ -8,6 +8,7 @@ import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { FormValues } from './CatModalView';
 
 const URL = '/api/interest-zones/';
+const MAX_SIZE_MB_PICTURE = 1;
 
 const addCatToZone = async (zoneId: string, cat: Partial<CatUI>) => {
   const response = await axios.post(URL + zoneId, cat);
@@ -134,7 +135,7 @@ const useCatActions = (catId: string) => {
 
   const CompressImage = async (file: File): Promise<File> =>  {
     const options = {
-      maxSizeMB: 1
+      maxSizeMB: MAX_SIZE_MB_PICTURE
     }
 
     return await imageCompression(file, options);
