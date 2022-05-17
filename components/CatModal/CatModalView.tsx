@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Box,
   createStyles,
   Grid,
@@ -19,10 +20,11 @@ import { useForm } from '@mantine/hooks';
 import CatModalHeader from './CatModalHeader';
 import useSWR from 'swr';
 import useCatActions from './useCatActions';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { showNotification } from '@mantine/notifications';
+import { Trash } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
   modal: {
@@ -52,6 +54,11 @@ export interface FormValues {
 
 const MAX_SIZE = 16 * 1024 ** 2;
 
+export interface CatImage {
+  id: string,
+  imageString: string
+}
+
 export default function CatModalView({
   cat,
   modal,
@@ -64,9 +71,10 @@ export default function CatModalView({
 }) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<CatImage[]>([]);
   const [imageFormData, setImageFormData] = useState<FormData>(new FormData());
   const { t } = useTranslation('common');
+  const deletedImages = useRef<string[]>([]);
   const nameRegex = /^[\p{Letter} -]+$/gu
   const { interestZone } = useContext(InterestZoneProviderContext);
   const { data, error } = useSWR<any[]>(
@@ -76,7 +84,7 @@ export default function CatModalView({
     initialValues: {
       gender: Gender.UNKNOWN,
       observations: '',
-      mediaLinks: existingImages,
+      mediaLinks: [],
       ...(cat ?? {}),
       volunteerName: (cat as SterilizedCat)?.volunteerName || '',
       hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || Date.now()),
@@ -105,6 +113,7 @@ export default function CatModalView({
       form.setFieldValue('sterilizedStatus', modal.initialSterilizedStatus ? 'sterilized' : 'unsterilized')
     }
     setImageFormData(new FormData());
+    deletedImages.current = [];
   }, []);
 
   useEffect(() => {
@@ -113,11 +122,16 @@ export default function CatModalView({
       GetImages().then((resp) => setExistingImages(resp));
     } else setExistingImages([]);
     setImageFormData(new FormData());
+    deletedImages.current = [];
   }, [modal, data]);
 
-  const addImageToCat = async (files: any) => {
-    const compressedFile = await CompressImage(files[0]);
+  const removeImage = (imageID: string) => {
+    setExistingImages(existingImages.filter((item) => item.id !== imageID))
+    deletedImages.current.push(imageID);
+  }
 
+  const handleImageUpload = async (files: File[]) => {
+    const compressedFile = await CompressImage(files[0]);
     imageFormData.append('images', compressedFile, compressedFile.name);
     setImageFormData(imageFormData);
 
@@ -125,9 +139,9 @@ export default function CatModalView({
     reader.readAsDataURL(compressedFile);
     reader.onload = () => {
       const binaryStr = reader.result as string;
-      setExistingImages([...existingImages, binaryStr]);
+      setExistingImages([...existingImages, {id: '', imageString: binaryStr}]);
     };
-  };
+  }
 
   const disabled = !(
     modal.type === 'ADD_CAT' ||
@@ -152,7 +166,7 @@ export default function CatModalView({
         }}
         updateCat={() => {
           if (!form.validate()) return true;
-          UpdateCat(form.values, imageFormData);
+          UpdateCat(form.values, imageFormData, deletedImages.current);
           setModal({ ...modal, type: 'VIEW_CAT' });
           return false;
         }}
@@ -166,8 +180,8 @@ export default function CatModalView({
       />
       <Box p='md' pb='xl' mb='xl' className={classes.modal}>
         <Grid sx={{ width: '100%', [theme.fn.largerThan('md')]: { width: '50%' } }}>
-          {existingImages.map((item: string, index) => {
-            const imageString = item.includes('data:') ? item : `data:image/png;base64,${item}`;
+          {existingImages.map((item: CatImage, index) => {
+            const imageString = item.imageString.includes('data:') ? item.imageString : `data:image/png;base64,${item.imageString}`;
             return (
               <Grid.Col sm={6} lg={6} key={index}>
                 <Box
@@ -183,6 +197,22 @@ export default function CatModalView({
                     alt='Cat Picture'
                     objectFit='contain'
                   />
+                  {modal.type === 'EDIT_CAT' && item.id !== '' && (<ActionIcon
+                    sx={{
+                      position: 'absolute',
+                      top: 'calc(50% - 20px)',
+                      left: 'calc(50% - 20px)'
+                    }}
+                    size='xl'
+                    onClick={() => {
+                      removeImage(item.id);
+                    }}
+                    radius='md'
+                    variant='outline'
+                    color='yellow'
+                    >
+                    <Trash size={40} />
+                  </ActionIcon>)}
                 </Box>
               </Grid.Col>
             );
@@ -201,7 +231,7 @@ export default function CatModalView({
                   },
                 }}
                 disabled={disabled}
-                onDrop={(files) => addImageToCat(files)}
+                onDrop={(files) => handleImageUpload(files)}
                 onReject={() => 
                   showNotification({
                     title: t('notificationTitle.imageUpload', {ns: 'errors'}),

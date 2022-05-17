@@ -4,6 +4,11 @@ import { ZoneError, zoneService, ZoneValidationError } from './zone-service';
 import { connect } from 'mongoose';
 import sharp from 'sharp';
 
+interface ImageBuffer {
+    id: string,
+    buffer: Buffer
+}
+
 class ImageService {
     constructor() {
         connect(process.env.MONGODB_URI!).then().catch();
@@ -70,7 +75,7 @@ class ImageService {
         return cat.images;
     }
 
-    async getImages(zoneID: string | string[], catID: string | string[]):Promise<any> {
+    async getImages(zoneID: string | string[], catID: string | string[]):Promise<ImageBuffer[]> {
         let interestZone = await zoneService.findById(zoneID);
 
         let cat = zoneService.findCat(interestZone, catID, true);
@@ -81,16 +86,16 @@ class ImageService {
             }
         }
 
-        let imageBuffers = []
+        let imageBuffers: ImageBuffer[] = []
         for (const imageID of cat.images) {
             const image = await this.findImage(imageID);
-            imageBuffers.push(image.img.data);
+            imageBuffers.push({id: imageID, buffer: image.img.data});
         }
 
         return imageBuffers;
     }
 
-    async deleteImage(imageID: string | string[], zoneID?: string | string[], catID?: string | string[]): Promise<void> {
+    async deleteImage(imageID: string, zoneID?: string, catID?: string): Promise<void> {
         if (zoneID && catID) {
             let interestZone = await zoneService.findById(zoneID);
         
@@ -101,12 +106,14 @@ class ImageService {
                     throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
                 }
             }
-            cat.images.filter((item: string) => item !== imageID);
+
+            cat.images = cat.images.filter((item: string) => item !== imageID);
             await interestZone.save();
         }
 
         await imageSchema.deleteOne({ _id: imageID });
     }
+
 }
 
 export const imageService = new ImageService();

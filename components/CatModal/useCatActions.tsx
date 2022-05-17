@@ -5,7 +5,7 @@ import imageCompression from 'browser-image-compression';
 import BSON from 'bson';
 import { CatUI } from '../../models/cat.model';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
-import { FormValues } from './CatModalView';
+import { CatImage, FormValues } from './CatModalView';
 
 const URL = '/api/interest-zones/';
 const MAX_SIZE_MB_PICTURE = 1;
@@ -30,13 +30,13 @@ const sterilizeCat = async (zoneId: string, cat: Partial<CatUI>, catID: string) 
   return response.data;
 };
 
-const getImages = async (zoneID: string, catID: string) => {
+const getImages = async (zoneID: string, catID: string): Promise<CatImage[]> => {
   const response = await axios.get(`${URL}${zoneID}/${catID}/images`);
 
-  let imageStrings = []
+  let imageStrings: CatImage[] = []
   for (const imageBuffer of response.data.imageBuffers) {
-      const deserialized = BSON.deserialize(Buffer.from(imageBuffer));
-      imageStrings.push(deserialized.buffer.toString('base64'));
+      const deserialized = BSON.deserialize(Buffer.from(imageBuffer.buffer));
+      imageStrings.push({id: imageBuffer.id, imageString: deserialized.buffer.toString('base64')});
   }
   return imageStrings;
 }
@@ -45,6 +45,11 @@ const addImages = async (zoneID: string, catID: string, formBody: FormData) => {
   const response = await axios.post(`${URL}${zoneID}/${catID}/images`, formBody);
 
   return response.data;   
+}
+
+const deleteImage = async(zoneID: string, catID: string, imageID: string) => {
+  const response = await axios.delete(`${URL}${zoneID}/${catID}/${imageID}`);
+  return response.data;
 }
 
 const useCatActions = (catId: string) => {
@@ -80,16 +85,18 @@ const useCatActions = (catId: string) => {
     
     if (formBody) {
       await AddImages(formBody, cat._id);
-      mutate(`${URL}${zoneId}/${cat._id}/images`);
     }
   };
 
-  const UpdateCat = async (values: FormValues, formBody?: FormData) => {
+  const UpdateCat = async (values: FormValues, formBody?: FormData, imageIDS?: string[]) => {
     const body = getBody(values);
 
     await updateCat(zoneId, body, catId);
+    if (imageIDS?.length) {
+      await DeleteImages(imageIDS);
+    }
     if (formBody) {
-      AddImages(formBody);
+      await AddImages(formBody);
     }
     
     mutate(`${URL}${zoneId}`);
@@ -102,7 +109,7 @@ const useCatActions = (catId: string) => {
     const sterilizedCat = await sterilizeCat(zoneId, body, catId);
 
     if (formBody) {
-      AddImages(formBody, sterilizedCat._id);
+      await AddImages(formBody, sterilizedCat._id);
     }
 
     mutate(`${URL}${zoneId}`);
@@ -115,7 +122,7 @@ const useCatActions = (catId: string) => {
     mutate(URL);
   };
 
-  const GetImages = async () => {
+  const GetImages = async (): Promise<CatImage[]> => {
     try {
       const images = await getImages(zoneId, catId);
       return images;
@@ -131,6 +138,13 @@ const useCatActions = (catId: string) => {
       await addImages(zoneId, catId, formBody);
     }
     mutate(`${URL}${zoneId}/${catId ?? catID}/images`);
+  }
+
+  const DeleteImages = async(imageIDS: string[]) => {
+    for (const imageID of imageIDS) {
+      await deleteImage(zoneId, catId, imageID);
+    }
+    mutate(`${URL}${zoneId}/${catId}/images`);
   }
 
   const CompressImage = async (file: File): Promise<File> =>  {
