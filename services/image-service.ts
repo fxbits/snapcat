@@ -84,7 +84,7 @@ class ImageService {
         let imageBuffers = []
         for (const imageID of cat.images) {
             const image = await this.findImage(imageID);
-            imageBuffers.push(image.img.data);
+            imageBuffers.push({id: imageID, buffer: image.img.data});
         }
 
         return imageBuffers;
@@ -101,12 +101,14 @@ class ImageService {
                     throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
                 }
             }
-            cat.images.filter((item: string) => item !== imageID);
+
+            cat.images = cat.images.filter((item: string) => item != imageID);
             await interestZone.save();
         }
 
         await imageSchema.deleteOne({ _id: imageID });
     }
+
 }
 
 export const imageService = new ImageService();

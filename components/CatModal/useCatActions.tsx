@@ -35,8 +35,8 @@ const getImages = async (zoneID: string, catID: string) => {
 
   let imageStrings = []
   for (const imageBuffer of response.data.imageBuffers) {
-      const deserialized = BSON.deserialize(Buffer.from(imageBuffer));
-      imageStrings.push(deserialized.buffer.toString('base64'));
+      const deserialized = BSON.deserialize(Buffer.from(imageBuffer.buffer));
+      imageStrings.push({id: imageBuffer.id, imageString: deserialized.buffer.toString('base64')});
   }
   return imageStrings;
 }
@@ -45,6 +45,11 @@ const addImages = async (zoneID: string, catID: string, formBody: FormData) => {
   const response = await axios.post(`${URL}${zoneID}/${catID}/images`, formBody);
 
   return response.data;   
+}
+
+const deleteImage = async(zoneID: string, catID: string, imageID: string) => {
+  const response = await axios.delete(`${URL}${zoneID}/${catID}/${imageID}`);
+  return response.data;
 }
 
 const useCatActions = (catId: string) => {
@@ -84,12 +89,15 @@ const useCatActions = (catId: string) => {
     }
   };
 
-  const UpdateCat = async (values: FormValues, formBody?: FormData) => {
+  const UpdateCat = async (values: FormValues, formBody?: FormData, imageIDS?: string[]) => {
     const body = getBody(values);
 
     await updateCat(zoneId, body, catId);
+    if (imageIDS?.length) {
+      await DeleteImages(imageIDS);
+    }
     if (formBody) {
-      AddImages(formBody);
+      await AddImages(formBody);
     }
     
     mutate(`${URL}${zoneId}`);
@@ -131,6 +139,13 @@ const useCatActions = (catId: string) => {
       await addImages(zoneId, catId, formBody);
     }
     mutate(`${URL}${zoneId}/${catId ?? catID}/images`);
+  }
+
+  const DeleteImages = async(imageIDS: string[]) => {
+    for (const imageID of imageIDS) {
+      await deleteImage(zoneId, catId, imageID);
+    }
+    mutate(`${URL}${zoneId}/${catId}/images`);
   }
 
   const CompressImage = async (file: File): Promise<File> =>  {

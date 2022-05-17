@@ -23,7 +23,7 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
     
     let imageBuffers = []
     for (const image of catImages) {
-        imageBuffers.push(BSON.serialize(image));
+        imageBuffers.push({id: image.id, buffer: BSON.serialize(image.buffer)});
     }
     
     res.json({imageBuffers: imageBuffers});

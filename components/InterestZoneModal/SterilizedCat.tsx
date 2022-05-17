@@ -62,7 +62,7 @@ const SterilizedCat = ({ cat, zoneID }: Props) => {
       setDisplayImage('/images/placeholder-cat.png');
       GetImages().then((resp) => {
         if (resp.length > 0) {
-          setDisplayImage(`data:image/png;base64,${resp[0]}`)
+          setDisplayImage(`data:image/png;base64,${resp[0].imageString}`)
         }
       });
   }, [data]);
