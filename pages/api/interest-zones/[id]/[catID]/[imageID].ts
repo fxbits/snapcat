@@ -9,7 +9,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
     switch (req.method) {
         case 'DELETE':
             try {
-                await imageService.deleteImage(req.query.imageID, req.query.id, req.query.catID);
+                await imageService.deleteImage(req.query.imageID as string, req.query.id as string, req.query.catID as string);
                 res.status(200).send({message: 'Succesfully deleted.'});
             } catch (error: any) {
                 if (error instanceof ZoneValidationError) {
