@@ -70,7 +70,7 @@ export default function ZoneModalHeader({
         p='md'
         position='apart'
         align='center'
-        sx={{ width: '100%', [theme.fn.smallerThan('xs')]: { justifyContent: 'flex-start' } }}>
+        sx={{ width: '100%', [theme.fn.smallerThan('xs')]: { justifyContent: 'space-between' } }}>
         <Group spacing='sm' sx={{ height: '100%' }}>
           <Button
             sx={{ paddingLeft: 0, color: 'black' }}

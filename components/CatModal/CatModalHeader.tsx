@@ -35,6 +35,7 @@ export default function CatModalHeader({
         sx={{
           width: '100%',
           borderRadius: '15px',
+          justifyContent: 'space-between'
         }}>
         <ActionIcon
           onClick={() => {
