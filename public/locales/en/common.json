@@ -57,12 +57,13 @@
 
         "headerGoogle":{
             "welcome": "Welcome",
-            "logout": "Logout",
+            "logout": "Log out",
             "profile": "Profile",
             "search": "Search",
             "language": "Select your favorite language",
             "romanian": "Romanian",
-            "english": "English"
+            "english": "English",
+            "report": "Generate report"
         },
         "interestZoneAdd":{
             "save": "Save",
@@ -138,13 +139,43 @@
         },
         "filterMenu": {
             "all": "ALL"
+        },
+        "reportGeneratorModal":{
+            "reportGeneratorView":{
+                "headers": {
+                    "observations": "Observations",
+                    "gender": "Sex",
+                    "hospitalizationDate": "Admission date",
+                    "releaseDate": "Release date",
+                    "volunteerName": "Volunteer",
+                    "place": "Place of capture"
+                },
+                "pageText": {
+                    "download": "Download file",
+                    "fileName": "File name",
+                    "generate": "Generate report",
+                    "startDate": "Start date",
+                    "endDate": "End date",
+                    "manyRecords": "Report preview supressed, too many entries."
+                },
+                "validations": {
+                    "fileName": "Missing file name!"
+                },
+                "notification": {
+                    "title": "Report generated",
+                    "message": "Desired report has been generated succesfully."
+                }
+            },
+            "reportGeneratorHeader": {
+                "title": "Report generator"
+            }
         }      
     },
     "pages":{
         "index":{
             "open": "Open Map",
-            "logout": "Logout",
-            "login": "Login"
+            "logout": "Log out",
+            "login": "Log in"
         }
     }
 

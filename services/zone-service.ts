@@ -42,13 +42,22 @@ class ZoneService {
       `${sheetEntry.zoneName}, ${process.env.NEXT_PUBLIC_CITY_LOCATION}`
     );
 
+    let splitInDate = undefined;
+    let splitOutDate = undefined;
+    if (sheetEntry.inDate) {
+        splitInDate = sheetEntry.inDate.split('.');
+    }
+    if (sheetEntry.outDate) {
+        splitOutDate = sheetEntry.outDate.split('.');
+    }
+
     let zone = await this.findByCoordinates(coordinates);
     const newCatSchema = new sterilizedCatSchema({
       gender: sheetEntry.gender === 'm' ? Gender.MALE : Gender.FEMALE,
       mediaLinks: sheetEntry.media ? [sheetEntry.media] : [],
       observations: `Importata din excel\n${sheetEntry.details}\n${sheetEntry.observations}`,
-      hospitalizationDate: sheetEntry.inDate,
-      releaseDate: sheetEntry.outDate,
+      hospitalizationDate: splitInDate ? `${splitInDate[1]} ${splitInDate[0]} ${splitInDate[2]}` : undefined,
+      releaseDate: splitOutDate ? `${splitOutDate[1]} ${splitOutDate[0]} ${splitOutDate[2]}` : undefined,
       volunteerName: sheetEntry.responsible,
     });
 

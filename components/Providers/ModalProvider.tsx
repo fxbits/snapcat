@@ -8,7 +8,8 @@ export type ModalConfig = {
     | 'STERILIZE_CAT'
     | 'VIEW_ZONE'
     | 'ADD_ZONE'
-    | 'EDIT_ZONE';
+    | 'EDIT_ZONE'
+    | 'GENERATE_REPORT';
   back?: ModalConfig | undefined;
   initialSterilizedStatus?: boolean;
 };
