@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Anchor,
   Button,
   Center,
   Group,
@@ -14,10 +15,11 @@ import {
 import { Search } from 'tabler-icons-react';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0';
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { Router, useRouter } from "next/router";
+import { ModalContext } from '../Providers/ModalProvider';
 
 interface Props {
   setSearchAdress: (searchAdress: string) => void;
@@ -29,9 +31,11 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
   const [addressName, setAddressName] = useState<string>('');
   const [value, setValue] = useState(i18n.language);
   const router = useRouter();
-
+  const { setModal, modal } = useContext(ModalContext);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const roles: string[] = user ? user[process.env.NEXT_PUBLIC_AUTH0_ROLES_NAMESPACE!] as string[] : [];
+  const isAdmin = roles.includes('admin');
   const { t } = useTranslation('common');
-  
 
   const switchLanguage = () => {
     const val = i18n.language === 'ro' ? 'en' : 'ro';
@@ -40,6 +44,11 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
   }
 
   const theme = useMantineTheme();
+
+  const handleChange = useCallback( (e: any) => {
+      setIsOpened(false);
+      setModal({type: 'GENERATE_REPORT', back: undefined});
+  }, [setModal]);
 
   return (
     <Group
@@ -69,6 +78,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
       <Menu
         control={
           <Button
+            onClick={() => setIsOpened(!isOpened)}
             size='md'
             color='yellow'
             rightIcon={
@@ -93,6 +103,7 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
             </Group>
           </Button>
         }
+        opened={isOpened}
         position='bottom'
         styles={(theme) => ({
           body: {
@@ -102,24 +113,25 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
             [theme.fn.largerThan('md')]: { width: '20vw' },
           },
         })}>
-        <Stack align='center' sx={{ backgroundColor: '#FFDB3C' }}>
-          <Group direction='column' sx={{ fontWeight: 'bold' }}>
-            <Link href=''>{t('components.headerGoogle.profile')}</Link>
-            <Link href='/api/auth/logout' locale='default'>{t('components.headerGoogle.logout')}</Link>
+        <Stack align='center' sx={{ backgroundColor: '#FFDB3C', textAlign: 'center'  }}>
+          <Group direction='column' sx={{ fontWeight: 'bold', alignItems: 'center' }}>
+            {isAdmin && <Text onClick={handleChange} sx={{ cursor: 'pointer'}}>{t('components.headerGoogle.report')}</Text>}
+            <Link href='/api/auth/logout' locale='default'>
+              {t('components.headerGoogle.logout')}
+            </Link>
           </Group>
           <Group position='apart'>
           <RadioGroup
-                    value={value}
-                    onChange={switchLanguage}
-                    color='orange'
-                    label={t('components.headerGoogle.language')}
-                    required     
-                >
-                  <Radio value='ro' label={t('components.headerGoogle.romanian')} />
-                  <Radio value='en' label={t('components.headerGoogle.english')} />
-                </RadioGroup>
+              value={value}
+              onChange={switchLanguage}
+              color='orange'
+              label={t('components.headerGoogle.language')}
+              required     
+          >
+            <Radio value='ro' label={t('components.headerGoogle.romanian')} />
+            <Radio value='en' label={t('components.headerGoogle.english')} />
+          </RadioGroup>
           </Group>
-          
         </Stack>
       </Menu>
     </Group>

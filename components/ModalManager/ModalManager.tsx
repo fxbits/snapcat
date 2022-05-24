@@ -7,6 +7,7 @@ import { ModalContext } from '../Providers/ModalProvider';
 import { InterestZoneProviderContext } from '../Providers/ZoneProvider';
 import { CatContext } from '../Providers/CatProvider';
 import { Paws } from '../Icons/Icons';
+import ReportGeneratorView from '../ReportGeneratorModal/ReportGeneratorView';
 
 const useStyles = createStyles((theme) => ({
   manager: {
@@ -18,7 +19,7 @@ const useStyles = createStyles((theme) => ({
       padding: 0,
       [theme.fn.largerThan('md')]: {
         width: '65%',
-        minHeight: '650px',
+        minHeight: '350px',
         borderRadius: '15px',
         padding: '20px'
       },
@@ -45,6 +46,8 @@ export default function ModalManager() {
     modal?.type === 'ADD_CAT' ||
     modal?.type === 'EDIT_CAT' ||
     modal?.type === 'STERILIZE_CAT';
+  const isReportGenerator = 
+    modal?.type === 'GENERATE_REPORT';
 
   return (
     <WindowModal
@@ -64,12 +67,13 @@ export default function ModalManager() {
       }}
       withCloseButton={false}>
       {isZone && (interestZone || partialInterestZone) && (
-        <>
-          <InterestZoneView zone={interestZone} partialZone={partialInterestZone} />
-        </>
+        <InterestZoneView zone={interestZone} partialZone={partialInterestZone} />
       )}
       {isCat && interestZone && (
         <CatModalView zoneId={interestZone._id} modal={modal} cat={cat} setModal={setModal} />
+      )}
+      {isReportGenerator && (
+        <ReportGeneratorView/>
       )}
       <Box
         sx={{ position: 'absolute', top: '40%', left: '25%', zIndex: -1, pointerEvents: 'none' }}>

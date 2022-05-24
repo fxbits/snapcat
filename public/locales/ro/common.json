@@ -57,12 +57,13 @@
 
         "headerGoogle":{
             "welcome": "Bine ați venit",
-            "logout": "Delogare",
+            "logout": "Log out",
             "profile": "Profil",
             "search": "Căutare",
             "language": "Selectează limba favorită",
             "romanian": "Română",
-            "english": "Engleză"
+            "english": "Engleză",
+            "report": "Generare raport"
         },
         "interestZoneAdd":{
             "save": "Salvare",
@@ -138,13 +139,43 @@
         },
         "filterMenu": {
             "all": "TOATE"
-        }         
+        },
+        "reportGeneratorModal":{
+            "reportGeneratorView":{
+                "headers": {
+                    "observations": "Observații",
+                    "gender": "Sex",
+                    "hospitalizationDate": "Data internării",
+                    "releaseDate": "Data externării",
+                    "volunteerName": "Voluntar",
+                    "place": "Locul capturării"
+                },
+                "pageText": {
+                    "download": "Descarcă fișierul",
+                    "fileName": "Numele fișierului",
+                    "generate": "Generează raport",
+                    "startDate": "Dată de început",
+                    "endDate": "Dată de sfârșit",
+                    "manyRecords": "Previzualizarea raportului a fost suprimată, prea multe intrări."
+                },
+                "validations": {
+                    "fileName": "Numele fișierului lipsește!"
+                },
+                "notification": {
+                    "title": "Raport generat",
+                    "message": "Raportul dorit a fost generat cu succes."
+                }
+            },
+            "reportGeneratorHeader": {
+                "title": "Generare raport"
+            }
+        }               
     },
     "pages":{
         "index":{
             "open": "Deschide harta",
-            "logout": "Delogare",
-            "login": "Logare"
+            "logout": "Log out",
+            "login": "Log in"
         }
     }
 

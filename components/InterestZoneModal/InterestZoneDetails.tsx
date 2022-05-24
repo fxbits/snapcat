@@ -66,9 +66,6 @@ const ViewDetails = (props: Props) => {
           <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
         )}
       </Stack>
-
-      {/* TODO: translation keys */}
-
       <Stack
         spacing={0}
         sx={(theme) => ({
