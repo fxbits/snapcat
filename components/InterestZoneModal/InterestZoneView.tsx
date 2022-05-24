@@ -184,7 +184,6 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                 })}
                 initialItem={zone.sterilizedCats.length > 0 ? 0 : undefined}
                 disableIconRotation>
-                {/* TODO: translation keys */}
                 <Accordion.Item
                   icon={
                     <Image
@@ -257,7 +256,6 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                 </Accordion.Item>
               </Accordion>
             )}
-            {/* TODO: translation keys */}
           </Grid.Col>
         </Grid>
       </Box>

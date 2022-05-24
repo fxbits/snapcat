@@ -4,7 +4,6 @@ import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { ZoneValidationError } from '../../../../../services/zone-service';
 import { imageService } from '../../../../../services/image-service';
 
-//TODO: add withAPiAuthRequired to secure endpoints
 export default withApiAuthRequired(async function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
         case 'DELETE':

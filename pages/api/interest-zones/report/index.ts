@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { reportService } from '../../../../services/report-service';
 
-//TODO: add withAPiAuthRequired to secure endpoints
 export default withApiAuthRequired(async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     switch (req.method) {
         case 'POST':

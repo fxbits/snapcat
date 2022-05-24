@@ -42,14 +42,8 @@ class ZoneService {
       `${sheetEntry.zoneName}, ${process.env.NEXT_PUBLIC_CITY_LOCATION}`
     );
 
-    let splitInDate = undefined;
-    let splitOutDate = undefined;
-    if (sheetEntry.inDate) {
-        splitInDate = sheetEntry.inDate.split('.');
-    }
-    if (sheetEntry.outDate) {
-        splitOutDate = sheetEntry.outDate.split('.');
-    }
+    let splitInDate = sheetEntry.inDate?.split('.');
+    let splitOutDate = sheetEntry.outDate?.split('.');
 
     let zone = await this.findByCoordinates(coordinates);
     const newCatSchema = new sterilizedCatSchema({
