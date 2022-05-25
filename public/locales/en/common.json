@@ -89,7 +89,8 @@
                 "observations": "Observations",
                 "volunteer": "Volunteer",
                 "volunteerPlaceholder": "Jane Doe",
-                "addressPlaceholder": "December 21 1989"
+                "addressPlaceholder": "December 21 1989",
+                "noUnsterilizedCats": "Spotted unsterilized cats"
             },
             "interestZoneView":{
                 "catsSterilized": "Sterilized Cats",

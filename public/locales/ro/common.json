@@ -89,7 +89,8 @@
                 "observations": "Observații",
                 "volunteer": "Voluntar",
                 "volunteerPlaceholder": "Andrei",
-                "addressPlaceholder": "21 Decembrie 1989"
+                "addressPlaceholder": "21 Decembrie 1989",
+                "noUnsterilizedCats": "Pisici nesterilizate observate"
             },
             "interestZoneView":{
                 "catsSterilized": "Pisici sterilizate",

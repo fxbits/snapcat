@@ -47,9 +47,9 @@ export interface FormValues {
   observations: string;
   mediaLinks: string[];
   sterilizedStatus: SterializeStatus;
-  volunteerName?: string;
-  hospitalizationDate?: Date;
-  releaseDate?: Date;
+  volunteerName?: string | null;
+  hospitalizationDate?: Date | null;
+  releaseDate?: Date | null;
 }
 
 const MAX_SIZE = 16 * 1024 ** 2;
@@ -62,7 +62,7 @@ export interface CatImage {
 export default function CatModalView({
   cat,
   modal,
-  setModal,
+  setModal
 }: {
   cat: Cat | undefined;
   modal: ModalConfig;
@@ -86,16 +86,16 @@ export default function CatModalView({
       observations: '',
       mediaLinks: [],
       ...(cat ?? {}),
-      volunteerName: (cat as SterilizedCat)?.volunteerName || '',
-      hospitalizationDate: new Date((cat as SterilizedCat)?.hospitalizationDate || Date.now()),
-      releaseDate: new Date((cat as SterilizedCat)?.releaseDate || Date.now()),
-      sterilizedStatus: (cat as SterilizedCat)?.releaseDate ? 'sterilized' : 'unsterilized',
+      volunteerName: (cat as SterilizedCat)?.volunteerName ?? '',
+      hospitalizationDate: (cat as SterilizedCat)?.hospitalizationDate ? new Date((cat as SterilizedCat)?.hospitalizationDate) : undefined,
+      releaseDate: (cat as SterilizedCat)?.releaseDate ? new Date((cat as SterilizedCat)?.releaseDate) : undefined,
+      sterilizedStatus: (cat as SterilizedCat)?.volunteerName !== undefined ? 'sterilized' : 'unsterilized',
     },
     validationRules: {
-      observations: (value) => value.length > 0 || value.length === 0 && existingImages.length > 0,
-      hospitalizationDate: (value, other) => value ? value! <= other?.releaseDate! || value! <= new Date() : true,
-      releaseDate: (value, other) => value ? value! <= new Date() && other?.hospitalizationDate! <= value! : true,
-      volunteerName: (value, other) => other?.sterilizedStatus === 'sterilized' ? (nameRegex.test(value!)) : true
+      observations: (value) => value.length > 0 || (value.length === 0 && existingImages.length > 0),
+      hospitalizationDate: (value, other) => value ? (value! <= other?.releaseDate! || value! <= new Date()) : (other?.sterilizedStatus === 'unsterilized' || modal.type === 'ADD_CAT'),
+      releaseDate: (value, other) => value ? (value! <= new Date() && other?.hospitalizationDate! <= value!) : (other?.sterilizedStatus === 'unsterilized' || modal.type === 'ADD_CAT'),
+      volunteerName: (value, other) => (other?.sterilizedStatus === 'sterilized' && modal.type !== 'ADD_CAT') ? (nameRegex.test(value!)) : (other?.sterilizedStatus === 'unsterilized' || modal.type === 'ADD_CAT')
     },
     errorMessages: {
       observations: t('components.catModal.catModalView.validations.observations'),
@@ -278,29 +278,32 @@ export default function CatModalView({
           {form.values.sterilizedStatus === 'sterilized' && (
             <>
               <TextInput
-                {...form.getInputProps('volunteerName')}
+                {...modal.type !== 'ADD_CAT' && form.getInputProps('volunteerName')}
                 onChange={(e) => form.setFieldValue('volunteerName', e.currentTarget.value)}
                 disabled={disabled}
                 placeholder={t('components.catModal.catModalView.yourName')}
                 label={t('components.catModal.catModalView.volunteer')}
-                required
+                required = {modal.type !== 'ADD_CAT'}
               />
               <Group mt='xs' grow>
                 <DatePicker
-                  {...form.getInputProps('hospitalizationDate')}
-                  onChange={(e) => form.setFieldValue('hospitalizationDate', e || new Date())}
+                  {...modal.type !== 'ADD_CAT' && form.getInputProps('hospitalizationDate')}
+                  onChange={(e) => form.setFieldValue('hospitalizationDate', e)}
                   disabled={disabled}
                   placeholder={t('components.catModal.catModalView.pickData')}
-                  required
+                  required = {modal.type !== 'ADD_CAT'}
                   label={t('components.catModal.catModalView.admitted')}
+                  maxDate={form.values.releaseDate ?? new Date()}
                 />
                 <DatePicker
-                  {...form.getInputProps('releaseDate')}
-                  onChange={(e) => form.setFieldValue('releaseDate', e || new Date())}
+                  {...modal.type !== 'ADD_CAT' && form.getInputProps('releaseDate')}
+                  onChange={(e) => form.setFieldValue('releaseDate', e)}
                   disabled={disabled}
                   placeholder={t('components.catModal.catModalView.pickData')}
-                  required
+                  required = {modal.type !== 'ADD_CAT'}
                   label={t('components.catModal.catModalView.release')}
+                  minDate={form.values.hospitalizationDate ?? undefined}
+                  maxDate={new Date()}
                 />
               </Group>
             </>

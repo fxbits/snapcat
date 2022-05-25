@@ -66,6 +66,7 @@ const useZoneActions = (zoneId: string) => {
         phone: values.phone,
       },
       volunteerName: values.volunteerName || volunteerName,
+      noUnsterilizedCats: values.noUnsterilizedCats,
       ...(address && {
         address: {
           name: values.addressName,

@@ -19,15 +19,12 @@ export const sterilizedCatSchema = new Schema(
         },
         hospitalizationDate: {
             type: String,
-            default: ''
         },
         releaseDate: {
             type: String,
-            default: ''
         }, 
         volunteerName: {
             type: String,
-            default: ''
         },
         images: {
             type: [String],

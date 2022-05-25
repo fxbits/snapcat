@@ -67,7 +67,7 @@ const useCatActions = (catId: string) => {
     if (values.sterilizedStatus === 'sterilized')
       body = {
         ...body,
-        volunteerName: values.volunteerName,
+        volunteerName: values.volunteerName ?? '',
         hospitalizationDate: values.hospitalizationDate?.toString(),
         releaseDate: values.releaseDate?.toString(),
         sterilizedStatus: true,
