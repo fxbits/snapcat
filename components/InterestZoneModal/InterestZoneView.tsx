@@ -3,7 +3,7 @@ import SterilizedCat from './SterilizedCat';
 import UnsterilizedCat from './UnsterilizedCat';
 
 import { useContext, useEffect, useState } from 'react';
-import { ActionIcon, Box, Grid, Group, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Grid, Group, NumberInput, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
 import { Accordion } from '@mantine/core';
 import InterestZoneDetails from './InterestZoneDetails';
 import Image from 'next/image';
@@ -28,6 +28,7 @@ export interface FormValues {
   contact: string;
   phone: string;
   status: Status;
+  noUnsterilizedCats: number;
 }
 const InterestZoneView = ({ zone, partialZone }: Props) => {
   const { modal, setModal } = useContext(ModalContext);
@@ -44,12 +45,13 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
       contact: zone?.contactPerson?.name || '',
       phone: zone?.contactPerson?.phone || '',
       status: zone?.status || Status.TODO,
+      noUnsterilizedCats: zone?.noUnsterilizedCats || zone?.unsterilizedCats.length || 0
     },
     validationRules: {
       contact: (value) => value.length > 2 && (nameRegex.test(value)),
       phone: (value) => (/^07([0-9]{8})$/.test(value)),
       volunteerName: (value) => value.length > 2,
-      status: (value) => value !== Status.DONE || value === Status.DONE && zone?.noUnsterilizedCats! === 0,
+      status: (value, other) => value !== Status.DONE || value === Status.DONE && other?.noUnsterilizedCats! === 0,
     },
     errorMessages: {
       contact: t('components.interestZoneView.validations.contact'),
@@ -160,6 +162,14 @@ const InterestZoneView = ({ zone, partialZone }: Props) => {
                   icon={<Phone />}
                   placeholder='0771824601'
                   required
+                />
+                <NumberInput
+                  {...form.getInputProps('noUnsterilizedCats')}
+                  label={t('components.interestZoneView.detailsForm.noUnsterilizedCats')}
+                  onChange={(e) => form.setFieldValue('noUnsterilizedCats', e!)}
+                  placeholder="10"
+                  max={120}
+                  min={zone?.unsterilizedCats.length || 0}
                 />
               </Stack>
             )}

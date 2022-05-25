@@ -102,11 +102,20 @@ class ZoneService {
     return await newZoneSchema.save();
   }
 
-  async addCatToZone(zoneID: string | string[], cat: any, interestZone?: any) {
+  async addCatToZone(zoneID: string | string[], cat: any, interestZone?: any, sterilize?: boolean) {
     if (interestZone === undefined) {
       interestZone = await this.findById(zoneID);
     }
-    const sterilizedStatus: boolean = await this.validateCat(cat);
+    let sterilizedStatus = undefined;
+    if (sterilize) {
+      sterilizedStatus = await this.validateCat(cat);
+    } else {
+      if (cat?.sterilizedStatus !== false && cat?.sterilizedStatus !== true) {
+        throw new ZoneValidationError(400, ZoneError.CAT_TYPE);
+      }
+      sterilizedStatus = cat.sterilizedStatus;
+      await this.validateUnsterilizedCat(cat);
+    }
 
     let catSchema = undefined;
     if (sterilizedStatus) {
@@ -232,7 +241,7 @@ class ZoneService {
       throw new ZoneValidationError(404, ZoneError.CAT_NOT_FOUND);
     }
 
-    const sterilizedCat = await this.addCatToZone(zoneID, { ...newCat, sterilizedStatus: true, images: cat.images }, interestZone);
+    const sterilizedCat = await this.addCatToZone(zoneID, { ...newCat, sterilizedStatus: true, images: cat.images }, interestZone, true);
 
     cat.remove();
     interestZone.noUnsterilizedCats--;
