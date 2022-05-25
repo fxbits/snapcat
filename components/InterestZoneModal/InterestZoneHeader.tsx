@@ -70,6 +70,7 @@ export default function ZoneModalHeader({
         p='md'
         position='apart'
         align='center'
+        spacing={0}
         sx={{ width: '100%', [theme.fn.smallerThan('xs')]: { justifyContent: 'space-between' } }}>
         <Group spacing='sm' sx={{ height: '100%' }}>
           <Button
