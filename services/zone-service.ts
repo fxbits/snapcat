@@ -127,6 +127,9 @@ class ZoneService {
       catSchema = new unsterilizedCatSchema({
         ...cat
       });
+      if (interestZone.status === Status.DONE) {
+        interestZone.status = Status.INPROGRESS;
+      }
       interestZone.noUnsterilizedCats = interestZone.noUnsterilizedCats
         ? interestZone.noUnsterilizedCats + 1
         : 1;
