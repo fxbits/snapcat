@@ -94,7 +94,17 @@ const InterestZoneElement = ({ interestZone }: Props) => {
           )}
           {volunteerName && <Text> {volunteerName} </Text>}
           {!volunteerName && (
-            <Button mt='md' color='dark' variant='outline' className={classes.button}>
+            <Button 
+              mt='md' 
+              color='dark' 
+              variant='outline' 
+              className={classes.button}
+              onClick={(event: any) => {
+                event.stopPropagation();
+                setInterestZone(interestZone);
+                setModal({ type: 'EDIT_ZONE' });
+              }}
+            >
               {' '}
               {t('components.interestZoneOverview.interestZoneElement.assignToMe')}{' '}
             </Button>
