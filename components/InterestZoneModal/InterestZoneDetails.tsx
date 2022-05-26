@@ -57,13 +57,13 @@ const ViewDetails = (props: Props) => {
             </Text>
           </Group>
         </Group>
-        <Text mt='md' color='gray'>
-        {t('components.interestZoneView.viewDetails.volunteer')}{' '}
-        </Text>
-        {props.zone?.volunteerName ? (
-          <Text size='sm'> {props.zone?.volunteerName} </Text>
-        ) : (
-          <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
+        {props.zone?.volunteerName && (
+          <>
+            <Text mt='md' color='gray'>
+              {t('components.interestZoneView.viewDetails.volunteer')}{' '}
+            </Text>
+            <Text size='sm'> {props.zone?.volunteerName} </Text>
+          </>
         )}
       </Stack>
       <Stack
@@ -74,18 +74,20 @@ const ViewDetails = (props: Props) => {
         })}>
         <Text weight={500}>Contact</Text>
         {props.zone?.contactPerson?.name ? (
-          <Text size='sm'>{props.zone.contactPerson.name}</Text>
+          <>
+            <Text size='sm'>{props.zone.contactPerson.name}</Text>
+            {props.zone?.contactPerson?.phone && (
+              <Group noWrap spacing={0} mt='xs'>
+                <Phone size={18} strokeWidth={2} color={'black'} />
+                <Text size='sm'>{props.zone.contactPerson.phone}</Text>
+              </Group> 
+            )}
+          </>
         ) : (
-          <Box sx={{ width: '100%', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
-        )}
-        <Group noWrap spacing={0} mt='xs'>
-          <Phone size={18} strokeWidth={2} color={'black'} />
-          {props.zone?.contactPerson?.phone ? (
-            <Text size='sm'>{props.zone.contactPerson.phone}</Text>
-          ) : (
-            <Box sx={{ width: '70px', height: '10px', backgroundColor: theme.colors.yellow[4] }} />
-          )}
-        </Group>
+          <Text size='xs' color='gray'>
+            {t('components.interestZoneView.viewDetails.noContactInformation')}
+          </Text>
+        ) }
       </Stack>
     </Group>
   );

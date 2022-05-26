@@ -13,7 +13,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { Search } from 'tabler-icons-react';
-import Image from 'next/image';
+import { Image } from '@mantine/core';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -58,7 +58,15 @@ const HeaderGoogle = ({ setSearchAdress }: Props) => {
       noWrap
       sx={{ backgroundColor: theme.colors.yellow[6], height: '60px' }}>
       <Group noWrap align='center' justify-content='space-between'>
-        <Image src='/icon/header-icon.svg' width={36} height={46} alt='Logo'></Image>
+        <Link href='/'>
+          <Image 
+          src='/icon/header-icon.svg' 
+          width={36} 
+          height={46} 
+          alt='Logo'
+          sx={{cursor: 'pointer'}}
+          />
+        </Link>
         <form onSubmit={() => setSearchAdress(addressName)}>
           <TextInput
             type='search'

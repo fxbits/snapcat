@@ -103,7 +103,8 @@
                 "observations": "Observations"
             },
             "viewDetails":{
-                "volunteer": "Volunteer"
+                "volunteer": "Volunteer",
+                "noContactInformation": "Missing information"
             },
             "validations": {
                 "contact": "Incorrect contact person name!",
