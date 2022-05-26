@@ -103,7 +103,8 @@
                 "observations": "Observații"
             },
             "viewDetails":{
-                "volunteer": "Voluntar"
+                "volunteer": "Voluntar",
+                "noContactInformation": "Informații inexistente"
             },
             "validations": {
                 "contact": "Numele persoanei de contact incorect!",

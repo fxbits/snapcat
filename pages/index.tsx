@@ -75,43 +75,44 @@ const MainApp = () => {
           </Text>
 
           <Stack sx={{ marginTop: '40px' }}>
-            <UserContainer user={user} />
-            <Group position='center'>
-              <Button
-                size='lg'
-                variant='filled'
-                color='yellow'
-                disabled={user === undefined}
-                onClick={() => user !== undefined && router.push('/map')}
-                leftIcon={<Map size={50} />}>
-                {t('pages.index.open')}
-              </Button>
-              {user ? (
-                <>
-                  <Link href='/api/auth/logout' locale='default' passHref>
-                    <Button
-                      variant='filled'
-                      size='lg'
-                      color='red'
-                      component='a'
-                      leftIcon={<Logout size={50} />}>
-                      {t('pages.index.logout')}
-                    </Button>
-                  </Link>
-                </>
-              ) : (
-                <Link href='/api/auth/login' locale='default' passHref>
-                  <Button
-                    variant='filled'
-                    color='red'
-                    size='lg'
-                    component='a'
-                    leftIcon={<Signature size={50} />}>
-                    {t('pages.index.login')}
-                  </Button>
-                </Link>
-              )}
-            </Group>
+            {user ?
+            (
+              <>
+              <UserContainer user={user} />
+              <Group position='center'>
+                <Button
+                  size='lg'
+                  variant='filled'
+                  color='yellow'
+                  disabled={user === undefined}
+                  onClick={() => user !== undefined && router.push('/map')}
+                  leftIcon={<Map size={50} />}>
+                  {t('pages.index.open')}
+                </Button>
+                    <Link href='/api/auth/logout' locale='default' passHref>
+                      <Button
+                        variant='filled'
+                        size='lg'
+                        color='red'
+                        component='a'
+                        leftIcon={<Logout size={50} />}>
+                        {t('pages.index.logout')}
+                      </Button>
+                    </Link>
+              </Group>
+              </>
+            ) : (
+              <Link href='/api/auth/login' locale='default' passHref>
+                <Button
+                  variant='filled'
+                  color='red'
+                  size='lg'
+                  component='a'
+                  leftIcon={<Signature size={50} />}>
+                  {t('pages.index.login')}
+                </Button>
+              </Link>
+            )}
           </Stack>
         </Box>
       </Grid.Col>
@@ -129,13 +130,7 @@ const MainApp = () => {
               <Image layout='fill' src='/images/homepage-cat.svg' alt='Cat' objectFit='contain' />
             </Box>
           </Grid.Col>
-          <Grid.Col
-            lg={6}
-            sx={{
-              backgroundColor: theme.colors.yellow[3],
-              [theme.fn.smallerThan('md')]: { display: 'none' },
-            }}></Grid.Col>
-          <Grid.Col lg={6} sx={{ backgroundColor: theme.colors.yellow[5] }} p={0}>
+          <Grid.Col lg={12} sx={{ backgroundColor: theme.colors.yellow[5] }} p={0}>
             <MovingBox />
           </Grid.Col>
         </Grid>
