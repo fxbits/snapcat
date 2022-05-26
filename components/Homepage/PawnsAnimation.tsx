@@ -38,8 +38,8 @@ export default function PawnsAnimation({ index }: { index: number }) {
           width={80}
           height={80}
           sx={{
-            top: `calc(100% - ${(index + 0.8) * 100}px)`,
-            left: `calc(20% + ${(index + 0.5) * 100}px)`,
+            top: `calc(100% - ${(index + 0.1) * 100}px)`,
+            left: `calc(20% + ${(index + 0.2) * 100}px)`,
             position: 'absolute',
             transformOrigin: '0 0',
           }}/>
